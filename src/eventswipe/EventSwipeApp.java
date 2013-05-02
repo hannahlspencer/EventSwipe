@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
+import org.jdesktop.application.Task;
 
 /**
  * The main class of the application.
@@ -138,6 +140,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    @Action
     public void saveAttendeesToFile() {
         int session = 0;
         String header = eventSwipeData.getEventTitle();

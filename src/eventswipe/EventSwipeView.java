@@ -64,6 +64,7 @@ public class EventSwipeView extends FrameView {
         statusLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        saveMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
@@ -246,6 +247,12 @@ public class EventSwipeView extends FrameView {
         fileMenu.setName("fileMenu"); // NOI18N
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(eventswipe.EventSwipeApp.class).getContext().getActionMap(EventSwipeView.class, this);
+        saveMenuItem.setAction(actionMap.get("saveAttendeesToFile")); // NOI18N
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
+        saveMenuItem.setName("saveMenuItem"); // NOI18N
+        fileMenu.add(saveMenuItem);
+
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
@@ -843,6 +850,7 @@ public class EventSwipeView extends FrameView {
     private javax.swing.ButtonGroup requireBookingButtonGroup;
     private javax.swing.JLabel requireBookingLabel;
     private javax.swing.JButton saveButton;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JFormattedTextField statusDisplayTextField;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JFormattedTextField studentNumberInput;
