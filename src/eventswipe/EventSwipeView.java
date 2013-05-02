@@ -4,13 +4,10 @@
 package eventswipe;
 
 import eventswipe.EventSwipeData.FileFunction;
-import java.awt.Desktop;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
@@ -747,6 +744,7 @@ public class EventSwipeView extends FrameView {
                 case BOOKING_2:
                     message += " for the second entry slot.";
                     statusDisplayTextField.setText("Booked");
+                    statusDisplayTextField.setBackground(Color.GREEN);
                     entrySlotLabel.setEnabled(true);
                     entrySlotDisplayTextField.setEnabled(true);
                     entrySlotDisplayTextField.setText("2");
@@ -755,6 +753,7 @@ public class EventSwipeView extends FrameView {
                 case BOOKING_3:
                     message += " for the third entry slot.";
                     statusDisplayTextField.setText("Booked");
+                    statusDisplayTextField.setBackground(Color.GREEN);
                     entrySlotLabel.setEnabled(true);
                     entrySlotDisplayTextField.setEnabled(true);
                     entrySlotDisplayTextField.setText("3");
@@ -763,6 +762,7 @@ public class EventSwipeView extends FrameView {
                 case WAITING_LIST:
                     message = "Student " + stuNumber + " is on the waiting list.";
                     statusDisplayTextField.setText("Waiting list");
+                    statusDisplayTextField.setBackground(Color.ORANGE);
                     entrySlotDisplayTextField.setText("N/A");
                     entrySlotLabel.setEnabled(false);
                     entrySlotDisplayTextField.setEnabled(false);
@@ -770,6 +770,7 @@ public class EventSwipeView extends FrameView {
                 default:
                     message += oneSlot ? " for this event." : " for the first entry slot.";
                     statusDisplayTextField.setText("Booked");
+                    statusDisplayTextField.setBackground(Color.GREEN);
                     entrySlotLabel.setEnabled(true);
                     entrySlotDisplayTextField.setEnabled(true);
                     entrySlotDisplayTextField.setText("1");
@@ -778,7 +779,7 @@ public class EventSwipeView extends FrameView {
             }
         }
         else {
-            message += "This student (" + stuNumber + ") is NOT booked for this event.";
+            message += "Student " + stuNumber + " is NOT booked onto this event.";
         }
         message += "\n";
         bookingStatusTextArea.append(message);
@@ -791,12 +792,14 @@ public class EventSwipeView extends FrameView {
         message += "Student " + stuNumber;
         if (booked) {
             message += " has been recorded.";
-            statusDisplayTextField.setText("Booked");
+            statusDisplayTextField.setText("Recorded");
+            statusDisplayTextField.setBackground(Color.WHITE);
             attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().addAttendee());
         }
         else {
             message += " is NOT booked onto this event.";
             statusDisplayTextField.setText("Not booked");
+            statusDisplayTextField.setBackground(Color.RED);
             entrySlotDisplayTextField.setText("N/A");
             entrySlotLabel.setEnabled(false);
             entrySlotDisplayTextField.setEnabled(false);
