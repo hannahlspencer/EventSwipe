@@ -91,7 +91,9 @@
         <Component class="javax.swing.JButton" name="enterStudentNumberButton">
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="enterStudentNumberButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="enterStudentNumberButton" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enterStudentNumberButtonActionPerformed"/>
@@ -108,8 +110,11 @@
             <Component class="javax.swing.JTextArea" name="bookingStatusTextArea">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="rows" type="int" value="5"/>
+                <Property name="focusable" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="bookingStatusTextArea" noResource="true"/>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -117,7 +122,9 @@
         <Component class="javax.swing.JButton" name="backButton">
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="backButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="backButton" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
@@ -126,7 +133,9 @@
         <Component class="javax.swing.JButton" name="saveButton">
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="saveButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="saveButton" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
@@ -140,23 +149,31 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="statusDisplayTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" resourceKey="statusDisplayTextField.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" resourceKey="statusDisplayTextField.font"/>
             <Property name="name" type="java.lang.String" value="statusDisplayTextField" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="entrySlotDisplayTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" resourceKey="entrySlotDisplayTextField.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" resourceKey="entrySlotDisplayTextField.font"/>
             <Property name="name" type="java.lang.String" value="entrySlotDisplayTextField" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="attendeeCountDisplayTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" resourceKey="attendeeCountDisplayTextField.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" resourceKey="attendeeCountDisplayTextField.font"/>
             <Property name="name" type="java.lang.String" value="attendeeCountDisplayTextField" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="attendeeCountLabel">

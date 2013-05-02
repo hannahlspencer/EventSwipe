@@ -112,7 +112,9 @@ public class EventSwipeView extends FrameView {
         });
 
         enterStudentNumberButton.setText(resourceMap.getString("enterStudentNumberButton.text")); // NOI18N
+        enterStudentNumberButton.setFocusable(false);
         enterStudentNumberButton.setName("enterStudentNumberButton"); // NOI18N
+        enterStudentNumberButton.setRequestFocusEnabled(false);
         enterStudentNumberButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enterStudentNumberButtonActionPerformed(evt);
@@ -123,12 +125,17 @@ public class EventSwipeView extends FrameView {
         bookingStatusScrollPane.setName("bookingStatusScrollPane"); // NOI18N
 
         bookingStatusTextArea.setColumns(20);
+        bookingStatusTextArea.setEditable(false);
         bookingStatusTextArea.setRows(5);
+        bookingStatusTextArea.setFocusable(false);
         bookingStatusTextArea.setName("bookingStatusTextArea"); // NOI18N
+        bookingStatusTextArea.setRequestFocusEnabled(false);
         bookingStatusScrollPane.setViewportView(bookingStatusTextArea);
 
         backButton.setText(resourceMap.getString("backButton.text")); // NOI18N
+        backButton.setFocusable(false);
         backButton.setName("backButton"); // NOI18N
+        backButton.setRequestFocusEnabled(false);
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -136,7 +143,9 @@ public class EventSwipeView extends FrameView {
         });
 
         saveButton.setText(resourceMap.getString("saveButton.text")); // NOI18N
+        saveButton.setFocusable(false);
         saveButton.setName("saveButton"); // NOI18N
+        saveButton.setRequestFocusEnabled(false);
         saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveButtonActionPerformed(evt);
@@ -146,17 +155,25 @@ public class EventSwipeView extends FrameView {
         studentNumberInputLabel.setText(resourceMap.getString("studentNumberInputLabel.text")); // NOI18N
         studentNumberInputLabel.setName("studentNumberInputLabel"); // NOI18N
 
+        statusDisplayTextField.setEditable(false);
         statusDisplayTextField.setText(resourceMap.getString("statusDisplayTextField.text")); // NOI18N
+        statusDisplayTextField.setFocusable(false);
         statusDisplayTextField.setFont(resourceMap.getFont("statusDisplayTextField.font")); // NOI18N
         statusDisplayTextField.setName("statusDisplayTextField"); // NOI18N
 
+        entrySlotDisplayTextField.setEditable(false);
         entrySlotDisplayTextField.setText(resourceMap.getString("entrySlotDisplayTextField.text")); // NOI18N
+        entrySlotDisplayTextField.setFocusable(false);
         entrySlotDisplayTextField.setFont(resourceMap.getFont("entrySlotDisplayTextField.font")); // NOI18N
         entrySlotDisplayTextField.setName("entrySlotDisplayTextField"); // NOI18N
+        entrySlotDisplayTextField.setRequestFocusEnabled(false);
 
+        attendeeCountDisplayTextField.setEditable(false);
         attendeeCountDisplayTextField.setText(resourceMap.getString("attendeeCountDisplayTextField.text")); // NOI18N
+        attendeeCountDisplayTextField.setFocusable(false);
         attendeeCountDisplayTextField.setFont(resourceMap.getFont("attendeeCountDisplayTextField.font")); // NOI18N
         attendeeCountDisplayTextField.setName("attendeeCountDisplayTextField"); // NOI18N
+        attendeeCountDisplayTextField.setRequestFocusEnabled(false);
 
         attendeeCountLabel.setText(resourceMap.getString("attendeeCountLabel.text")); // NOI18N
         attendeeCountLabel.setName("attendeeCountLabel"); // NOI18N
