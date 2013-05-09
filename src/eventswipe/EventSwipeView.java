@@ -5,9 +5,11 @@ package eventswipe;
 
 import eventswipe.EventSwipeData.FileFunction;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
@@ -27,6 +29,12 @@ public class EventSwipeView extends FrameView {
         super(app);
         initComponents();
         updateBookingPanel(false);
+        try {
+            Image i = ImageIO.read(getClass().getResource("/eventswipe/resources/logo.jpeg"));
+            this.getFrame().setIconImage(i);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Action
