@@ -4,17 +4,14 @@ import eventswipe.EventSwipeData.FileFunction;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
-import org.jdesktop.application.Task;
 
 /**
  * The main class of the application.
@@ -144,32 +141,41 @@ public class EventSwipeApp extends SingleFrameApplication {
     public void saveAttendeesToFile() {
         int session = 0;
         String header = eventSwipeData.getEventTitle();
-        String filename = eventSwipeData.getEventTitle() + " - attendees";
-        String ext = "." + TextCSVFilter.txt;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	Date eventDate = new Date();
 	header += " - " + dateFormat.format(eventDate) + "  \n\n";
-        File file = new File(filename + ext);
+        File file = null;
+        String savePath = "";
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showSaveDialog(EventSwipeApp.getApplication().getMainFrame());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = fc.getSelectedFile();
+            savePath = file.getPath();
+        }
+        String filename = eventSwipeData.getEventTitle() + " - attendees";
+        String ext = "." + TextCSVFilter.txt;
+        File saveFile = new File(savePath + "/" + filename + ext);
         String testName = filename;
-        while (file.exists()) { //prevents an attendees file from an earlier session being overwritten
+        while (saveFile.exists()) { //prevents an attendees file from an earlier session being overwritten
             testName += "(" + ++session + ")";
-            file = new File(testName + ext);
+            saveFile = new File(savePath + "/" + testName + ext);
             testName = filename;
         }
-        if (!file.exists()) {
+        if (!saveFile.exists()) {
             try {
-                file.createNewFile();
+                saveFile.createNewFile();
             } catch (Exception e) {
                 System.err.println("Error: " + e.getMessage());
             }
         }
-        writeToFile(file, header);
+        writeToFile(saveFile, header);
         for (int i = 0; i < eventSwipeData.getAttendeesList().size(); i++) {
-            writeToFile(file, eventSwipeData.getAttendeesList().get(i) + "\n");
+            writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + "\n\r\r");
         }
         Desktop dk = Desktop.getDesktop();
         try {
-            dk.open(file);
+            dk.open(saveFile);
         } catch (Exception e) {
                 System.err.println("Error: " + e.getMessage());
         }
