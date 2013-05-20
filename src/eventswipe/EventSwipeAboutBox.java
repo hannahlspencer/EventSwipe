@@ -6,6 +6,7 @@ package eventswipe;
 
 import org.jdesktop.application.Action;
 
+@SuppressWarnings("serial")
 public class EventSwipeAboutBox extends javax.swing.JDialog {
 
     public EventSwipeAboutBox(java.awt.Frame parent) {
