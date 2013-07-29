@@ -687,6 +687,7 @@ public class EventSwipeView extends FrameView {
         noBookingRadioButton.setSelected(true);
         updateBookingPanel(false);
         eventTitleInput.requestFocusInWindow();
+
     }//GEN-LAST:event_clearButtonActionPerformed
 
     @Action
@@ -708,6 +709,7 @@ public class EventSwipeView extends FrameView {
         }
     }//GEN-LAST:event_eventTitleInputKeyPressed
 
+    @Action
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         EventSwipeApp.getApplication().saveAttendeesToFile();
     }//GEN-LAST:event_saveButtonActionPerformed
@@ -724,19 +726,19 @@ public class EventSwipeView extends FrameView {
             if (EventSwipeApp.getApplication().getBookingFlag()) {
                 boolean booked = false;
                 Integer slots = EventSwipeApp.getApplication().getSlots();
-                if (slots > 0 && EventSwipeApp.getApplication().isBooked(stuNumber, FileFunction.BOOKING_1)) {
+                if (slots > 0 && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.BOOKING_1)) {
                     updateBookingStatus(true, stuNumber, FileFunction.BOOKING_1, slots == 1);
                     booked = true;
                 }
-                if (!booked && slots > 1 && EventSwipeApp.getApplication().isBooked(stuNumber, FileFunction.BOOKING_2)) {
+                if (!booked && slots > 1 && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.BOOKING_2)) {
                     updateBookingStatus(true, stuNumber, FileFunction.BOOKING_2, slots == 1);
                     booked = true;
                 }
-                if (!booked && slots > 2 && EventSwipeApp.getApplication().isBooked(stuNumber, FileFunction.BOOKING_3)) {
+                if (!booked && slots > 2 && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.BOOKING_3)) {
                     updateBookingStatus(true, stuNumber, FileFunction.BOOKING_3, slots == 1);
                     booked = true;
                 }
-                if (!booked && EventSwipeApp.getApplication().getWaitingListFlag() && EventSwipeApp.getApplication().isBooked(stuNumber, FileFunction.WAITING_LIST)) {
+                if (!booked && EventSwipeApp.getApplication().getWaitingListFlag() && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.WAITING_LIST)) {
                     updateBookingStatus(true, stuNumber, FileFunction.WAITING_LIST, slots == 1);
                     booked = true;
                 }
@@ -745,7 +747,7 @@ public class EventSwipeView extends FrameView {
                 }
             }
             else {
-                EventSwipeApp.getApplication().recordAttendance(stuNumber);
+                EventSwipeApp.getApplication().checkBooking(stuNumber);
                 updateBookingStatus(true, stuNumber);
             }
         }
@@ -753,76 +755,89 @@ public class EventSwipeView extends FrameView {
 
     private void updateBookingStatus(boolean booked, String stuNumber, FileFunction fileFunction, boolean oneSlot) {
         String message = "";
+        String slot = "";
+        String bookingStatus = "";
         if (booked) {
             message += "Student " + stuNumber + " is booked";
             switch (fileFunction) {
                 case BOOKING_2:
                     message += " for the second entry slot.";
-                    statusDisplayTextField.setText("Booked");
-                    statusDisplayTextField.setBackground(Color.GREEN);
-                    entrySlotLabel.setEnabled(true);
-                    entrySlotDisplayTextField.setEnabled(true);
-                    entrySlotDisplayTextField.setText("2");
-                    attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().addAttendee());
+                    slot = "2";
+                    bookingStatus = "Booked";
                     break;
                 case BOOKING_3:
                     message += " for the third entry slot.";
-                    statusDisplayTextField.setText("Booked");
-                    statusDisplayTextField.setBackground(Color.GREEN);
-                    entrySlotLabel.setEnabled(true);
-                    entrySlotDisplayTextField.setEnabled(true);
-                    entrySlotDisplayTextField.setText("3");
-                    attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().addAttendee());
+                    slot = "3";
+                    bookingStatus = "Booked";
                     break;
                 case WAITING_LIST:
                     message = "Student " + stuNumber + " is on the waiting list.";
-                    statusDisplayTextField.setText("Waiting list");
-                    statusDisplayTextField.setBackground(Color.ORANGE);
-                    entrySlotDisplayTextField.setText("N/A");
-                    entrySlotLabel.setEnabled(false);
-                    entrySlotDisplayTextField.setEnabled(false);
+                    slot = "N/A";
+                    bookingStatus = "Waiting list";
                     break;
                 default:
                     message += oneSlot ? " for this event." : " for the first entry slot.";
-                    statusDisplayTextField.setText("Booked");
-                    statusDisplayTextField.setBackground(Color.GREEN);
-                    entrySlotLabel.setEnabled(true);
-                    entrySlotDisplayTextField.setEnabled(true);
-                    entrySlotDisplayTextField.setText("1");
-                    attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().addAttendee());
+                    slot = "1";
+                    bookingStatus = "Booked";
                     break;
             }
         }
         else {
             message += "Student " + stuNumber + " is NOT booked onto this event.";
+            slot = "N/A";
+            bookingStatus = "Not booked";
         }
+        displayBookingStatus(bookingStatus, slot);
+        displayBookingMessage(message);
+    }
+
+    private void updateBookingStatus(boolean booked, String stuNumber) {
+        String message = "";
+        String bookingStatus = "";
+        String slots = "";
+        message += "Student " + stuNumber;
+        if (booked) {
+            message += " has been recorded.";
+            displayBookingStatus("Recorded", "N/A");
+        }
+        else {
+            message += " is NOT booked onto this event.";
+            bookingStatus = "Not booked";
+            slots = "N/A";
+        }
+        displayBookingStatus("Not booked", "N/A");
+        displayBookingMessage(message);
+    }
+
+    private void displayBookingMessage(String message) {
         message += "\n";
         bookingStatusTextArea.append(message);
         studentNumberInput.setText("");
         studentNumberInput.requestFocusInWindow();
     }
 
-    private void updateBookingStatus(boolean booked, String stuNumber) {
-        String message = "";
-        message += "Student " + stuNumber;
-        if (booked) {
-            message += " has been recorded.";
-            statusDisplayTextField.setText("Recorded");
-            statusDisplayTextField.setBackground(Color.WHITE);
-            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().addAttendee());
+    private void displayBookingStatus(String statusMessage, String slot) {
+        statusDisplayTextField.setText(statusMessage);
+        entrySlotDisplayTextField.setText(slot);
+        Color color;
+        boolean enabled;
+        if(statusMessage.equals("Booked")) {
+            color = Color.GREEN;
+            enabled = true;
+            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().getAttendeeCount());
+        }
+        else if(statusMessage.equals("Recorded")) {
+            color = Color.WHITE;
+            enabled = false;
+            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().getAttendeeCount());
         }
         else {
-            message += " is NOT booked onto this event.";
-            statusDisplayTextField.setText("Not booked");
-            statusDisplayTextField.setBackground(Color.RED);
-            entrySlotDisplayTextField.setText("N/A");
-            entrySlotLabel.setEnabled(false);
-            entrySlotDisplayTextField.setEnabled(false);
+            enabled = false;
+            color = statusMessage.equals("Not booked") ? Color.RED : Color.ORANGE;
         }
-        message += "\n";
-        bookingStatusTextArea.append(message);
-        studentNumberInput.setText("");
-        studentNumberInput.requestFocusInWindow();
+        statusDisplayTextField.setBackground(color);
+        entrySlotLabel.setEnabled(enabled);
+        entrySlotDisplayTextField.setEnabled(enabled);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

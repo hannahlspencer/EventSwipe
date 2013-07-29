@@ -20,6 +20,11 @@ public class EventSwipeData {
 
     public EventSwipeData() {
         attendeesList = new ArrayList<String>();
+        allBookedList = new ArrayList<String>();
+    }
+
+    public enum FileFunction {
+        BOOKING_1, BOOKING_2, BOOKING_3, WAITING_LIST
     }
 
     public void incrementAttendeesCount() {
@@ -32,6 +37,14 @@ public class EventSwipeData {
 
     public void setAttendeesCount(int attendeesCount) {
         this.attendeesCount = attendeesCount;
+    }
+
+    public ArrayList<String> getAllBookedList() {
+        return allBookedList;
+    }
+
+    public void setAllBookedList(ArrayList<String> allBookedList) {
+        this.allBookedList = allBookedList;
     }
 
     public ArrayList<String> getAttendeesList() {
@@ -74,8 +87,12 @@ public class EventSwipeData {
         this.bookingFlag = bookingFlag;
     }
 
-    public enum FileFunction {
-        BOOKING_1, BOOKING_2, BOOKING_3, WAITING_LIST
+    public boolean isSavedFlag() {
+        return savedFlag;
+    }
+
+    public void setSavedFlag(boolean savedFlag) {
+        this.savedFlag = savedFlag;
     }
 
     public String getEventTitle() {
@@ -157,6 +174,7 @@ public class EventSwipeData {
     private File bookingFile2;
     private File bookingFile3;
     private File waitingListFile;
+    private ArrayList<String> allBookedList;
     private ArrayList<String> bookingList1;
     private ArrayList<String> bookingList2;
     private ArrayList<String> bookingList3;
@@ -168,5 +186,6 @@ public class EventSwipeData {
     private boolean netFlag;
     private boolean waitingListFlag;
     private boolean bookingFlag;
+    private boolean savedFlag = false;
 
 }

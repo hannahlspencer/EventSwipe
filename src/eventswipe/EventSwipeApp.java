@@ -90,17 +90,28 @@ public class EventSwipeApp extends SingleFrameApplication {
         return eventSwipeData.setEventTitle(title);
     }
 
-    public boolean isBooked(String stuNumber, FileFunction fileFunction) {
+    public String checkBooking(String stuNumber, FileFunction fileFunction) {
         if (eventSwipeData.getBookingList(fileFunction).contains(stuNumber)) {
-            if (!eventSwipeData.getAttendeesList().contains(stuNumber))
-                recordAttendance(stuNumber, fileFunction);
-            return true;
+            if (eventSwipeData.getAllBookedList().contains(stuNumber)) {
+                return "Already recorded";
+            }
+            eventSwipeData.getAllBookedList().add(stuNumber);
+            recordAttendance(stuNumber, fileFunction);
+            return "Booked";
         }
-        return false;
+        return "Not booked";
     }
 
-    public String addAttendee() {
-        eventSwipeData.incrementAttendeesCount();
+    public String checkBooking(String stuNumber) {
+        if (!eventSwipeData.getAttendeesList().contains(stuNumber)) {
+            eventSwipeData.getAttendeesList().add(stuNumber);
+            eventSwipeData.incrementAttendeesCount();
+            return "Recorded";
+        }
+        return "Already recorded";
+    }
+
+    public String getAttendeeCount() {
         Integer a = eventSwipeData.getAttendeesCount();
         return a.toString();
     }
@@ -121,10 +132,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                 break; //don't record waiting list students
         }
         eventSwipeData.getAttendeesList().add(record);
-    }
-
-    public void recordAttendance(String stuNumber) {
-        eventSwipeData.getAttendeesList().add(stuNumber);
+        eventSwipeData.incrementAttendeesCount();
     }
 
     public void writeToFile(File file, String content) {
@@ -143,7 +151,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         String header = eventSwipeData.getEventTitle();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	Date eventDate = new Date();
-	header += " - " + dateFormat.format(eventDate) + "  \n\n";
+	header += " - " + dateFormat.format(eventDate) + "  \r\r";
         File file = null;
         String savePath = "";
         JFileChooser fc = new JFileChooser();
@@ -173,6 +181,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         for (int i = 0; i < eventSwipeData.getAttendeesList().size(); i++) {
             writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + "\n\r\r");
         }
+        eventSwipeData.setSavedFlag(true);
         Desktop dk = Desktop.getDesktop();
         try {
             dk.open(saveFile);
