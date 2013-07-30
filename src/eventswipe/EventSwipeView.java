@@ -36,7 +36,8 @@ public class EventSwipeView extends FrameView {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        this.getFrame().setMinimumSize(new Dimension(750, 410));
+        this.getFrame().setPreferredSize(new Dimension(750, 410));
+        this.getFrame().setResizable(false);
     }
 
     @Action
@@ -739,7 +740,7 @@ public class EventSwipeView extends FrameView {
         String stuNumber = booking.getStuNumber();
         String message = "Student " + stuNumber;
         String slot = booking.getEntrySlot() == 0 ? "N/A" : booking.getEntrySlot().toString();
-        slot = booking.isWaitingList() ? "WL" : slot;
+        slot = booking.isWaitingList() ? "W/L" : slot;
         String bookingStatus = "";
         if (booking.isAlreadyRecorded()) {
             message += " has already been recorded";
