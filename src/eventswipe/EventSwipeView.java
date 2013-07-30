@@ -5,6 +5,7 @@ package eventswipe;
 
 import eventswipe.EventSwipeData.FileFunction;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -35,6 +36,7 @@ public class EventSwipeView extends FrameView {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+        this.getFrame().setMinimumSize(new Dimension(750, 410));
     }
 
     @Action
@@ -106,7 +108,9 @@ public class EventSwipeView extends FrameView {
         requireBookingButtonGroup = new javax.swing.ButtonGroup();
         waitingListButtonGroup = new javax.swing.ButtonGroup();
 
+        mainPanel.setMinimumSize(new java.awt.Dimension(720, 350));
         mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setPreferredSize(new java.awt.Dimension(720, 350));
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(eventswipe.EventSwipeApp.class).getContext().getResourceMap(EventSwipeView.class);
         studentNumberInput.setText(resourceMap.getString("studentNumberInput.text")); // NOI18N
@@ -197,15 +201,15 @@ public class EventSwipeView extends FrameView {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
+                    .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 519, Short.MAX_VALUE)
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(studentNumberInputLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(studentNumberInput, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                        .addComponent(studentNumberInput, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(enterStudentNumberButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
@@ -219,7 +223,7 @@ public class EventSwipeView extends FrameView {
                         .addGap(18, 18, 18)
                         .addComponent(attendeeCountLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(attendeeCountDisplayTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)))
+                        .addComponent(attendeeCountDisplayTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -241,12 +245,12 @@ public class EventSwipeView extends FrameView {
                     .addComponent(entrySlotLabel)
                     .addComponent(attendeeCountLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backButton)
-                    .addComponent(saveButton))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(saveButton)
+                    .addComponent(backButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -256,7 +260,6 @@ public class EventSwipeView extends FrameView {
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(eventswipe.EventSwipeApp.class).getContext().getActionMap(EventSwipeView.class, this);
         saveMenuItem.setAction(actionMap.get("saveAttendeesToFile")); // NOI18N
-        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
         saveMenuItem.setName("saveMenuItem"); // NOI18N
         fileMenu.add(saveMenuItem);
@@ -276,7 +279,9 @@ public class EventSwipeView extends FrameView {
 
         menuBar.add(helpMenu);
 
+        configPanel.setMinimumSize(new java.awt.Dimension(720, 350));
         configPanel.setName("configPanel"); // NOI18N
+        configPanel.setPreferredSize(new java.awt.Dimension(720, 350));
 
         eventTitleInputLabel.setText(resourceMap.getString("eventTitleInputLabel.text")); // NOI18N
         eventTitleInputLabel.setName("eventTitleInputLabel"); // NOI18N
@@ -542,22 +547,25 @@ public class EventSwipeView extends FrameView {
                 .addContainerGap()
                 .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(configPanelLayout.createSequentialGroup()
+                        .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(configPanelLayout.createSequentialGroup()
+                                .addComponent(requireBookingLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(yesBookingRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(noBookingRadioButton))
+                            .addGroup(configPanelLayout.createSequentialGroup()
+                                .addComponent(eventTitleInputLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(eventTitleInput, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE))
+                            .addComponent(titleLabel)
+                            .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configPanelLayout.createSequentialGroup()
                         .addComponent(okConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 492, Short.MAX_VALUE)
-                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(configPanelLayout.createSequentialGroup()
-                        .addComponent(requireBookingLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(yesBookingRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(noBookingRadioButton))
-                    .addGroup(configPanelLayout.createSequentialGroup()
-                        .addComponent(eventTitleInputLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(eventTitleInput, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE))
-                    .addComponent(titleLabel)
-                    .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(629, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 504, Short.MAX_VALUE)
+                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         configPanelLayout.setVerticalGroup(
             configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -575,11 +583,11 @@ public class EventSwipeView extends FrameView {
                     .addComponent(noBookingRadioButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(okConfigButton)
-                    .addComponent(clearButton))
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(clearButton)
+                    .addComponent(okConfigButton))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         setComponent(configPanel);
