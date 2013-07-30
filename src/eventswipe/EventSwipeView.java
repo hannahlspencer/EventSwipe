@@ -728,20 +728,31 @@ public class EventSwipeView extends FrameView {
     }
 
     private void updateBookingStatus(Booking booking) {
-        String message = "";
         String stuNumber = booking.getStuNumber();
+        String message = "Student " + stuNumber;
         String slot = booking.getEntrySlot() == 0 ? "N/A" : booking.getEntrySlot().toString();
         String bookingStatus = "";
         if(booking.isWaitingList()) {
-            message = "Student " + stuNumber + " is on the waiting list";
-            bookingStatus = "Waiting list";
+            int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                                      "Student is on the waiting list. "
+                                                      + "Allow student to enter?",
+                                                      "Student on waiting list",
+                                                      JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                EventSwipeApp.getApplication().recordAttendance(stuNumber, 0);
+                bookingStatus = "Recorded";
+                message += " has been recorded";
+            }
+            else {
+                bookingStatus = "Waiting list";
+                message += " is on the waiting list";
+            }
         }
         else if (booking.isAlreadyRecorded()) {
-            message = "Student " + stuNumber + " has already been recorded";
+            message += " has already been recorded";
             bookingStatus = "Already recorded";
         }
         else if (booking.isBooked()) {
-            message = "Student " + stuNumber;
             if (EventSwipeApp.getApplication().getBookingFlag()) {
                 bookingStatus = "Booked";
                 message += " has booked";
@@ -755,7 +766,7 @@ public class EventSwipeView extends FrameView {
             }
         }
         else {
-            message = "Student " + stuNumber + " has NOT booked onto this event";
+            message += " has NOT booked onto this event";
             bookingStatus = "Not booked";
         }
         displayBookingStatus(bookingStatus, slot);

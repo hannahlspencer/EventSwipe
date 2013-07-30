@@ -97,24 +97,24 @@ public class EventSwipeApp extends SingleFrameApplication {
         boolean booked = true;
         boolean waitingList = false;
         boolean alreadyRecorded = false;
-        if(eventSwipeData.isBookingFlag()) {
-            if (slots > 0 && eventSwipeData.getBookingList(FileFunction.BOOKING_1).contains(stuNumber)) {
-                slot = 1;
+        if (!eventSwipeData.getAllBookedList().contains(stuNumber)) {
+            if(eventSwipeData.isBookingFlag()) {
+                if (slots > 0 && eventSwipeData.getBookingList(FileFunction.BOOKING_1).contains(stuNumber)) {
+                    slot = 1;
+                }
+                else if(slots > 1 && eventSwipeData.getBookingList(FileFunction.BOOKING_2).contains(stuNumber)) {
+                    slot = 2;
+                }
+                else if(slots > 2 && eventSwipeData.getBookingList(FileFunction.BOOKING_3).contains(stuNumber)) {
+                    slot = 3;
+                }
+                else {
+                    booked = false;
+                    waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST).contains(stuNumber);
+                }
             }
-            else if(slots > 1 && eventSwipeData.getBookingList(FileFunction.BOOKING_2).contains(stuNumber)) {
-                slot = 2;
-            }
-            else if(slots > 2 && eventSwipeData.getBookingList(FileFunction.BOOKING_3).contains(stuNumber)) {
-                slot = 3;
-            }
-            else {
-                booked = false;
-                waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST).contains(stuNumber);
-            }
-        }
-        if (booked && !eventSwipeData.getAllBookedList().contains(stuNumber)) {
-            eventSwipeData.getAllBookedList().add(stuNumber);
-            recordAttendance(stuNumber, slot);
+            if (booked)
+                recordAttendance(stuNumber, slot);
         }
         else {
             alreadyRecorded = true;
@@ -148,6 +148,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         eventSwipeData.getAttendeesList().add(record);
         eventSwipeData.incrementAttendeesCount();
+        eventSwipeData.getAllBookedList().add(stuNumber);
     }
 
     public void writeToFile(File file, String content) {
@@ -166,7 +167,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         String header = eventSwipeData.getEventTitle();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	Date eventDate = new Date();
-	header += " - " + dateFormat.format(eventDate) + "  \r\r";
+	header += " - " + dateFormat.format(eventDate) + "  \n\n";
         File file = null;
         String savePath = "";
         JFileChooser fc = new JFileChooser();
@@ -194,7 +195,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         writeToFile(saveFile, header);
         for (int i = 0; i < eventSwipeData.getAttendeesList().size(); i++) {
-            writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + "\n\r\r");
+            writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + "\n");
         }
         eventSwipeData.setSavedFlag(true);
         Desktop dk = Desktop.getDesktop();
