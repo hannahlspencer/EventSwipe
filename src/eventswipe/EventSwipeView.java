@@ -723,89 +723,42 @@ public class EventSwipeView extends FrameView {
                                           JOptionPane.ERROR_MESSAGE);
         }
         else {
+            updateBookingStatus(EventSwipeApp.getApplication().checkBooking(stuNumber));
+        }
+    }
+
+    private void updateBookingStatus(Booking booking) {
+        String message = "";
+        String stuNumber = booking.getStuNumber();
+        String slot = booking.getEntrySlot() == 0 ? "N/A" : booking.getEntrySlot().toString();
+        String bookingStatus = "";
+        if(booking.isWaitingList()) {
+            message = "Student " + stuNumber + " is on the waiting list";
+            bookingStatus = "Waiting list";
+        }
+        else if (booking.isAlreadyRecorded()) {
+            message = "Student " + stuNumber + " has already been recorded";
+            bookingStatus = "Already recorded";
+        }
+        else if (booking.isBooked()) {
+            message = "Student " + stuNumber;
             if (EventSwipeApp.getApplication().getBookingFlag()) {
-                boolean booked = false;
-                Integer slots = EventSwipeApp.getApplication().getSlots();
-                if (slots > 0 && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.BOOKING_1)) {
-                    updateBookingStatus(true, stuNumber, FileFunction.BOOKING_1, slots == 1);
-                    booked = true;
-                }
-                if (!booked && slots > 1 && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.BOOKING_2)) {
-                    updateBookingStatus(true, stuNumber, FileFunction.BOOKING_2, slots == 1);
-                    booked = true;
-                }
-                if (!booked && slots > 2 && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.BOOKING_3)) {
-                    updateBookingStatus(true, stuNumber, FileFunction.BOOKING_3, slots == 1);
-                    booked = true;
-                }
-                if (!booked && EventSwipeApp.getApplication().getWaitingListFlag() && EventSwipeApp.getApplication().checkBooking(stuNumber, FileFunction.WAITING_LIST)) {
-                    updateBookingStatus(true, stuNumber, FileFunction.WAITING_LIST, slots == 1);
-                    booked = true;
-                }
-                if (!booked) {
-                    updateBookingStatus(false, stuNumber);
+                bookingStatus = "Booked";
+                message += " has booked";
+                if (EventSwipeApp.getApplication().getSlots() > 1) {
+                    message += " for entry slot " + slot;
                 }
             }
             else {
-                EventSwipeApp.getApplication().checkBooking(stuNumber);
-                updateBookingStatus(true, stuNumber);
-            }
-        }
-    }
-
-    private void updateBookingStatus(boolean booked, String stuNumber, FileFunction fileFunction, boolean oneSlot) {
-        String message = "";
-        String slot = "";
-        String bookingStatus = "";
-        if (booked) {
-            message += "Student " + stuNumber + " is booked";
-            switch (fileFunction) {
-                case BOOKING_2:
-                    message += " for the second entry slot.";
-                    slot = "2";
-                    bookingStatus = "Booked";
-                    break;
-                case BOOKING_3:
-                    message += " for the third entry slot.";
-                    slot = "3";
-                    bookingStatus = "Booked";
-                    break;
-                case WAITING_LIST:
-                    message = "Student " + stuNumber + " is on the waiting list.";
-                    slot = "N/A";
-                    bookingStatus = "Waiting list";
-                    break;
-                default:
-                    message += oneSlot ? " for this event." : " for the first entry slot.";
-                    slot = "1";
-                    bookingStatus = "Booked";
-                    break;
+                bookingStatus = "Recorded";
+                message += " has been recorded";
             }
         }
         else {
-            message += "Student " + stuNumber + " is NOT booked onto this event.";
-            slot = "N/A";
+            message = "Student " + stuNumber + " has NOT booked onto this event";
             bookingStatus = "Not booked";
         }
         displayBookingStatus(bookingStatus, slot);
-        displayBookingMessage(message);
-    }
-
-    private void updateBookingStatus(boolean booked, String stuNumber) {
-        String message = "";
-        String bookingStatus = "";
-        String slots = "";
-        message += "Student " + stuNumber;
-        if (booked) {
-            message += " has been recorded.";
-            displayBookingStatus("Recorded", "N/A");
-        }
-        else {
-            message += " is NOT booked onto this event.";
-            bookingStatus = "Not booked";
-            slots = "N/A";
-        }
-        displayBookingStatus("Not booked", "N/A");
         displayBookingMessage(message);
     }
 

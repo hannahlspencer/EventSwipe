@@ -90,46 +90,61 @@ public class EventSwipeApp extends SingleFrameApplication {
         return eventSwipeData.setEventTitle(title);
     }
 
-    public String checkBooking(String stuNumber, FileFunction fileFunction) {
-        if (eventSwipeData.getBookingList(fileFunction).contains(stuNumber)) {
-            if (eventSwipeData.getAllBookedList().contains(stuNumber)) {
-                return "Already recorded";
+    public Booking checkBooking(String stuNumber) {
+        Booking booking = new Booking(stuNumber);
+        int slots = getSlots();
+        int slot = 0;
+        boolean booked = true;
+        boolean waitingList = false;
+        boolean alreadyRecorded = false;
+        if(eventSwipeData.isBookingFlag()) {
+            if (slots > 0 && eventSwipeData.getBookingList(FileFunction.BOOKING_1).contains(stuNumber)) {
+                slot = 1;
             }
+            else if(slots > 1 && eventSwipeData.getBookingList(FileFunction.BOOKING_2).contains(stuNumber)) {
+                slot = 2;
+            }
+            else if(slots > 2 && eventSwipeData.getBookingList(FileFunction.BOOKING_3).contains(stuNumber)) {
+                slot = 3;
+            }
+            else {
+                booked = false;
+                waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST).contains(stuNumber);
+            }
+        }
+        if (booked && !eventSwipeData.getAllBookedList().contains(stuNumber)) {
             eventSwipeData.getAllBookedList().add(stuNumber);
-            recordAttendance(stuNumber, fileFunction);
-            return "Booked";
+            recordAttendance(stuNumber, slot);
         }
-        return "Not booked";
-    }
-
-    public String checkBooking(String stuNumber) {
-        if (!eventSwipeData.getAttendeesList().contains(stuNumber)) {
-            eventSwipeData.getAttendeesList().add(stuNumber);
-            eventSwipeData.incrementAttendeesCount();
-            return "Recorded";
+        else {
+            alreadyRecorded = true;
         }
-        return "Already recorded";
+        booking.setBooked(booked);
+        booking.setEntrySlot(slot);
+        booking.setAlreadyRecorded(alreadyRecorded);
+        booking.setWaitingList(waitingList);
+        return booking;
     }
-
+    
     public String getAttendeeCount() {
         Integer a = eventSwipeData.getAttendeesCount();
         return a.toString();
     }
 
-    public void recordAttendance(String stuNumber, FileFunction fileFunction) {
+    public void recordAttendance(String stuNumber, int slot) {
         String record = stuNumber;
-        switch (fileFunction) {
-            case BOOKING_1:
+        switch (slot) {
+            case 1:
                 record += ", entry slot 1";
                 break;
-            case BOOKING_2:
+            case 2:
                 record += ", entry slot 2";
                 break;
-            case BOOKING_3:
+            case 3:
                 record += ", entry slot 3";
                 break;
             default: 
-                break; //don't record waiting list students
+                break;
         }
         eventSwipeData.getAttendeesList().add(record);
         eventSwipeData.incrementAttendeesCount();

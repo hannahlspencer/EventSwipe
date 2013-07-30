@@ -1,27 +1,30 @@
 package eventswipe;
 
 /**
- *
  * @author wildmanm
  *
- * Comprises a booking status and an entry slot
+ * Comprises booking status and student number
  *
  */
 public class Booking {
 
-    public String getBookingType() {
-        return bookingType;
+    public Booking(String stuNumber) {
+        setStuNumber(stuNumber);
     }
 
-    public void setBookingType(String bookingType) {
-        this.bookingType = bookingType;
+    public String getStuNumber() {
+        return stuNumber;
     }
 
-    public int getEntrySlot() {
+    private void setStuNumber(String stuNumber) {
+        this.stuNumber = stuNumber;
+    }
+
+    public Integer getEntrySlot() {
         return entrySlot;
     }
 
-    public void setEntrySlot(int entrySlot) {
+    public void setEntrySlot(Integer entrySlot) {
         this.entrySlot = entrySlot;
     }
 
@@ -41,9 +44,18 @@ public class Booking {
         this.alreadyRecorded = alreadyRecorded;
     }
 
-    private String bookingType;
-    private int entrySlot;
+    public boolean isWaitingList() {
+        return waitingList;
+    }
+
+    public void setWaitingList(boolean waitingList) {
+        this.waitingList = waitingList;
+    }
+
+    private String stuNumber;
+    private Integer entrySlot;
     private boolean booked;
     private boolean alreadyRecorded;
+    private boolean waitingList;
     
 }
