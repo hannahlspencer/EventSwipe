@@ -731,8 +731,13 @@ public class EventSwipeView extends FrameView {
         String stuNumber = booking.getStuNumber();
         String message = "Student " + stuNumber;
         String slot = booking.getEntrySlot() == 0 ? "N/A" : booking.getEntrySlot().toString();
+        slot = booking.isWaitingList() ? "WL" : slot;
         String bookingStatus = "";
-        if(booking.isWaitingList()) {
+        if (booking.isAlreadyRecorded()) {
+            message += " has already been recorded";
+            bookingStatus = "Already recorded";
+        }
+        else if(booking.isWaitingList()) {
             int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                       "Student is on the waiting list. "
                                                       + "Allow student to enter?",
@@ -747,10 +752,6 @@ public class EventSwipeView extends FrameView {
                 bookingStatus = "Waiting list";
                 message += " is on the waiting list";
             }
-        }
-        else if (booking.isAlreadyRecorded()) {
-            message += " has already been recorded";
-            bookingStatus = "Already recorded";
         }
         else if (booking.isBooked()) {
             if (EventSwipeApp.getApplication().getBookingFlag()) {

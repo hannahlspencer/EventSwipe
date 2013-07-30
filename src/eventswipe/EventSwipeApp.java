@@ -97,27 +97,26 @@ public class EventSwipeApp extends SingleFrameApplication {
         boolean booked = true;
         boolean waitingList = false;
         boolean alreadyRecorded = false;
-        if (!eventSwipeData.getAllBookedList().contains(stuNumber)) {
-            if(eventSwipeData.isBookingFlag()) {
-                if (slots > 0 && eventSwipeData.getBookingList(FileFunction.BOOKING_1).contains(stuNumber)) {
-                    slot = 1;
-                }
-                else if(slots > 1 && eventSwipeData.getBookingList(FileFunction.BOOKING_2).contains(stuNumber)) {
-                    slot = 2;
-                }
-                else if(slots > 2 && eventSwipeData.getBookingList(FileFunction.BOOKING_3).contains(stuNumber)) {
-                    slot = 3;
-                }
-                else {
-                    booked = false;
-                    waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST).contains(stuNumber);
-                }
+        if(eventSwipeData.isBookingFlag()) {
+            if (slots > 0 && eventSwipeData.getBookingList(FileFunction.BOOKING_1).contains(stuNumber)) {
+                slot = 1;
             }
-            if (booked)
-                recordAttendance(stuNumber, slot);
+            else if(slots > 1 && eventSwipeData.getBookingList(FileFunction.BOOKING_2).contains(stuNumber)) {
+                slot = 2;
+            }
+            else if(slots > 2 && eventSwipeData.getBookingList(FileFunction.BOOKING_3).contains(stuNumber)) {
+                slot = 3;
+            }
+            else {
+                booked = false;
+                waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST).contains(stuNumber);
+            }
         }
-        else {
+        if (eventSwipeData.getAllBookedList().contains(stuNumber)) {
             alreadyRecorded = true;
+        }
+        else if(booked) {
+            recordAttendance(stuNumber, slot);
         }
         booking.setBooked(booked);
         booking.setEntrySlot(slot);
