@@ -668,19 +668,20 @@ public class EventSwipeView extends FrameView {
         File file = null;
         fc.addChoosableFileFilter(new TextCSVFilter());
         int returnVal = fc.showDialog(EventSwipeApp.getApplication().getMainFrame(), "Choose");
-        if (returnVal == JFileChooser.APPROVE_OPTION)
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fc.getSelectedFile();
-        if (evt.getSource() == bookingListBrowseButton1) {
-            entrySlotBookingListFilePathInput1.setText(file.getPath());
-        }
-        if (evt.getSource() == bookingListBrowseButton2) {
-            entrySlotBookingListFilePathInput2.setText(file.getPath());
-        }
-        if (evt.getSource() == bookingListBrowseButton3) {
-            entrySlotBookingListFilePathInput3.setText(file.getPath());
-        }
-        if (evt.getSource() == waitingListBrowseButton) {
-            waitingListFilePathInput.setText(file.getPath());
+            if (evt.getSource() == bookingListBrowseButton1) {
+                entrySlotBookingListFilePathInput1.setText(file.getPath());
+            }
+            if (evt.getSource() == bookingListBrowseButton2) {
+                entrySlotBookingListFilePathInput2.setText(file.getPath());
+            }
+            if (evt.getSource() == bookingListBrowseButton3) {
+                entrySlotBookingListFilePathInput3.setText(file.getPath());
+            }
+            if (evt.getSource() == waitingListBrowseButton) {
+                waitingListFilePathInput.setText(file.getPath());
+            }
         }
     }//GEN-LAST:event_browseFileAction
 
@@ -740,13 +741,13 @@ public class EventSwipeView extends FrameView {
         String stuNumber = booking.getStuNumber();
         String message = "Student " + stuNumber;
         String slot = booking.getEntrySlot() == 0 ? "N/A" : booking.getEntrySlot().toString();
-        slot = booking.isWaitingList() ? "W/L" : slot;
+        slot = booking.isOnWaitingList() ? "W/L" : slot;
         String bookingStatus = "";
         if (booking.isAlreadyRecorded()) {
             message += " has already been recorded";
             bookingStatus = "Already recorded";
         }
-        else if(booking.isWaitingList()) {
+        else if(booking.isOnWaitingList()) {
             int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                       "Student is on the waiting list. "
                                                       + "Allow student to enter?",

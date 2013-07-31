@@ -44,18 +44,18 @@ public class Booking {
         this.alreadyRecorded = alreadyRecorded;
     }
 
-    public boolean isWaitingList() {
-        return waitingList;
+    public boolean isOnWaitingList() {
+        return onWaitingList;
     }
 
-    public void setWaitingList(boolean waitingList) {
-        this.waitingList = waitingList;
+    public void setOnWaitingList(boolean waitingList) {
+        this.onWaitingList = waitingList;
     }
 
     private String stuNumber;
     private Integer entrySlot;
     private boolean booked;
     private boolean alreadyRecorded;
-    private boolean waitingList;
+    private boolean onWaitingList;
     
 }
