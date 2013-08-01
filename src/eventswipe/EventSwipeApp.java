@@ -86,8 +86,8 @@ public class EventSwipeApp extends SingleFrameApplication {
         return eventSwipeData.setFile(fileFunction, file);
     }
 
-    public boolean setEventTitle(String title) {
-        return eventSwipeData.setEventTitle(title);
+    public void setEventTitle(String title) {
+        eventSwipeData.setEventTitle(title);
     }
 
     public Booking checkBooking(String stuNumber) {
@@ -204,5 +204,9 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     private EventSwipeData eventSwipeData;
+
+    public void clearData() {
+        eventSwipeData.clearData();
+    }
 
 }

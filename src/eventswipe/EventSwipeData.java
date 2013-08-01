@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,6 +28,20 @@ public class EventSwipeData {
         BOOKING_1, BOOKING_2, BOOKING_3, WAITING_LIST
     }
 
+    public void clearData() {
+        setAttendeesCount(0);
+        setWaitingListFlag(false);
+        setSlots(0);
+        setEventTitle("");
+        clearList(attendeesList);
+        clearList(allBookedList);
+    }
+
+    private void clearList(List<String> list) {
+        if (!list.isEmpty())
+            list.clear();
+    }
+
     public void incrementAttendeesCount() {
         setAttendeesCount(getAttendeesCount() + 1);
     }
@@ -39,7 +54,7 @@ public class EventSwipeData {
         this.attendeesCount = attendeesCount;
     }
 
-    public ArrayList<String> getAllBookedList() {
+    public List<String> getAllBookedList() {
         return allBookedList;
     }
 
@@ -47,7 +62,7 @@ public class EventSwipeData {
         this.allBookedList = allBookedList;
     }
 
-    public ArrayList<String> getAttendeesList() {
+    public List<String> getAttendeesList() {
         return attendeesList;
     }
 
@@ -99,16 +114,8 @@ public class EventSwipeData {
         return eventTitle;
     }
 
-    public boolean setEventTitle(String eventTitle) {
-        if (eventTitle.equals(titleInputDefault)) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                          "You have not entered an event title. Please write one!",
-                                          "Event title error",
-                                          JOptionPane.ERROR_MESSAGE);
-           return false;
-        }
+    public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
-        return true;
     }
 
     public boolean setFile(FileFunction fileFunction, File file) {
@@ -140,7 +147,7 @@ public class EventSwipeData {
         return true;
     }
 
-    public ArrayList<String> getBookingList(FileFunction fileFunction) {
+    public List<String> getBookingList(FileFunction fileFunction) {
         switch (fileFunction) {
             case BOOKING_2:
                 return bookingList2;
@@ -174,12 +181,12 @@ public class EventSwipeData {
     private File bookingFile2;
     private File bookingFile3;
     private File waitingListFile;
-    private ArrayList<String> allBookedList;
-    private ArrayList<String> bookingList1;
-    private ArrayList<String> bookingList2;
-    private ArrayList<String> bookingList3;
-    private ArrayList<String> waitingList;
-    private ArrayList<String> attendeesList;
+    private List<String> allBookedList;
+    private List<String> bookingList1;
+    private List<String> bookingList2;
+    private List<String> bookingList3;
+    private List<String> waitingList;
+    private List<String> attendeesList;
     private String eventTitle;
     private int attendeesCount = 0;
     private int slots;

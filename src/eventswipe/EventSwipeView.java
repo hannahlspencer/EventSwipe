@@ -60,6 +60,7 @@ public class EventSwipeView extends FrameView {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        clearButton1 = new javax.swing.JButton();
         studentNumberInput = new javax.swing.JFormattedTextField();
         enterStudentNumberButton = new javax.swing.JButton();
         bookingStatusScrollPane = new javax.swing.JScrollPane();
@@ -116,6 +117,17 @@ public class EventSwipeView extends FrameView {
         mainPanel.setPreferredSize(new java.awt.Dimension(720, 350));
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(eventswipe.EventSwipeApp.class).getContext().getResourceMap(EventSwipeView.class);
+        clearButton1.setText(resourceMap.getString("clearButton1.text")); // NOI18N
+        clearButton1.setFocusPainted(false);
+        clearButton1.setFocusable(false);
+        clearButton1.setName("clearButton1"); // NOI18N
+        clearButton1.setRequestFocusEnabled(false);
+        clearButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButton1ActionPerformed(evt);
+            }
+        });
+
         studentNumberInput.setText(resourceMap.getString("studentNumberInput.text")); // NOI18N
         studentNumberInput.setName("studentNumberInput"); // NOI18N
         studentNumberInput.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -217,13 +229,9 @@ public class EventSwipeView extends FrameView {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 519, Short.MAX_VALUE)
-                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
                                 .addComponent(studentNumberInputLabel)
@@ -244,7 +252,13 @@ public class EventSwipeView extends FrameView {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(checkingModeToggle, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                            .addComponent(attendeeCountDisplayTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))))
+                            .addComponent(attendeeCountDisplayTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(211, 211, 211)
+                        .addComponent(clearButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -271,6 +285,7 @@ public class EventSwipeView extends FrameView {
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton)
+                    .addComponent(clearButton1)
                     .addComponent(saveButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -605,11 +620,11 @@ public class EventSwipeView extends FrameView {
                     .addComponent(noBookingRadioButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clearButton)
                     .addComponent(okConfigButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
@@ -624,7 +639,17 @@ public class EventSwipeView extends FrameView {
         EventSwipeApp.getApplication().setBookingFlag(yesBookingRadioButton.isSelected());
         EventSwipeApp.getApplication().setWaitingListFlag(yesWaitingListRadioButton.isSelected());
         EventSwipeApp.getApplication().setSlots((Integer)entrySlotsSpinner.getValue());
-        boolean configOK = EventSwipeApp.getApplication().setEventTitle(eventTitleInput.getText());
+        boolean configOK = false;
+        if (eventTitleInput.getText().equals(EventSwipeData.titleInputDefault)) {
+            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                          "You have not entered an event title. Please write one!",
+                                          "Event title error",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            EventSwipeApp.getApplication().setEventTitle(eventTitleInput.getText());
+            configOK = true;
+        }
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 0)
             configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_1, new File(entrySlotBookingListFilePathInput1.getText()));
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 1)
@@ -711,17 +736,7 @@ public class EventSwipeView extends FrameView {
 
     @Action
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        eventTitleInput.setText(EventSwipeData.titleInputDefault);
-        entrySlotBookingListFilePathInput1.setText(EventSwipeData.fileInputDefault);
-        entrySlotBookingListFilePathInput2.setText(EventSwipeData.fileInputDefault);
-        entrySlotBookingListFilePathInput3.setText(EventSwipeData.fileInputDefault);
-        waitingListFilePathInput.setText(EventSwipeData.fileInputDefault);
-        entrySlotsSpinner.setValue(1);
-        noWaitingListRadioButton.setSelected(true);
-        noBookingRadioButton.setSelected(true);
-        updateBookingPanel(false);
-        eventTitleInput.requestFocusInWindow();
-
+        clearSession(evt);
     }//GEN-LAST:event_clearButtonActionPerformed
 
     @Action
@@ -758,6 +773,10 @@ public class EventSwipeView extends FrameView {
             checkingModeToggle.setText("Recording all students");
         }
     }//GEN-LAST:event_checkingModeToggleActionPerformed
+
+    private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
+        clearSession(evt);
+    }//GEN-LAST:event_clearButton1ActionPerformed
     
     private void checkBooking() {
         String stuNumber = studentNumberInput.getText();
@@ -834,12 +853,14 @@ public class EventSwipeView extends FrameView {
         if(statusMessage.equals("Booked")) {
             color = Color.GREEN;
             enabled = true;
-            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().getAttendeeCount());
+            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication()
+                                                  .getAttendeeCount());
         }
-        else if(statusMessage.equals("Recorded")) {
-            color = Color.WHITE;
+        else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
+            color = null;
             enabled = false;
-            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication().getAttendeeCount());
+            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication()
+                                                  .getAttendeeCount());
         }
         else {
             enabled = false;
@@ -862,6 +883,7 @@ public class EventSwipeView extends FrameView {
     private javax.swing.JTextArea bookingStatusTextArea;
     private javax.swing.JToggleButton checkingModeToggle;
     private javax.swing.JButton clearButton;
+    private javax.swing.JButton clearButton1;
     private javax.swing.JPanel configPanel;
     private javax.swing.JButton enterStudentNumberButton;
     private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput1;
@@ -940,6 +962,30 @@ public class EventSwipeView extends FrameView {
         checkingModeToggle.setText(enabled ? "Checking booking lists" :
                                              "Recording all students");
         checkingModeToggle.setSelected(enabled);
+    }
+
+    private void clearSession(java.awt.event.ActionEvent evt) {
+        int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                                      "Clear all booking data and restart session?",
+                                                      "Clear all data warning",
+                                                      JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION) {
+            if (evt.getSource().equals(clearButton1))
+                switchToPanel(configPanel);
+            EventSwipeApp.getApplication().clearData();
+            eventTitleInput.setText(EventSwipeData.titleInputDefault);
+            entrySlotBookingListFilePathInput1.setText(EventSwipeData.fileInputDefault);
+            entrySlotBookingListFilePathInput2.setText(EventSwipeData.fileInputDefault);
+            entrySlotBookingListFilePathInput3.setText(EventSwipeData.fileInputDefault);
+            waitingListFilePathInput.setText(EventSwipeData.fileInputDefault);
+            entrySlotsSpinner.setValue(1);
+            noWaitingListRadioButton.setSelected(true);
+            noBookingRadioButton.setSelected(true);
+            displayBookingStatus("", "N/A");
+            bookingStatusTextArea.setText("");
+            eventTitleInput.requestFocusInWindow();
+            updateBookingPanel(false);
+        }
     }
 
 }
