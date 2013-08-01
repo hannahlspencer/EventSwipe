@@ -20,30 +20,37 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="bookingStatusScrollPane" alignment="0" pref="700" max="32767" attributes="1"/>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="backButton" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace pref="519" max="32767" attributes="0"/>
                           <Component id="saveButton" min="-2" pref="91" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="studentNumberInputLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="studentNumberInput" pref="335" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="enterStudentNumberButton" min="-2" pref="83" max="-2" attributes="1"/>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Component id="statusDisplayTextField" min="-2" pref="243" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="entrySlotLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="0" attributes="1">
+                                  <Component id="studentNumberInputLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="studentNumberInput" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="enterStudentNumberButton" min="-2" pref="83" max="-2" attributes="1"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Component id="statusDisplayTextField" min="-2" pref="243" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="entrySlotLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="entrySlotDisplayTextField" min="-2" pref="70" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="attendeeCountLabel" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="entrySlotDisplayTextField" min="-2" pref="70" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="attendeeCountLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="attendeeCountDisplayTextField" pref="182" max="32767" attributes="1"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="checkingModeToggle" pref="182" max="32767" attributes="0"/>
+                              <Component id="attendeeCountDisplayTextField" alignment="0" pref="182" max="32767" attributes="1"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -58,6 +65,7 @@
                       <Component id="studentNumberInputLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="studentNumberInput" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="enterStudentNumberButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkingModeToggle" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -74,10 +82,10 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="bookingStatusScrollPane" min="-2" pref="215" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="saveButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="backButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="backButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -200,6 +208,22 @@
             <Property name="name" type="java.lang.String" value="statusLabel" noResource="true"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JToggleButton" name="checkingModeToggle">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="eventswipe.EventSwipeView" id="checkingModeToggleClick" methodName="checkingModeToggleClick"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="checkingModeToggle.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="checkingModeToggle.toolTipText"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="checkingModeToggle" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkingModeToggleActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JMenuBar" name="menuBar">
@@ -299,16 +323,16 @@
                               <Group type="102" alignment="0" attributes="1">
                                   <Component id="eventTitleInputLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="eventTitleInput" pref="617" max="32767" attributes="0"/>
+                                  <Component id="eventTitleInput" pref="618" max="32767" attributes="0"/>
                               </Group>
                               <Component id="titleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="bookingDetailsPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="22" max="32767" attributes="0"/>
+                          <EmptySpace pref="24" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="okConfigButton" min="-2" pref="99" max="-2" attributes="0"/>
-                          <EmptySpace pref="504" max="32767" attributes="0"/>
+                          <EmptySpace pref="507" max="32767" attributes="0"/>
                           <Component id="clearButton" min="-2" pref="97" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -339,7 +363,7 @@
                       <Component id="clearButton" min="-2" max="-2" attributes="0"/>
                       <Component id="okConfigButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="7" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -608,6 +632,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="waitingListButtonGroup"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" resourceKey="noWaitingListRadioButton.text"/>
                 <Property name="name" type="java.lang.String" value="noWaitingListRadioButton" noResource="true"/>
               </Properties>
@@ -674,6 +699,12 @@
     <Component class="javax.swing.ButtonGroup" name="requireBookingButtonGroup">
     </Component>
     <Component class="javax.swing.ButtonGroup" name="waitingListButtonGroup">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="jButton1.text"/>
+        <Property name="name" type="java.lang.String" value="jButton1" noResource="true"/>
+      </Properties>
     </Component>
   </NonVisualComponents>
   <Properties>

@@ -5,12 +5,10 @@ import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JFileChooser;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -111,7 +109,9 @@ public class EventSwipeApp extends SingleFrameApplication {
             }
             else {
                 booked = false;
-                waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST).contains(stuNumber);
+                if (eventSwipeData.isWaitingListFlag())
+                    waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST)
+                                  .contains(stuNumber);
             }
         }
         if (eventSwipeData.getAllBookedList().contains(stuNumber)) {
