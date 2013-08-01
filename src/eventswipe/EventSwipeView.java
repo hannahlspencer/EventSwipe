@@ -750,9 +750,11 @@ public class EventSwipeView extends FrameView {
 
     private void checkingModeToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkingModeToggleActionPerformed
         if (checkingModeToggle.isSelected()) {
+            EventSwipeApp.getApplication().setBookingFlag(true);
             checkingModeToggle.setText("Checking booking lists");
         }
         else {
+            EventSwipeApp.getApplication().setBookingFlag(false);
             checkingModeToggle.setText("Recording all students");
         }
     }//GEN-LAST:event_checkingModeToggleActionPerformed
