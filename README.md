@@ -1,1 +1,5 @@
-# This is my README
+# EventSwipe
+Current version: Buzzard
+
+EventSwipe is a simple Java application for recording attendance at events.
+
