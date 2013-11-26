@@ -12,8 +12,8 @@ It works by reading some kind of ID string (a student number, for example) and e
 
 ###Requirements
 
-*Any device capable of running a Java application.
-*A way of distinguishing event attendees with unique and easily accessible IDs. For example, student numbers which can be read from student cards via a magnetic strip or RFID chip.
+* Any device capable of running a Java application.
+* A way of distinguishing event attendees with unique and easily accessible IDs. For example, student numbers which can be read from student cards via a magnetic strip or RFID chip.
 
 ###Steps
 
@@ -27,7 +27,7 @@ It works by reading some kind of ID string (a student number, for example) and e
 
 ###Preparing the booking lists
 
-If the event didn’t require students to book in advance then ignore this section.
+If the event didn't require students to book in advance then ignore this section.
 
 EventSwipe can read ID strings from an ANSI encoded .txt file separated by line breaks. Make sure your booking lists are saved in this format and accessible from the device running EventSwipe. 
 
@@ -41,14 +41,14 @@ Hit ok to start recording attendance. Depending on the event settings and the at
 
 ####'Success' messages
 
-*__Booked__ – ID is on the booking list and entry has been recorded. EventSwipe will also display what entry slot the attendee has been booked for (if applicable)
-*__Recorded__ – ID has been recorded (displayed when a booking list is not used) 
+* __Booked__ - ID is on the booking list and entry has been recorded. EventSwipe will also display what entry slot the attendee has been booked for (if applicable)
+* __Recorded__ - ID has been recorded (displayed when a booking list is not used) 
 
 ####Other messages
 
-*__Already recorded__ – ID has already been entered and recorded
-*__Not booked__ – ID is not on the booking list and is not recorded in the attendees list
-*__Waiting list__ – ID is on the waiting list. EventSwipe will also open a dialogue box asking you whether or not to let the attendee into the event. Selecting ‘Yes’ records the student number and takes the student off the waiting list, ‘No’ keeps the student on the waiting list.
+* __Already recorded__ - ID has already been entered and recorded
+* __Not booked__ - ID is not on the booking list and is not recorded in the attendees list
+* __Waiting list__ - ID is on the waiting list. EventSwipe will also open a dialogue box asking you whether or not to let the attendee into the event. Selecting 'Yes' records the student number and takes the student off the waiting list, 'No' keeps the student on the waiting list.
 
 To record an ID which was not on the booking list, you need to switch EventSwipe to 'record all mode' with the button in the top right. You can then enter a non-booked ID and record it. This mode is useful if you want to let in a batch of non-booked attendees in one go and can be used as a fall back to guarantee you record entry to your event, even if something goes wrong with your booking list.
 
@@ -66,19 +66,19 @@ __Important:__ Do not close EventSwipe before saving your attendees list or you 
 
 *Expected release: January 2014*
 
-*Handle multiple text file encodings
-*Session logging (in case of application crashing or not saving attendance data)
-*Yes/no dialogue for non-booked attendees with keyboard shortcuts
-*Stronger visual cue when ID has been entered
-*Keyboard shortcut for booking mode toggling
-*Max capacity feature (for single slot events)
-*Exit confirmation (based on save flag)
+* Handle multiple text file encodings
+* Session logging (in case of application crashing or not saving attendance data)
+* Yes/no dialogue for non-booked attendees with keyboard shortcuts
+* Stronger visual cue when ID has been entered
+* Keyboard shortcut for booking mode toggling
+* Max capacity feature (for single slot events)
+* Exit confirmation (based on save flag)
 
 ###Condor
 
 *Expected release: October 2014*
 
-*Handle multiple booking file types (including .csv)
-*Counting mode
-*Entry slot dialogue to indicate that attendee is too late/early according to system time
-*Duplicate slot booking report feature
+* Handle multiple booking file types (including .csv)
+* Counting mode
+* Entry slot dialogue to indicate that attendee is too late/early according to system time
+* Duplicate slot booking report feature
