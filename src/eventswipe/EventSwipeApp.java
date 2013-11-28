@@ -3,12 +3,16 @@ package eventswipe;
 import eventswipe.EventSwipeData.FileFunction;
 import java.awt.Desktop;
 import java.awt.FileDialog;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EventObject;
+import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -35,6 +39,36 @@ public class EventSwipeApp extends SingleFrameApplication {
      * builder, so this additional configuration is not needed.
      */
     @Override protected void configureWindow(java.awt.Window root) {
+
+        this.addExitListener(new org.jdesktop.application.Application.ExitListener() {
+
+            public boolean canExit(EventObject arg0) {
+                return getExitFlag();
+            }
+
+            public void willExit(EventObject arg0) {}
+
+        });
+
+        root.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+                    int exit = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                                     "Are you sure you want to exit?",
+                                                     "Exit warning",
+                                                     JOptionPane.YES_NO_OPTION);
+                    if (exit == JOptionPane.YES_OPTION) {
+                        EventSwipeApp.getApplication().setExitFlag(true);
+                    }
+                    else {
+                        EventSwipeApp.getApplication().setExitFlag(false);
+                    }
+                }
+            }
+            
+        });
     }
 
     /**
@@ -196,6 +230,18 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    public void clearData() {
+        eventSwipeData.clearData();
+    }
+
+    public Boolean getExitFlag() {
+        return exitFlag;
+    }
+
+    public void setExitFlag(Boolean exitFlag) {
+        this.exitFlag = exitFlag;
+    }
+
     /**
      * Main method launching the application.
      */
@@ -204,9 +250,6 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     private EventSwipeData eventSwipeData;
-
-    public void clearData() {
-        eventSwipeData.clearData();
-    }
+    private Boolean exitFlag = false;
 
 }

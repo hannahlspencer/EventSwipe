@@ -830,9 +830,23 @@ public class EventSwipeView extends FrameView {
                 message += " has been recorded";
             }
         }
-        else {
-            message += " has NOT booked onto this event";
-            bookingStatus = "Not booked";
+        else { //not booked
+            Utils.pressAlt();
+            int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                                      "Student is not booked. "
+                                                      + "Allow student to enter?",
+                                                      "Student not booked",
+                                                      JOptionPane.YES_NO_OPTION);
+            Utils.releaseAlt();
+            if (reply == JOptionPane.YES_OPTION) {
+                EventSwipeApp.getApplication().recordAttendance(stuNumber, 0);
+                bookingStatus = "Recorded";
+                message += " has been recorded";
+            }
+            else {
+                message += " has NOT booked onto this event";
+                bookingStatus = "Not booked";
+            }
         }
         displayBookingStatus(bookingStatus, slot);
         displayBookingMessage(message);
