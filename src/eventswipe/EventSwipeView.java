@@ -749,6 +749,12 @@ public class EventSwipeView extends FrameView {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             checkBooking();
         }
+        if ((evt.getKeyCode() == KeyEvent.VK_T) && ((evt.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+            checkingModeToggle.doClick();
+        }
+        if ((evt.getKeyCode() == KeyEvent.VK_S) && ((evt.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+            saveButton.doClick();
+        }
     }//GEN-LAST:event_studentNumberInputKeyPressed
 
     @Action
