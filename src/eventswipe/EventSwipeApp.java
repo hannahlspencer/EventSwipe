@@ -55,10 +55,12 @@ public class EventSwipeApp extends SingleFrameApplication {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+                    Utils.pressAlt();
                     int exit = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                      "Are you sure you want to exit?",
                                                      "Exit warning",
                                                      JOptionPane.YES_NO_OPTION);
+                    Utils.releaseAlt();
                     if (exit == JOptionPane.YES_OPTION) {
                         EventSwipeApp.getApplication().setExitFlag(true);
                     }

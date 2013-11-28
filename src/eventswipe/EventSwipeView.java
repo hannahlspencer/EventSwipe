@@ -77,6 +77,7 @@ public class EventSwipeView extends FrameView {
         checkingModeToggle = new javax.swing.JToggleButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        toggleMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
@@ -295,12 +296,25 @@ public class EventSwipeView extends FrameView {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
+        toggleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        toggleMenuItem.setText(resourceMap.getString("toggleMenuItem.text")); // NOI18N
+        toggleMenuItem.setEnabled(false);
+        toggleMenuItem.setName("toggleMenuItem"); // NOI18N
+        toggleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(toggleMenuItem);
+
         saveMenuItem.setAction(actionMap.get("saveAttendeesToFile")); // NOI18N
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
         saveMenuItem.setName("saveMenuItem"); // NOI18N
         fileMenu.add(saveMenuItem);
 
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
 
@@ -620,7 +634,7 @@ public class EventSwipeView extends FrameView {
                     .addComponent(noBookingRadioButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clearButton)
                     .addComponent(okConfigButton))
@@ -749,12 +763,15 @@ public class EventSwipeView extends FrameView {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             checkBooking();
         }
-        if ((evt.getKeyCode() == KeyEvent.VK_T) && ((evt.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            checkingModeToggle.doClick();
-        }
-        if ((evt.getKeyCode() == KeyEvent.VK_S) && ((evt.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            saveButton.doClick();
-        }
+        //TODO finish the shortcut key code
+        /*if (evt.getModifiers() == KeyEvent.CTRL_MASK) {
+            if (evt.getKeyCode() == KeyEvent.VK_T) {
+                checkingModeToggle.doClick();
+            }
+            if (evt.getKeyCode() == KeyEvent.VK_S) {
+                EventSwipeApp.getApplication().saveAttendeesToFile();
+            }
+        }*/
     }//GEN-LAST:event_studentNumberInputKeyPressed
 
     @Action
@@ -770,19 +787,16 @@ public class EventSwipeView extends FrameView {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void checkingModeToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkingModeToggleActionPerformed
-        if (checkingModeToggle.isSelected()) {
-            EventSwipeApp.getApplication().setBookingFlag(true);
-            checkingModeToggle.setText("Checking booking lists");
-        }
-        else {
-            EventSwipeApp.getApplication().setBookingFlag(false);
-            checkingModeToggle.setText("Recording all students");
-        }
+        toggleCheckingMode();
     }//GEN-LAST:event_checkingModeToggleActionPerformed
 
     private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
         clearSession(evt);
     }//GEN-LAST:event_clearButton1ActionPerformed
+
+    private void toggleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleMenuItemActionPerformed
+        checkingModeToggle.doClick();
+    }//GEN-LAST:event_toggleMenuItemActionPerformed
     
     private void checkBooking() {
         String stuNumber = studentNumberInput.getText();
@@ -808,11 +822,13 @@ public class EventSwipeView extends FrameView {
             bookingStatus = "Already recorded";
         }
         else if(booking.isOnWaitingList()) {
+            Utils.pressAlt();
             int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                       "Student is on the waiting list. "
                                                       + "Allow student to enter?",
                                                       "Student on waiting list",
                                                       JOptionPane.YES_NO_OPTION);
+            Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
                 EventSwipeApp.getApplication().recordAttendance(stuNumber, 0);
                 bookingStatus = "Recorded";
@@ -933,6 +949,7 @@ public class EventSwipeView extends FrameView {
     private javax.swing.JFormattedTextField studentNumberInput;
     private javax.swing.JLabel studentNumberInputLabel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JMenuItem toggleMenuItem;
     private javax.swing.JButton waitingListBrowseButton;
     private javax.swing.ButtonGroup waitingListButtonGroup;
     private javax.swing.JLabel waitingListFileLabel;
@@ -982,13 +999,29 @@ public class EventSwipeView extends FrameView {
         checkingModeToggle.setText(enabled ? "Checking booking lists" :
                                              "Recording all students");
         checkingModeToggle.setSelected(enabled);
+        toggleMenuItem.setEnabled(enabled);
+    }
+
+    private void toggleCheckingMode() {
+        if (checkingModeToggle.isSelected()) {
+            System.out.println("turning on booking");
+            EventSwipeApp.getApplication().setBookingFlag(true);
+            checkingModeToggle.setText("Checking booking lists");
+        }
+        else {
+            System.out.println("turning off booking");
+            EventSwipeApp.getApplication().setBookingFlag(false);
+            checkingModeToggle.setText("Recording all students");
+        }
     }
 
     private void clearSession(java.awt.event.ActionEvent evt) {
+        Utils.pressAlt();
         int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                       "Clear all booking data and restart session?",
                                                       "Clear all data warning",
                                                       JOptionPane.YES_NO_OPTION);
+        Utils.releaseAlt();
         if (reply == JOptionPane.YES_OPTION) {
             if (evt.getSource().equals(clearButton1))
                 switchToPanel(configPanel);
