@@ -46,7 +46,9 @@ public class EventSwipeApp extends SingleFrameApplication {
                 return getExitFlag();
             }
 
-            public void willExit(EventObject arg0) {}
+            public void willExit(EventObject arg0) {
+                System.exit(0);
+            }
 
         });
 
@@ -220,7 +222,8 @@ public class EventSwipeApp extends SingleFrameApplication {
             }
             writeToFile(saveFile, header);
             for (int i = 0; i < eventSwipeData.getAttendeesList().size(); i++) {
-                writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + "\n");
+                writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + 
+                                      System.getProperty("line.separator"));
             }
             eventSwipeData.setSavedFlag(true);
             Desktop dk = Desktop.getDesktop();
