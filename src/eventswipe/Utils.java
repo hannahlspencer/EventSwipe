@@ -9,9 +9,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.mozilla.universalchardet.UniversalDetector;
 
 /**
  *
@@ -19,6 +20,10 @@ import org.mozilla.universalchardet.UniversalDetector;
  */
 public class Utils {
 
+    public static final String UTF8 = "UTF8";
+    public static final String UNICODE = "UTF-16";
+    public static final String ANSI = "Cp1252";
+    
     public static void pressAlt() {
         try {
             Robot r = new Robot();
@@ -52,22 +57,37 @@ public class Utils {
         return line;
     }
 
-    public static String getEncoding(File file) {
-        byte[] data = new byte[4096];
-        UniversalDetector detector = new UniversalDetector(null);
-        int readCount;
+    public static List<String> readAllLines(File file, String encoding) {
+        ArrayList<String> list = new ArrayList<String>();
+        boolean firstLine = true;
         try {
             FileInputStream fstream = new FileInputStream(file);
-            while ((readCount = fstream.read(data)) > 0 && !detector.isDone()) {
-                detector.handleData(data, 0, readCount);
+            DataInputStream dis = new DataInputStream(fstream);
+            InputStreamReader isr = new InputStreamReader(dis, encoding);
+            BufferedReader br = new BufferedReader(isr);
+            String strLine = null;
+            while ((strLine = br.readLine()) != null)   {
+                strLine = firstLine && encoding.equals("UTF8") ?
+                          Utils.removeUTF8BOM(strLine) : strLine;
+                list.add(strLine);
+                if (firstLine)
+                    firstLine = false;
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            dis.close();
+        } catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
         }
-        detector.dataEnd();
-        String encoding = detector.getDetectedCharset();
-        detector.reset();
-        return encoding;
+        return list;
+    }
+
+    public static String getEncoding(File file) {
+        String testString = Utils.readLine(file, ANSI).substring(0, 2);
+        if (testString.equals(UTF8_TEST_STRING))
+            return UTF8;
+        else if (testString.equals(UNICODE_LE_TEST_STRING) ||
+                 testString.equals(UNICODE_BE_TEST_STRING))
+            return UNICODE;
+        else return ANSI;
     }
 
      private static String removeUTF8BOM(String s) {
@@ -78,5 +98,8 @@ public class Utils {
     }
 
      private static final String UTF8_BOM = "\uFEFF";
+     private static final String UTF8_TEST_STRING = "ï»";
+     private static final String UNICODE_LE_TEST_STRING = "ÿþ";
+     private static final String UNICODE_BE_TEST_STRING = "þÿ";
 
 }

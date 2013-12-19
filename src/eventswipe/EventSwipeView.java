@@ -1004,12 +1004,10 @@ public class EventSwipeView extends FrameView {
 
     private void toggleCheckingMode() {
         if (checkingModeToggle.isSelected()) {
-            System.out.println("turning on booking");
             EventSwipeApp.getApplication().setBookingFlag(true);
             checkingModeToggle.setText("Checking booking lists");
         }
         else {
-            System.out.println("turning off booking");
             EventSwipeApp.getApplication().setBookingFlag(false);
             checkingModeToggle.setText("Recording all students");
         }

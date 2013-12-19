@@ -1,10 +1,6 @@
 package eventswipe;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -18,6 +14,8 @@ public class EventSwipeData {
     public static final int MAX_ENTRY_SLOTS = 3;
     public static final String titleInputDefault = "Please enter the name of the event";
     public static final String fileInputDefault = "Enter file path";
+    public static String BOOKING_1_ENCODING, BOOKING_2_ENCODING, 
+                         BOOKING_3_ENCODING, WAITING_LIST_ENCODING = Utils.ANSI;
 
     public EventSwipeData() {
         attendeesList = new ArrayList<String>();
@@ -121,7 +119,8 @@ public class EventSwipeData {
     public boolean setFile(FileFunction fileFunction, File file) {
         if (!file.exists()) {
             JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                          "File '" + file.getName() + "' not found. Please ensure correct path has been entered.",
+                                          "File '" + file.getName() + "' not found. " +
+                                          "Please ensure correct path has been entered.",
                                           "File not found",
                                           JOptionPane.ERROR_MESSAGE);
             return false;
@@ -129,19 +128,23 @@ public class EventSwipeData {
         switch (fileFunction) {
             case BOOKING_2:
                 bookingFile2 = file;
-                bookingList2 = makeBookingList(bookingFile2);
+                BOOKING_2_ENCODING = Utils.getEncoding(bookingFile2);
+                bookingList2 = makeBookingList(bookingFile2, BOOKING_2_ENCODING);
                 break;
             case BOOKING_3:
                 bookingFile3 = file;
-                bookingList3 = makeBookingList(bookingFile3);
+                BOOKING_3_ENCODING = Utils.getEncoding(bookingFile3);
+                bookingList3 = makeBookingList(bookingFile3, BOOKING_3_ENCODING);
                 break;
             case WAITING_LIST:
                 waitingListFile = file;
-                waitingList = makeBookingList(waitingListFile);
+                WAITING_LIST_ENCODING = Utils.getEncoding(waitingListFile);
+                waitingList = makeBookingList(waitingListFile, WAITING_LIST_ENCODING);
                 break;
             default:
                 bookingFile1 = file;
-                bookingList1 = makeBookingList(bookingFile1);
+                BOOKING_1_ENCODING = Utils.getEncoding(bookingFile1);
+                bookingList1 = makeBookingList(bookingFile1, BOOKING_1_ENCODING);
                 break;
         }
         return true;
@@ -160,21 +163,8 @@ public class EventSwipeData {
         }
     }
 
-    private ArrayList<String> makeBookingList(File file) {
-        ArrayList<String> list = new ArrayList<String>();
-        try {
-            FileInputStream fstream = new FileInputStream(file);
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine = null;
-            while ((strLine = br.readLine()) != null)   {
-                list.add(strLine);
-            }
-            in.close();
-        } catch (Exception e){
-            System.err.println("Error: " + e.getMessage());
-        }
-        return list;
+    private ArrayList<String> makeBookingList(File file, String encoding) {
+        return (ArrayList<String>) Utils.readAllLines(file, encoding);
     }
 
     private File bookingFile1;
