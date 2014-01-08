@@ -778,6 +778,7 @@ public class EventSwipeView extends FrameView {
 
     @Action
     private void eventTitleInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventTitleInputKeyPressed
+        statusDisplayTextField.setBackground(null);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             okConfigButtonActionPerformed(new ActionEvent(evt.getSource(), 0, null));
         }
@@ -908,7 +909,7 @@ public class EventSwipeView extends FrameView {
         entrySlotLabel.setEnabled(enabled);
         entrySlotDisplayTextField.setEnabled(enabled);
         //set up and start timer to remove background colour from bookking status
-        int delay = 500; //milliseconds
+        int delay = 250; //milliseconds
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 statusDisplayTextField.setBackground(null);
