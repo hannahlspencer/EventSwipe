@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  * The application's main frame.
@@ -893,7 +895,7 @@ public class EventSwipeView extends FrameView {
                                                   .getAttendeeCount());
         }
         else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
-            color = null;
+            color = Color.WHITE;
             enabled = false;
             attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication()
                                                   .getAttendeeCount());
@@ -905,6 +907,16 @@ public class EventSwipeView extends FrameView {
         statusDisplayTextField.setBackground(color);
         entrySlotLabel.setEnabled(enabled);
         entrySlotDisplayTextField.setEnabled(enabled);
+        //set up and start timer to remove background colour from bookking status
+        int delay = 500; //milliseconds
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                statusDisplayTextField.setBackground(null);
+            }
+        };
+        Timer timer = new Timer(delay, taskPerformer);
+        timer.setRepeats(false);
+        timer.start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
