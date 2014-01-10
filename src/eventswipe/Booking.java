@@ -16,10 +16,6 @@ public class Booking {
         return stuNumber;
     }
 
-    private void setStuNumber(String stuNumber) {
-        this.stuNumber = stuNumber;
-    }
-
     public Integer getEntrySlot() {
         return entrySlot;
     }
@@ -50,6 +46,10 @@ public class Booking {
 
     public void setOnWaitingList(boolean waitingList) {
         this.onWaitingList = waitingList;
+    }
+
+    private void setStuNumber(String stuNumber) {
+        this.stuNumber = stuNumber;
     }
 
     private String stuNumber;

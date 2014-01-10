@@ -26,6 +26,7 @@ public class EventSwipeApp extends SingleFrameApplication {
      */
     @Override protected void startup() {
         eventSwipeData = new EventSwipeData();
+        logger = new EventSwipeLogger();
         if (Utils.isInternetReachable()) {
             eventSwipeData.setNetFlag(true);
         }
@@ -189,9 +190,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     @Action
     public void saveAttendeesToFile() {
         String header = eventSwipeData.getEventTitle();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	Date eventDate = new Date();
-	header += " - " + dateFormat.format(eventDate) + "\n\n";
+	header += " - " + Utils.getDate("dd/MM/yyyy HH:mm:ss") + System.getProperty("line.separator");
         FileDialog fDialog = new FileDialog(this.getMainFrame(), 
                         "Save attendees list", FileDialog.SAVE);
         fDialog.setVisible(true);
@@ -221,6 +220,14 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    public void createLog(String title) {
+        logger.createLog(title);
+    }
+
+    public void log(String message) {
+        logger.log(message);
+    }
+
     public void clearData() {
         eventSwipeData.clearData();
     }
@@ -240,6 +247,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         launch(EventSwipeApp.class, args);
     }
 
+    private EventSwipeLogger logger;
     private EventSwipeData eventSwipeData;
     private Boolean exitFlag = false;
 

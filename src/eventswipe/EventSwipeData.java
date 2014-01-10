@@ -35,11 +35,6 @@ public class EventSwipeData {
         clearList(allBookedList);
     }
 
-    private void clearList(List<String> list) {
-        if (!list.isEmpty())
-            list.clear();
-    }
-
     public void incrementAttendeesCount() {
         setAttendeesCount(getAttendeesCount() + 1);
     }
@@ -161,6 +156,11 @@ public class EventSwipeData {
             default:
                 return bookingList1;
         }
+    }
+
+    private void clearList(List<String> list) {
+        if (!list.isEmpty())
+            list.clear();
     }
 
     private ArrayList<String> makeBookingList(File file, String encoding) {

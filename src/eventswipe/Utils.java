@@ -10,7 +10,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,6 +113,12 @@ public class Utils {
         }
         return s;
     }
+
+     public static String getDate(String format) {
+        DateFormat dateFormat = new SimpleDateFormat(format);
+	Date date = new Date();
+	return dateFormat.format(date);
+     }
 
      private static final String UTF8_BOM = "\uFEFF";
      private static final String UTF8_TEST_STRING = "ï»";

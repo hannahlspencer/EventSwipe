@@ -693,6 +693,7 @@ public class EventSwipeView extends FrameView {
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getWaitingListFlag())
             configOK = EventSwipeApp.getApplication().setFile(FileFunction.WAITING_LIST, new File(waitingListFilePathInput.getText()));
         if (configOK) {
+            EventSwipeApp.getApplication().createLog(eventTitleInput.getText());
             switchToPanel(mainPanel);
         }
     }//GEN-LAST:event_okConfigButtonActionPerformed
@@ -783,15 +784,6 @@ public class EventSwipeView extends FrameView {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             checkBooking();
         }
-        //TODO finish the shortcut key code
-        /*if (evt.getModifiers() == KeyEvent.CTRL_MASK) {
-            if (evt.getKeyCode() == KeyEvent.VK_T) {
-                checkingModeToggle.doClick();
-            }
-            if (evt.getKeyCode() == KeyEvent.VK_S) {
-                EventSwipeApp.getApplication().saveAttendeesToFile();
-            }
-        }*/
     }//GEN-LAST:event_studentNumberInputKeyPressed
 
     @Action
@@ -893,6 +885,7 @@ public class EventSwipeView extends FrameView {
         }
         displayBookingStatus(bookingStatus, slot);
         displayBookingMessage(message);
+        EventSwipeApp.getApplication().log(message);
     }
 
     private void displayBookingMessage(String message) {
