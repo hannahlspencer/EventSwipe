@@ -7,7 +7,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
-import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +26,7 @@ public class EventSwipeApp extends SingleFrameApplication {
      */
     @Override protected void startup() {
         eventSwipeData = new EventSwipeData();
-        if (isInternetReachable()) {
+        if (Utils.isInternetReachable()) {
             eventSwipeData.setNetFlag(true);
         }
         show(new EventSwipeView(this));
@@ -81,19 +80,6 @@ public class EventSwipeApp extends SingleFrameApplication {
      */
     public static EventSwipeApp getApplication() {
         return Application.getInstance(EventSwipeApp.class);
-    }
-
-    public static boolean isInternetReachable() {
-        try {
-            InetAddress address = InetAddress.getByName("java.sun.com");
-            if(address == null) {
-                return false;
-            }
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-            return false;
-        }
-        return true;
     }
 
     public void setBookingFlag(boolean selected) {

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +25,19 @@ public class Utils {
     public static final String UNICODE = "UTF-16";
     public static final String ANSI = "Cp1252";
     
+     public static boolean isInternetReachable() {
+        try {
+            InetAddress address = InetAddress.getByName("java.sun.com");
+            if(address == null) {
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public static void pressAlt() {
         try {
             Robot r = new Robot();
