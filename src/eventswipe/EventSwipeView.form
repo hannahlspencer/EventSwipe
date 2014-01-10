@@ -116,6 +116,9 @@
           <Events>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="studentNumberInputKeyPressed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="javax.swing.Action save = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        EventSwipeApp.getApplication().saveAttendeesToFile();&#xa;    }&#xa;};&#xa;javax.swing.Action toggleBooking = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkingModeToggle.doClick();&#xa;    }&#xa;};&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;save&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;save&quot;, save);&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;toggleBooking&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="enterStudentNumberButton">
           <Properties>
