@@ -1,10 +1,26 @@
 # EventSwipe
 
-*Current version: Avocet*
+*Current version: Buzzard*
 
 EventSwipe is a simple Java application for recording attendance at events.
 
 It works by reading some kind of ID string (a student number, for example) and either checking this against a booking list or recording the ID in a text file to be processed later. The ID can be entered from a keyboard or any other external input device, such as an RFID reader.
+
+---
+
+##Updates
+
+###Buzzard
+
+*Updated January 2014*
+
+* EventSwipe automatically handles multiple text file encodings (ANSI, UTF-8, Unicode big endian and Unicode little endian)
+* Automatic logging of each session to /logs/ folder (in case of application crashing or not saving attendance data)
+* Yes/no dialogue for non-booked attendees with Y/N keyboard shortcuts to allow for quick recording of non-booked attendees
+* Stronger visual cue when ID has been entered (booking status colour flashes)
+* Keyboard shortcut (Ctrl+t) for booking mode toggling
+* Keyboard shortcut (Ctrl+s) for saving
+* Exit confirmation dialogue if there are unsaved records
 
 ---
 
@@ -23,7 +39,7 @@ It works by reading some kind of ID string (a student number, for example) and e
 
 If the event didn't require students to book in advance then ignore this section.
 
-EventSwipe can read ID strings from an ANSI encoded .txt file separated by line breaks. Make sure your booking lists are saved in this format and accessible from the device running EventSwipe. 
+EventSwipe can read ID strings from a .txt file separated by line breaks. Make sure your booking lists are saved in this format and accessible from the device running EventSwipe. 
 
 You can upload up to three booking list files (for different timeslots within the same event) and a waiting list.
 
@@ -41,37 +57,24 @@ Hit ok to start recording attendance. Depending on the event settings and the at
 ####Other messages
 
 * __Already recorded__ - ID has already been entered and recorded
-* __Not booked__ - ID is not on the booking list and is not recorded in the attendees list
+* __Not booked__ - ID is not on the booking list and is not recorded in the attendees list. EventSwipe will also open a dialogue box asking you whether or not to let the attendee into the event. Selecting 'Yes' records the student number.
 * __Waiting list__ - ID is on the waiting list. EventSwipe will also open a dialogue box asking you whether or not to let the attendee into the event. Selecting 'Yes' records the student number and takes the student off the waiting list, 'No' keeps the student on the waiting list.
 
-To record an ID which was not on the booking list, you need to switch EventSwipe to 'record all mode' with the button in the top right. You can then enter a non-booked ID and record it. This mode is useful if you want to let in a batch of non-booked attendees in one go and can be used as a fall back to guarantee you record entry to your event, even if something goes wrong with your booking list.
+You can also record an ID which was not on the booking list by switching EventSwipe to 'record all mode' with the button in the top right. You can then enter a non-booked ID and record it. This mode is useful if you want to let in a batch of non-booked attendees in one go and can be used as a fall back to guarantee you record entry to your event, even if something goes wrong with your booking list.
 
 ###Saving the attendance list
 
-When you have finished recording entry to your event, hit 'save', choose a file name and location and EventSwipe will save the list of recorded IDs (along with the entry slot they were booked for, if applicable) as a text file. Each ID is separated by a line break, although it won't look like it when you open the file. You'll see this is the case if you open the list in a programme like Excel.
-
-__Important:__ Do not close EventSwipe before saving your attendees list or you will lose all your attendance data.
+When you have finished recording entry to your event, hit 'save', choose a file name and location and EventSwipe will save the list of recorded IDs (along with the entry slot they were booked for, if applicable) as a text file separated by line breaks.
 
 ---
 
 ##Future features
 
-###Buzzard
-
-*Expected release: January 2014*
-
-* Handle multiple text file encodings
-* Session logging (in case of application crashing or not saving attendance data)
-* Yes/no dialogue for non-booked attendees with keyboard shortcuts
-* Stronger visual cue when ID has been entered
-* Keyboard shortcut for booking mode toggling
-* Max capacity feature (for single slot events)
-* Exit confirmation (based on save flag)
-
 ###Condor
 
 *Expected release: October 2014*
 
+* Max capacity feature
 * Handle multiple booking file types (including .csv)
 * Counting mode
 * Entry slot dialogue to indicate that attendee is too late/early according to system time
