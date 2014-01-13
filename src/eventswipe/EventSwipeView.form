@@ -113,11 +113,8 @@
             <Property name="text" type="java.lang.String" resourceKey="studentNumberInput.text"/>
             <Property name="name" type="java.lang.String" value="studentNumberInput" noResource="true"/>
           </Properties>
-          <Events>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="studentNumberInputKeyPressed"/>
-          </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="javax.swing.Action save = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        EventSwipeApp.getApplication().saveAttendeesToFile();&#xa;    }&#xa;};&#xa;javax.swing.Action toggleBooking = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkingModeToggle.doClick();&#xa;    }&#xa;};&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;save&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;save&quot;, save);&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;toggleBooking&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);"/>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="javax.swing.Action save = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        EventSwipeApp.getApplication().saveAttendeesToFile();&#xa;    }&#xa;};&#xa;javax.swing.Action toggleBooking = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkingModeToggle.doClick();&#xa;    }&#xa;};&#xa;javax.swing.Action checkBooking = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkBooking();&#xa;    }&#xa;};&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;save&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;save&quot;, save);&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;toggleBooking&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;                                     &quot;enterStudentNumber&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;enterStudentNumber&quot;, &#xa;                                      checkBooking);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="enterStudentNumberButton">
@@ -354,16 +351,16 @@
                               <Group type="102" alignment="0" attributes="1">
                                   <Component id="eventTitleInputLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="eventTitleInput" pref="618" max="32767" attributes="0"/>
+                                  <Component id="eventTitleInput" pref="617" max="32767" attributes="0"/>
                               </Group>
                               <Component id="titleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="bookingDetailsPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="24" max="32767" attributes="0"/>
+                          <EmptySpace pref="22" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="okConfigButton" min="-2" pref="99" max="-2" attributes="0"/>
-                          <EmptySpace pref="507" max="32767" attributes="0"/>
+                          <EmptySpace pref="504" max="32767" attributes="0"/>
                           <Component id="clearButton" min="-2" pref="97" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -374,7 +371,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -713,8 +710,10 @@
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusGained"/>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusLost"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="eventTitleInputKeyPressed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="javax.swing.Action checkConfiguration = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkConfiguration();&#xa;    }&#xa;};&#xa;eventTitleInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;                                  &quot;checkConfiguration&quot;);&#xa;eventTitleInput.getActionMap().put(&quot;checkConfiguration&quot;, checkConfiguration);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="clearButton">
           <Properties>

@@ -135,11 +135,6 @@ public class EventSwipeView extends FrameView {
 
         studentNumberInput.setText(resourceMap.getString("studentNumberInput.text")); // NOI18N
         studentNumberInput.setName("studentNumberInput"); // NOI18N
-        studentNumberInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                studentNumberInputKeyPressed(evt);
-            }
-        });
         javax.swing.Action save = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 EventSwipeApp.getApplication().saveAttendeesToFile();
@@ -150,6 +145,11 @@ public class EventSwipeView extends FrameView {
                 checkingModeToggle.doClick();
             }
         };
+        javax.swing.Action checkBooking = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                checkBooking();
+            }
+        };
         studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             java.awt.event.InputEvent.CTRL_DOWN_MASK),
         "save");
@@ -158,6 +158,10 @@ public class EventSwipeView extends FrameView {
         java.awt.event.InputEvent.CTRL_DOWN_MASK),
     "toggleBooking");
     studentNumberInput.getActionMap().put("toggleBooking", toggleBooking);
+    studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+        "enterStudentNumber");
+    studentNumberInput.getActionMap().put("enterStudentNumber",
+        checkBooking);
 
     enterStudentNumberButton.setText(resourceMap.getString("enterStudentNumberButton.text")); // NOI18N
     enterStudentNumberButton.setFocusable(false);
@@ -596,11 +600,14 @@ public class EventSwipeView extends FrameView {
             inputFocusLost(evt);
         }
     });
-    eventTitleInput.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyPressed(java.awt.event.KeyEvent evt) {
-            eventTitleInputKeyPressed(evt);
+    javax.swing.Action checkConfiguration = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            checkConfiguration();
         }
-    });
+    };
+    eventTitleInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+        "checkConfiguration");
+    eventTitleInput.getActionMap().put("checkConfiguration", checkConfiguration);
 
     clearButton.setText(resourceMap.getString("clearButton.text")); // NOI18N
     clearButton.setName("clearButton"); // NOI18N
@@ -628,20 +635,20 @@ public class EventSwipeView extends FrameView {
                         .addGroup(configPanelLayout.createSequentialGroup()
                             .addComponent(eventTitleInputLabel)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(eventTitleInput, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE))
+                            .addComponent(eventTitleInput, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE))
                         .addComponent(titleLabel)
                         .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(24, Short.MAX_VALUE))
+                    .addContainerGap(22, Short.MAX_VALUE))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configPanelLayout.createSequentialGroup()
                     .addComponent(okConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 507, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 504, Short.MAX_VALUE)
                     .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap())))
     );
     configPanelLayout.setVerticalGroup(
         configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(configPanelLayout.createSequentialGroup()
-            .addGap(20, 20, 20)
+            .addGap(27, 27, 27)
             .addComponent(titleLabel)
             .addGap(18, 18, 18)
             .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -670,32 +677,7 @@ public class EventSwipeView extends FrameView {
 
     @Action
     private void okConfigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okConfigButtonActionPerformed
-        EventSwipeApp.getApplication().setBookingFlag(yesBookingRadioButton.isSelected());
-        EventSwipeApp.getApplication().setWaitingListFlag(yesWaitingListRadioButton.isSelected());
-        EventSwipeApp.getApplication().setSlots((Integer)entrySlotsSpinner.getValue());
-        boolean configOK = false;
-        if (eventTitleInput.getText().equals(EventSwipeData.titleInputDefault)) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                          "You have not entered an event title. Please write one!",
-                                          "Event title error",
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-            EventSwipeApp.getApplication().setEventTitle(eventTitleInput.getText());
-            configOK = true;
-        }
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 0)
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_1, new File(entrySlotBookingListFilePathInput1.getText()));
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 1)
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_2, new File(entrySlotBookingListFilePathInput2.getText()));
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 2)
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_3, new File(entrySlotBookingListFilePathInput3.getText()));
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getWaitingListFlag())
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.WAITING_LIST, new File(waitingListFilePathInput.getText()));
-        if (configOK) {
-            EventSwipeApp.getApplication().createLog(eventTitleInput.getText());
-            switchToPanel(mainPanel);
-        }
+        checkConfiguration();
     }//GEN-LAST:event_okConfigButtonActionPerformed
 
     @Action
@@ -780,37 +762,54 @@ public class EventSwipeView extends FrameView {
     }//GEN-LAST:event_enterStudentNumberButtonActionPerformed
     
     @Action
-    private void studentNumberInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentNumberInputKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            checkBooking();
-        }
-    }//GEN-LAST:event_studentNumberInputKeyPressed
-
-    @Action
-    private void eventTitleInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventTitleInputKeyPressed
-        statusDisplayTextField.setBackground(null);
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            okConfigButtonActionPerformed(new ActionEvent(evt.getSource(), 0, null));
-        }
-    }//GEN-LAST:event_eventTitleInputKeyPressed
-
-    @Action
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         EventSwipeApp.getApplication().saveAttendeesToFile();
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    @Action
     private void checkingModeToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkingModeToggleActionPerformed
         toggleCheckingMode();
     }//GEN-LAST:event_checkingModeToggleActionPerformed
 
+    @Action
     private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
         clearSession(evt);
     }//GEN-LAST:event_clearButton1ActionPerformed
 
+    @Action
     private void toggleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleMenuItemActionPerformed
         checkingModeToggle.doClick();
     }//GEN-LAST:event_toggleMenuItemActionPerformed
     
+    private void checkConfiguration() {
+        EventSwipeApp.getApplication().setBookingFlag(yesBookingRadioButton.isSelected());
+        EventSwipeApp.getApplication().setWaitingListFlag(yesWaitingListRadioButton.isSelected());
+        EventSwipeApp.getApplication().setSlots((Integer)entrySlotsSpinner.getValue());
+        boolean configOK = false;
+        if (eventTitleInput.getText().equals(EventSwipeData.titleInputDefault)) {
+            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                          "You have not entered an event title. Please write one!",
+                                          "Event title error",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            EventSwipeApp.getApplication().setEventTitle(eventTitleInput.getText());
+            configOK = true;
+        }
+        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 0)
+            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_1, new File(entrySlotBookingListFilePathInput1.getText()));
+        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 1)
+            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_2, new File(entrySlotBookingListFilePathInput2.getText()));
+        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 2)
+            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_3, new File(entrySlotBookingListFilePathInput3.getText()));
+        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getWaitingListFlag())
+            configOK = EventSwipeApp.getApplication().setFile(FileFunction.WAITING_LIST, new File(waitingListFilePathInput.getText()));
+        if (configOK) {
+            EventSwipeApp.getApplication().createLog(eventTitleInput.getText());
+            switchToPanel(mainPanel);
+        }
+    }
+
     private void checkBooking() {
         String stuNumber = studentNumberInput.getText();
         if (stuNumber.isEmpty()) {
@@ -931,60 +930,7 @@ public class EventSwipeView extends FrameView {
         timer.start();
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField attendeeCountDisplayTextField;
-    private javax.swing.JLabel attendeeCountLabel;
-    private javax.swing.JButton backButton;
-    private javax.swing.JPanel bookingDetailsPanel;
-    private javax.swing.JButton bookingListBrowseButton1;
-    private javax.swing.JButton bookingListBrowseButton2;
-    private javax.swing.JButton bookingListBrowseButton3;
-    private javax.swing.JScrollPane bookingStatusScrollPane;
-    private javax.swing.JTextArea bookingStatusTextArea;
-    private javax.swing.JToggleButton checkingModeToggle;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JButton clearButton1;
-    private javax.swing.JPanel configPanel;
-    private javax.swing.JButton enterStudentNumberButton;
-    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput1;
-    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput2;
-    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput3;
-    private javax.swing.JLabel entrySlotBookingListLabel1;
-    private javax.swing.JLabel entrySlotBookingListLabel2;
-    private javax.swing.JLabel entrySlotBookingListLabel3;
-    private javax.swing.JFormattedTextField entrySlotDisplayTextField;
-    private javax.swing.JLabel entrySlotLabel;
-    private javax.swing.JLabel entrySlotsLabel;
-    private javax.swing.JSpinner entrySlotsSpinner;
-    private javax.swing.JFormattedTextField eventTitleInput;
-    private javax.swing.JLabel eventTitleInputLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JPanel mainPanel;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JRadioButton noBookingRadioButton;
-    private javax.swing.JRadioButton noWaitingListRadioButton;
-    private javax.swing.JButton okConfigButton;
-    private javax.swing.ButtonGroup requireBookingButtonGroup;
-    private javax.swing.JLabel requireBookingLabel;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JMenuItem saveMenuItem;
-    private javax.swing.JFormattedTextField statusDisplayTextField;
-    private javax.swing.JLabel statusLabel;
-    private javax.swing.JFormattedTextField studentNumberInput;
-    private javax.swing.JLabel studentNumberInputLabel;
-    private javax.swing.JLabel titleLabel;
-    private javax.swing.JMenuItem toggleMenuItem;
-    private javax.swing.JButton waitingListBrowseButton;
-    private javax.swing.ButtonGroup waitingListButtonGroup;
-    private javax.swing.JLabel waitingListFileLabel;
-    private javax.swing.JFormattedTextField waitingListFilePathInput;
-    private javax.swing.JLabel waitingListLabel;
-    private javax.swing.JRadioButton yesBookingRadioButton;
-    private javax.swing.JRadioButton yesWaitingListRadioButton;
-    // End of variables declaration//GEN-END:variables
-    private JDialog aboutBox;
-
-    private void switchToPanel(JPanel panel) {
+        private void switchToPanel(JPanel panel) {
         JFrame mainFrame = EventSwipeApp.getApplication().getMainFrame();
         mainFrame.setContentPane(panel);
         if (panel == mainPanel)
@@ -1062,5 +1008,58 @@ public class EventSwipeView extends FrameView {
             updateBookingPanel(false);
         }
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField attendeeCountDisplayTextField;
+    private javax.swing.JLabel attendeeCountLabel;
+    private javax.swing.JButton backButton;
+    private javax.swing.JPanel bookingDetailsPanel;
+    private javax.swing.JButton bookingListBrowseButton1;
+    private javax.swing.JButton bookingListBrowseButton2;
+    private javax.swing.JButton bookingListBrowseButton3;
+    private javax.swing.JScrollPane bookingStatusScrollPane;
+    private javax.swing.JTextArea bookingStatusTextArea;
+    private javax.swing.JToggleButton checkingModeToggle;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JButton clearButton1;
+    private javax.swing.JPanel configPanel;
+    private javax.swing.JButton enterStudentNumberButton;
+    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput1;
+    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput2;
+    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput3;
+    private javax.swing.JLabel entrySlotBookingListLabel1;
+    private javax.swing.JLabel entrySlotBookingListLabel2;
+    private javax.swing.JLabel entrySlotBookingListLabel3;
+    private javax.swing.JFormattedTextField entrySlotDisplayTextField;
+    private javax.swing.JLabel entrySlotLabel;
+    private javax.swing.JLabel entrySlotsLabel;
+    private javax.swing.JSpinner entrySlotsSpinner;
+    private javax.swing.JFormattedTextField eventTitleInput;
+    private javax.swing.JLabel eventTitleInputLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JRadioButton noBookingRadioButton;
+    private javax.swing.JRadioButton noWaitingListRadioButton;
+    private javax.swing.JButton okConfigButton;
+    private javax.swing.ButtonGroup requireBookingButtonGroup;
+    private javax.swing.JLabel requireBookingLabel;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JFormattedTextField statusDisplayTextField;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JFormattedTextField studentNumberInput;
+    private javax.swing.JLabel studentNumberInputLabel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JMenuItem toggleMenuItem;
+    private javax.swing.JButton waitingListBrowseButton;
+    private javax.swing.ButtonGroup waitingListButtonGroup;
+    private javax.swing.JLabel waitingListFileLabel;
+    private javax.swing.JFormattedTextField waitingListFilePathInput;
+    private javax.swing.JLabel waitingListLabel;
+    private javax.swing.JRadioButton yesBookingRadioButton;
+    private javax.swing.JRadioButton yesWaitingListRadioButton;
+    // End of variables declaration//GEN-END:variables
+    private JDialog aboutBox;
 
 }
