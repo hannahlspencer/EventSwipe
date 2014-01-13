@@ -10,15 +10,6 @@ import org.jdesktop.application.ResourceMap;
  * @author wildmanm
  */
 public class EventSwipeLogger {
-
-    private ResourceMap resourceMap = Application.getInstance(eventswipe.EventSwipeApp.class)
-                              .getContext().getResourceMap(EventSwipeLogger.class);
-
-    private String logFileLocation = resourceMap.getString("logFileLocation");
-    private String sessionTitle = "";
-
-    private File logDir = new File(logFileLocation);
-    private File logFile;
     
     public void createLog(String title) {
         sessionTitle = title + Utils.getDate("dd-MM-yyyy HHmmss");
@@ -46,5 +37,14 @@ public class EventSwipeLogger {
             System.err.println("Error: " + e.getMessage());
         }
     }
+
+    private ResourceMap resourceMap = Application.getInstance(eventswipe.EventSwipeApp.class)
+                              .getContext().getResourceMap(EventSwipeLogger.class);
+
+    private String logFileLocation = resourceMap.getString("logFileLocation");
+    private String sessionTitle = "";
+
+    private File logDir = new File(logFileLocation);
+    private File logFile;
 
 }

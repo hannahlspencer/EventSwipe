@@ -24,6 +24,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
+import org.jdesktop.application.Application;
+import org.jdesktop.application.ResourceMap;
 
 /**
  * The application's main frame.
@@ -32,6 +34,10 @@ public class EventSwipeView extends FrameView {
 
     public EventSwipeView(SingleFrameApplication app) {
         super(app);
+        ResourceMap resourceMap = Application.getInstance(eventswipe.EventSwipeApp.class)
+                                  .getContext().getResourceMap(EventSwipeView.class);
+        titleInputDefault = resourceMap.getString("eventTitleInputDefault");
+        fileInputDefault = resourceMap.getString("fileInputDefault");
         initComponents();
         updateBookingPanel(false);
         try {
@@ -42,6 +48,7 @@ public class EventSwipeView extends FrameView {
         }
         this.getFrame().setPreferredSize(new Dimension(750, 410));
         this.getFrame().setResizable(false);
+        
     }
 
     @Action
@@ -115,7 +122,6 @@ public class EventSwipeView extends FrameView {
         clearButton = new javax.swing.JButton();
         requireBookingButtonGroup = new javax.swing.ButtonGroup();
         waitingListButtonGroup = new javax.swing.ButtonGroup();
-        jButton1 = new javax.swing.JButton();
 
         mainPanel.setMinimumSize(new java.awt.Dimension(720, 350));
         mainPanel.setName("mainPanel"); // NOI18N
@@ -418,7 +424,7 @@ public class EventSwipeView extends FrameView {
         }
     });
 
-    entrySlotBookingListFilePathInput3.setText(EventSwipeData.fileInputDefault);
+    entrySlotBookingListFilePathInput3.setText(fileInputDefault);
     entrySlotBookingListFilePathInput3.setName("entrySlotBookingListFilePathInput3"); // NOI18N
     entrySlotBookingListFilePathInput3.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
@@ -429,7 +435,7 @@ public class EventSwipeView extends FrameView {
         }
     });
 
-    entrySlotBookingListFilePathInput2.setText(EventSwipeData.fileInputDefault);
+    entrySlotBookingListFilePathInput2.setText(fileInputDefault);
     entrySlotBookingListFilePathInput2.setName("entrySlotBookingListFilePathInput2"); // NOI18N
     entrySlotBookingListFilePathInput2.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
@@ -446,7 +452,7 @@ public class EventSwipeView extends FrameView {
     entrySlotBookingListLabel2.setText(resourceMap.getString("entrySlotBookingListLabel2.text")); // NOI18N
     entrySlotBookingListLabel2.setName("entrySlotBookingListLabel2"); // NOI18N
 
-    waitingListFilePathInput.setText(EventSwipeData.fileInputDefault);
+    waitingListFilePathInput.setText(fileInputDefault);
     waitingListFilePathInput.setName("waitingListFilePathInput"); // NOI18N
     waitingListFilePathInput.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
@@ -497,7 +503,7 @@ public class EventSwipeView extends FrameView {
     waitingListLabel.setText(resourceMap.getString("waitingListLabel.text")); // NOI18N
     waitingListLabel.setName("waitingListLabel"); // NOI18N
 
-    entrySlotBookingListFilePathInput1.setText(EventSwipeData.fileInputDefault);
+    entrySlotBookingListFilePathInput1.setText(fileInputDefault);
     entrySlotBookingListFilePathInput1.setName("entrySlotBookingListFilePathInput1"); // NOI18N
     entrySlotBookingListFilePathInput1.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
@@ -590,7 +596,7 @@ public class EventSwipeView extends FrameView {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
-    eventTitleInput.setText(EventSwipeData.titleInputDefault);
+    eventTitleInput.setText(titleInputDefault);
     eventTitleInput.setName("eventTitleInput"); // NOI18N
     eventTitleInput.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
@@ -668,9 +674,6 @@ public class EventSwipeView extends FrameView {
             .addContainerGap())
     );
 
-    jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-    jButton1.setName("jButton1"); // NOI18N
-
     setComponent(configPanel);
     setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
@@ -713,9 +716,9 @@ public class EventSwipeView extends FrameView {
     @Action
     private void inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusGained
         JFormattedTextField input = (JFormattedTextField) evt.getSource();
-        if (input == eventTitleInput && input.getText().equals(EventSwipeData.titleInputDefault))
+        if (input == eventTitleInput && input.getText().equals(titleInputDefault))
             input.setText("");
-        else if (input.getText().equals(EventSwipeData.fileInputDefault))
+        else if (input.getText().equals(fileInputDefault))
             input.setText("");
     }//GEN-LAST:event_inputFocusGained
 
@@ -723,9 +726,9 @@ public class EventSwipeView extends FrameView {
     private void inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusLost
         JFormattedTextField input = (JFormattedTextField) evt.getSource();
         if (input == eventTitleInput && input.getText().equals(""))
-            input.setText(EventSwipeData.titleInputDefault);
+            input.setText(titleInputDefault);
         else if (input.getText().equals(""))
-            input.setText(EventSwipeData.fileInputDefault);
+            input.setText(fileInputDefault);
     }//GEN-LAST:event_inputFocusLost
 
     @Action
@@ -786,7 +789,7 @@ public class EventSwipeView extends FrameView {
         EventSwipeApp.getApplication().setWaitingListFlag(yesWaitingListRadioButton.isSelected());
         EventSwipeApp.getApplication().setSlots((Integer)entrySlotsSpinner.getValue());
         boolean configOK = false;
-        if (eventTitleInput.getText().equals(EventSwipeData.titleInputDefault)) {
+        if (eventTitleInput.getText().equals(titleInputDefault)) {
             JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
                                           "You have not entered an event title. Please write one!",
                                           "Event title error",
@@ -994,11 +997,11 @@ public class EventSwipeView extends FrameView {
             if (evt.getSource().equals(clearButton1))
                 switchToPanel(configPanel);
             EventSwipeApp.getApplication().clearData();
-            eventTitleInput.setText(EventSwipeData.titleInputDefault);
-            entrySlotBookingListFilePathInput1.setText(EventSwipeData.fileInputDefault);
-            entrySlotBookingListFilePathInput2.setText(EventSwipeData.fileInputDefault);
-            entrySlotBookingListFilePathInput3.setText(EventSwipeData.fileInputDefault);
-            waitingListFilePathInput.setText(EventSwipeData.fileInputDefault);
+            eventTitleInput.setText(titleInputDefault);
+            entrySlotBookingListFilePathInput1.setText(fileInputDefault);
+            entrySlotBookingListFilePathInput2.setText(fileInputDefault);
+            entrySlotBookingListFilePathInput3.setText(fileInputDefault);
+            waitingListFilePathInput.setText(fileInputDefault);
             entrySlotsSpinner.setValue(1);
             noWaitingListRadioButton.setSelected(true);
             noBookingRadioButton.setSelected(true);
@@ -1036,7 +1039,6 @@ public class EventSwipeView extends FrameView {
     private javax.swing.JSpinner entrySlotsSpinner;
     private javax.swing.JFormattedTextField eventTitleInput;
     private javax.swing.JLabel eventTitleInputLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JRadioButton noBookingRadioButton;
@@ -1061,5 +1063,7 @@ public class EventSwipeView extends FrameView {
     private javax.swing.JRadioButton yesWaitingListRadioButton;
     // End of variables declaration//GEN-END:variables
     private JDialog aboutBox;
+    private String titleInputDefault;
+    private String fileInputDefault;
 
 }

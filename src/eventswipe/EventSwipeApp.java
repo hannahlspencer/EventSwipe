@@ -40,7 +40,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         this.addExitListener(new org.jdesktop.application.Application.ExitListener() {
 
             public boolean canExit(EventObject arg0) {
-                return getExitFlag();
+                return eventSwipeData.getSavedFlag();
             }
 
             public void willExit(EventObject arg0) {
@@ -53,19 +53,23 @@ public class EventSwipeApp extends SingleFrameApplication {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+                if (e.getID() == WindowEvent.WINDOW_CLOSING && !eventSwipeData.getSavedFlag()) {
                     Utils.pressAlt();
                     int exit = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                                     "You have recorded unsaved records. " +
                                                      "Are you sure you want to exit?",
                                                      "Exit warning",
                                                      JOptionPane.YES_NO_OPTION);
                     Utils.releaseAlt();
                     if (exit == JOptionPane.YES_OPTION) {
-                        EventSwipeApp.getApplication().setExitFlag(true);
+                        eventSwipeData.setSavedFlag(true);
                     }
                     else {
-                        EventSwipeApp.getApplication().setExitFlag(false);
+                        eventSwipeData.setSavedFlag(false);
                     }
+                }
+                else {
+                    exit();
                 }
             }
             
@@ -172,6 +176,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         eventSwipeData.getAttendeesList().add(record);
         eventSwipeData.incrementAttendeesCount();
         eventSwipeData.getAllBookedList().add(stuNumber);
+        eventSwipeData.setSavedFlag(false);
     }
 
     public void writeToFile(File file, String content) {
@@ -229,14 +234,6 @@ public class EventSwipeApp extends SingleFrameApplication {
         eventSwipeData.clearData();
     }
 
-    public Boolean getExitFlag() {
-        return exitFlag;
-    }
-
-    public void setExitFlag(Boolean exitFlag) {
-        this.exitFlag = exitFlag;
-    }
-
     /**
      * Main method launching the application.
      */
@@ -246,6 +243,5 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     private EventSwipeLogger logger;
     private EventSwipeData eventSwipeData;
-    private Boolean exitFlag = false;
 
 }

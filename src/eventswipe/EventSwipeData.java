@@ -12,8 +12,6 @@ import javax.swing.JOptionPane;
 public class EventSwipeData {
     
     public static final int MAX_ENTRY_SLOTS = 3;
-    public static final String titleInputDefault = "Please enter the name of the event";
-    public static final String fileInputDefault = "Enter file path";
     public static String BOOKING_1_ENCODING, BOOKING_2_ENCODING, 
                          BOOKING_3_ENCODING, WAITING_LIST_ENCODING = Utils.ANSI;
 
@@ -95,7 +93,7 @@ public class EventSwipeData {
         this.bookingFlag = bookingFlag;
     }
 
-    public boolean isSavedFlag() {
+    public boolean getSavedFlag() {
         return savedFlag;
     }
 
@@ -183,6 +181,6 @@ public class EventSwipeData {
     private boolean netFlag;
     private boolean waitingListFlag;
     private boolean bookingFlag;
-    private boolean savedFlag = false;
+    private boolean savedFlag = true;
 
 }

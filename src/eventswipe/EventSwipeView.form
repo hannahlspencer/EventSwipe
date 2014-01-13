@@ -577,7 +577,7 @@
             <Component class="javax.swing.JFormattedTextField" name="entrySlotBookingListFilePathInput3">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="EventSwipeData.fileInputDefault" type="code"/>
+                  <Connection code="fileInputDefault" type="code"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="entrySlotBookingListFilePathInput3" noResource="true"/>
               </Properties>
@@ -589,7 +589,7 @@
             <Component class="javax.swing.JFormattedTextField" name="entrySlotBookingListFilePathInput2">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="EventSwipeData.fileInputDefault" type="code"/>
+                  <Connection code="fileInputDefault" type="code"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="entrySlotBookingListFilePathInput2" noResource="true"/>
               </Properties>
@@ -613,7 +613,7 @@
             <Component class="javax.swing.JFormattedTextField" name="waitingListFilePathInput">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="EventSwipeData.fileInputDefault" type="code"/>
+                  <Connection code="fileInputDefault" type="code"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="waitingListFilePathInput" noResource="true"/>
               </Properties>
@@ -677,7 +677,7 @@
             <Component class="javax.swing.JFormattedTextField" name="entrySlotBookingListFilePathInput1">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="EventSwipeData.fileInputDefault" type="code"/>
+                  <Connection code="fileInputDefault" type="code"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="entrySlotBookingListFilePathInput1" noResource="true"/>
               </Properties>
@@ -703,7 +703,7 @@
         <Component class="javax.swing.JFormattedTextField" name="eventTitleInput">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="EventSwipeData.titleInputDefault" type="code"/>
+              <Connection code="titleInputDefault" type="code"/>
             </Property>
             <Property name="name" type="java.lang.String" value="eventTitleInput" noResource="true"/>
           </Properties>
@@ -729,12 +729,6 @@
     <Component class="javax.swing.ButtonGroup" name="requireBookingButtonGroup">
     </Component>
     <Component class="javax.swing.ButtonGroup" name="waitingListButtonGroup">
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="jButton1.text"/>
-        <Property name="name" type="java.lang.String" value="jButton1" noResource="true"/>
-      </Properties>
     </Component>
   </NonVisualComponents>
   <Properties>
