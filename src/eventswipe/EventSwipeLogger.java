@@ -14,10 +14,10 @@ public class EventSwipeLogger {
     public void createLog(String title) {
         sessionTitle = title + Utils.getDate("dd-MM-yyyy HHmmss");
         if(!logDir.exists()) {
-            logDir.mkdir();
+            logDir.mkdirs();
         }
         try {
-            logFile = new File(logFileLocation, sessionTitle);
+            logFile = new File(LOG_DIR, sessionTitle);
             FileWriter fw = new FileWriter(logFile.getAbsoluteFile(), true);
             fw.write(sessionTitle + System.getProperty("line.separator"));
             fw.close();
@@ -41,10 +41,10 @@ public class EventSwipeLogger {
     private ResourceMap resourceMap = Application.getInstance(eventswipe.EventSwipeApp.class)
                               .getContext().getResourceMap(EventSwipeLogger.class);
 
-    private String logFileLocation = resourceMap.getString("logFileLocation");
+    private final String LOG_DIR = System.getenv("USERPROFILE")+ "\\My Documents\\EventSwipeLogs\\";
     private String sessionTitle = "";
 
-    private File logDir = new File(logFileLocation);
+    private File logDir = new File(LOG_DIR);
     private File logFile;
 
 }
