@@ -15,7 +15,7 @@ It works by reading some kind of ID string (a student number, for example) and e
 *Updated January 2014*
 
 * EventSwipe automatically handles multiple text file encodings (ANSI, UTF-8, Unicode big endian and Unicode little endian)
-* Automatic logging of each session to /logs/ folder (in case of application crashing or not saving attendance data)
+* Automatic logging of each session to /My Documents/EventSwipeLogs/ (in case of application crashing or not saving attendance data)
 * Yes/no dialogue for non-booked attendees with Y/N keyboard shortcuts to allow for quick recording of non-booked attendees
 * Stronger visual cue when ID has been entered (booking status colour flashes)
 * Keyboard shortcut (Ctrl+t) for booking mode toggling
