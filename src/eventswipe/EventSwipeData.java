@@ -1,8 +1,10 @@
 package eventswipe;
 
+import eventswipe.BookingSystemAPI.BookingSystemServices;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
@@ -156,6 +158,14 @@ public class EventSwipeData {
         }
     }
 
+    public static String getURL(BookingSystemServices serviceKey) {
+        return (String) bookingSystemURLs.get(serviceKey);
+    }
+
+    public static void setBookingSystemURLs(Map<BookingSystemServices, String> urlMap) {
+        bookingSystemURLs = urlMap;
+    }
+
     private void clearList(List<String> list) {
         if (!list.isEmpty())
             list.clear();
@@ -175,6 +185,7 @@ public class EventSwipeData {
     private List<String> bookingList3;
     private List<String> waitingList;
     private List<String> attendeesList;
+    private static Map<BookingSystemServices, String> bookingSystemURLs;
     private String eventTitle;
     private int attendeesCount = 0;
     private int slots;
