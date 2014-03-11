@@ -72,10 +72,11 @@ When you have finished recording entry to your event, hit 'save', choose a file 
 
 ###Condor
 
-*Expected release: October 2014*
+*Expected release: June 2014*
 
-* Max capacity feature
-* Handle multiple booking file types (including .csv)
-* Counting mode
-* Entry slot dialogue to indicate that attendee is too late/early according to system time
-* Duplicate slot booking report feature
+Condor features
+
+* External booking system integration
+* Search for students within EventSwipe by name or ID
+* Book, mark as attended and cancel bookings from within EventSwipe
+* Synchronised attendence count display across multiple machines
