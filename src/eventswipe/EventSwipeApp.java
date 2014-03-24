@@ -1,6 +1,6 @@
 package eventswipe;
 
-import eventswipe.EventSwipeData.FileFunction;
+import eventswipe.EventSwipeData.BookingList;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.event.WindowAdapter;
@@ -108,7 +108,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         return eventSwipeData.getSlots();
     }
 
-    public boolean setFile(FileFunction fileFunction, File file) {
+    public boolean setFile(BookingList fileFunction, File file) {
         return eventSwipeData.setFile(fileFunction, file);
     }
 
@@ -124,19 +124,19 @@ public class EventSwipeApp extends SingleFrameApplication {
         boolean waitingList = false;
         boolean alreadyRecorded = false;
         if(eventSwipeData.isBookingFlag()) {
-            if (slots > 0 && eventSwipeData.getBookingList(FileFunction.BOOKING_1).contains(stuNumber)) {
+            if (slots > 0 && eventSwipeData.getBookingList(BookingList.BOOKING_1).contains(stuNumber)) {
                 slot = 1;
             }
-            else if(slots > 1 && eventSwipeData.getBookingList(FileFunction.BOOKING_2).contains(stuNumber)) {
+            else if(slots > 1 && eventSwipeData.getBookingList(BookingList.BOOKING_2).contains(stuNumber)) {
                 slot = 2;
             }
-            else if(slots > 2 && eventSwipeData.getBookingList(FileFunction.BOOKING_3).contains(stuNumber)) {
+            else if(slots > 2 && eventSwipeData.getBookingList(BookingList.BOOKING_3).contains(stuNumber)) {
                 slot = 3;
             }
             else {
                 booked = false;
                 if (eventSwipeData.isWaitingListFlag())
-                    waitingList = eventSwipeData.getBookingList(FileFunction.WAITING_LIST)
+                    waitingList = eventSwipeData.getBookingList(BookingList.WAITING_LIST)
                                   .contains(stuNumber);
             }
         }

@@ -1,6 +1,5 @@
 package eventswipe;
 
-import eventswipe.BookingSystemAPI.BookingSystemServices;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class EventSwipeData {
         allBookedList = new ArrayList<String>();
     }
 
-    public enum FileFunction {
+    public enum BookingList {
         BOOKING_1, BOOKING_2, BOOKING_3, WAITING_LIST
     }
 
@@ -111,7 +110,7 @@ public class EventSwipeData {
         this.eventTitle = eventTitle;
     }
 
-    public boolean setFile(FileFunction fileFunction, File file) {
+    public boolean setFile(BookingList fileFunction, File file) {
         if (!file.exists()) {
             JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
                                           "File '" + file.getName() + "' not found. " +
@@ -145,7 +144,7 @@ public class EventSwipeData {
         return true;
     }
 
-    public List<String> getBookingList(FileFunction fileFunction) {
+    public List<String> getBookingList(BookingList fileFunction) {
         switch (fileFunction) {
             case BOOKING_2:
                 return bookingList2;
@@ -156,14 +155,6 @@ public class EventSwipeData {
             default:
                 return bookingList1;
         }
-    }
-
-    public static String getURL(BookingSystemServices serviceKey) {
-        return (String) bookingSystemURLs.get(serviceKey);
-    }
-
-    public static void setBookingSystemURLs(Map<BookingSystemServices, String> urlMap) {
-        bookingSystemURLs = urlMap;
     }
 
     private void clearList(List<String> list) {
@@ -185,7 +176,6 @@ public class EventSwipeData {
     private List<String> bookingList3;
     private List<String> waitingList;
     private List<String> attendeesList;
-    private static Map<BookingSystemServices, String> bookingSystemURLs;
     private String eventTitle;
     private int attendeesCount = 0;
     private int slots;

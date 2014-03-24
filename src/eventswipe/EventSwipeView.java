@@ -3,7 +3,7 @@
  */
 package eventswipe;
 
-import eventswipe.EventSwipeData.FileFunction;
+import eventswipe.EventSwipeData.BookingList;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -800,13 +800,13 @@ public class EventSwipeView extends FrameView {
             configOK = true;
         }
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 0)
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_1, new File(entrySlotBookingListFilePathInput1.getText()));
+            configOK = EventSwipeApp.getApplication().setFile(BookingList.BOOKING_1, new File(entrySlotBookingListFilePathInput1.getText()));
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 1)
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_2, new File(entrySlotBookingListFilePathInput2.getText()));
+            configOK = EventSwipeApp.getApplication().setFile(BookingList.BOOKING_2, new File(entrySlotBookingListFilePathInput2.getText()));
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 2)
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.BOOKING_3, new File(entrySlotBookingListFilePathInput3.getText()));
+            configOK = EventSwipeApp.getApplication().setFile(BookingList.BOOKING_3, new File(entrySlotBookingListFilePathInput3.getText()));
         if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getWaitingListFlag())
-            configOK = EventSwipeApp.getApplication().setFile(FileFunction.WAITING_LIST, new File(waitingListFilePathInput.getText()));
+            configOK = EventSwipeApp.getApplication().setFile(BookingList.WAITING_LIST, new File(waitingListFilePathInput.getText()));
         if (configOK) {
             EventSwipeApp.getApplication().createLog(eventTitleInput.getText());
             switchToPanel(mainPanel);
