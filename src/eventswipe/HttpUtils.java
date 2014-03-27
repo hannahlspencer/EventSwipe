@@ -40,17 +40,26 @@ public class HttpUtils {
         return connection;
     }
 
-    public static void sendDataToURL(String url,
-                                     String method,
-                                     String data,
-                                     String charset,
-                                     Map<String,String> headers) throws MalformedURLException, IOException {
+    public static String sendDataToURL(String url,
+                                       String method,
+                                       String data,
+                                       String charset,
+                                       Map<String,String> headers) throws MalformedURLException, IOException {
         HttpURLConnection connection = connectToURL(url, method, headers);
         OutputStream output = connection.getOutputStream();
         output.write(data.getBytes(charset));
         output.close();
         //explicitly request headers to set session cookie
         Map responseHeaders = connection.getHeaderFields();
+        InputStream response = connection.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(response));
+        String inputLine;
+        String responseData = "";
+        while ((inputLine = in.readLine()) != null) {
+            responseData += inputLine;
+        }
+        in.close();
+        return responseData;
     }
 
     public static String getDataFromURL(String url) throws MalformedURLException, IOException {
