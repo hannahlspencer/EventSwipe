@@ -7,6 +7,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.EventObject;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
@@ -24,6 +27,8 @@ public class EventSwipeApp extends SingleFrameApplication {
     @Override protected void startup() {
         eventSwipeData = new EventSwipeData();
         logger = new EventSwipeLogger();
+        api = new CareerHubAPI();
+        HttpUtils.setCookiePolicy();
         if (Utils.isInternetReachable()) {
             eventSwipeData.setNetFlag(true);
         }
@@ -234,6 +239,15 @@ public class EventSwipeApp extends SingleFrameApplication {
         eventSwipeData.clearData();
     }
 
+    public void logIn(String username, char[] password) throws MalformedURLException, IOException {
+        api.logIn(username, password);
+        Arrays.fill(password, '0');
+    }
+
+    public String getSlotTitle(String id) throws IOException {
+        return api.getEventTitle(id);
+    }
+
     /**
      * Main method launching the application.
      */
@@ -243,5 +257,6 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     private EventSwipeLogger logger;
     private EventSwipeData eventSwipeData;
+    private BookingSystemAPI api;
 
 }

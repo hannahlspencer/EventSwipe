@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookingSystemAPI {
 
-    public void logIn(String username, String password) throws MalformedURLException, IOException;
+    public void logIn(String username, char[] password) throws MalformedURLException, IOException;
     public List<Booking> getBookingList(String eventKey) throws MalformedURLException, IOException;
     public List<Booking> getWaitingList(String eventKey) throws MalformedURLException, IOException;
     public int getAttendeeCount(String eventKey) throws MalformedURLException, IOException;

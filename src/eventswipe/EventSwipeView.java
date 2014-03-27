@@ -11,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -124,39 +128,47 @@ public class EventSwipeView extends FrameView {
         requireBookingButtonGroup = new javax.swing.ButtonGroup();
         waitingListButtonGroup = new javax.swing.ButtonGroup();
         preConfigPanel = new javax.swing.JPanel();
-        mainTitle = new javax.swing.JLabel();
-        versionLabel = new javax.swing.JLabel();
+        titleLoginPanel = new javax.swing.JPanel();
+        loginPanel = new javax.swing.JPanel();
+        logInLabel = new javax.swing.JLabel();
+        useOfflineLabel = new javax.swing.JLabel();
+        passwordInput = new javax.swing.JPasswordField();
+        startOfflineButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        useOfflineDescription = new javax.swing.JTextArea();
+        passwordLabel = new javax.swing.JLabel();
+        logInButton = new javax.swing.JButton();
+        usernameLabel = new javax.swing.JLabel();
+        usernameInput = new javax.swing.JTextField();
+        loginOfflineSeparator = new javax.swing.JSeparator();
+        titlePanel = new javax.swing.JPanel();
         smallLogoLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        configPanel1 = new javax.swing.JPanel();
+        versionLabel = new javax.swing.JLabel();
+        mainTitle = new javax.swing.JLabel();
+        onlineConfigPanel = new javax.swing.JPanel();
         okConfigButton1 = new javax.swing.JButton();
-        titleLabel1 = new javax.swing.JLabel();
         bookingDetailsPanel1 = new javax.swing.JPanel();
-        entrySlotBookingListLabel4 = new javax.swing.JLabel();
+        entrySlotIdLabel1 = new javax.swing.JLabel();
         entrySlotsLabel1 = new javax.swing.JLabel();
         entrySlotsSpinner1 = new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(1, 1, EventSwipeData.MAX_ENTRY_SLOTS, 1));
-        entrySlotBookingListFilePathInput4 = new javax.swing.JFormattedTextField();
-        entrySlotBookingListFilePathInput5 = new javax.swing.JFormattedTextField();
-        entrySlotBookingListLabel5 = new javax.swing.JLabel();
-        entrySlotBookingListLabel6 = new javax.swing.JLabel();
-        noWaitingListRadioButton1 = new javax.swing.JRadioButton();
-        waitingListLabel1 = new javax.swing.JLabel();
-        entrySlotBookingListFilePathInput6 = new javax.swing.JFormattedTextField();
-        yesWaitingListRadioButton1 = new javax.swing.JRadioButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        entrySlotBookingListLabel7 = new javax.swing.JLabel();
-        entrySlotBookingListLabel8 = new javax.swing.JLabel();
-        entrySlotBookingListLabel9 = new javax.swing.JLabel();
+        entrySlotIdInput3 = new javax.swing.JFormattedTextField();
+        entrySlotIdInput2 = new javax.swing.JFormattedTextField();
+        entrySlotIdLabel3 = new javax.swing.JLabel();
+        entrySlotIdLabel2 = new javax.swing.JLabel();
+        noLoadWaitingListRadioButton = new javax.swing.JRadioButton();
+        loadWaitingListLabel = new javax.swing.JLabel();
+        entrySlotIdInput1 = new javax.swing.JFormattedTextField();
+        yesLoadWaitingListRadioButton = new javax.swing.JRadioButton();
+        generatedTitle1 = new javax.swing.JTextField();
+        generatedTitle2 = new javax.swing.JTextField();
+        generatedTitle3 = new javax.swing.JTextField();
+        loadEventButton1 = new javax.swing.JButton();
+        loadEventButton2 = new javax.swing.JButton();
+        loadEventButton3 = new javax.swing.JButton();
+        generatedTitleLabel1 = new javax.swing.JLabel();
+        generatedTitleLabel2 = new javax.swing.JLabel();
+        generatedTitleLabel3 = new javax.swing.JLabel();
+        aboutEventLabel = new javax.swing.JLabel();
         clearButton2 = new javax.swing.JButton();
 
         mainPanel.setMinimumSize(new java.awt.Dimension(720, 350));
@@ -684,7 +696,7 @@ public class EventSwipeView extends FrameView {
     configPanelLayout.setVerticalGroup(
         configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(configPanelLayout.createSequentialGroup()
-            .addGap(34, 34, 34)
+            .addGap(41, 41, 41)
             .addComponent(titleLabel)
             .addGap(18, 18, 18)
             .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -697,7 +709,7 @@ public class EventSwipeView extends FrameView {
                 .addComponent(noBookingRadioButton))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
             .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(clearButton)
                 .addComponent(okConfigButton))
@@ -707,89 +719,190 @@ public class EventSwipeView extends FrameView {
     preConfigPanel.setMinimumSize(new java.awt.Dimension(720, 350));
     preConfigPanel.setName("preConfigPanel"); // NOI18N
 
-    mainTitle.setFont(resourceMap.getFont("mainTitle.font")); // NOI18N
-    mainTitle.setText(resourceMap.getString("mainTitle.text")); // NOI18N
-    mainTitle.setName("mainTitle"); // NOI18N
+    titleLoginPanel.setName("titleLoginPanel"); // NOI18N
 
-    versionLabel.setFont(resourceMap.getFont("versionLabel.font")); // NOI18N
-    versionLabel.setText(resourceMap.getString("versionLabel.text")); // NOI18N
-    versionLabel.setName("versionLabel"); // NOI18N
+    loginPanel.setName("loginPanel"); // NOI18N
+
+    logInLabel.setFont(resourceMap.getFont("logInLabel.font")); // NOI18N
+    logInLabel.setText(resourceMap.getString("logInLabel.text")); // NOI18N
+    logInLabel.setName("logInLabel"); // NOI18N
+
+    useOfflineLabel.setFont(resourceMap.getFont("useOfflineLabel.font")); // NOI18N
+    useOfflineLabel.setText(resourceMap.getString("useOfflineLabel.text")); // NOI18N
+    useOfflineLabel.setName("useOfflineLabel"); // NOI18N
+
+    passwordInput.setText(resourceMap.getString("passwordInput.text")); // NOI18N
+    passwordInput.setName("passwordInput"); // NOI18N
+
+    startOfflineButton.setText(resourceMap.getString("startOfflineButton.text")); // NOI18N
+    startOfflineButton.setName("startOfflineButton"); // NOI18N
+
+    jScrollPane1.setBorder(null);
+    jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+    useOfflineDescription.setBackground(resourceMap.getColor("useOfflineDescription.background")); // NOI18N
+    useOfflineDescription.setColumns(20);
+    useOfflineDescription.setEditable(false);
+    useOfflineDescription.setFont(resourceMap.getFont("useOfflineDescription.font")); // NOI18N
+    useOfflineDescription.setLineWrap(true);
+    useOfflineDescription.setRows(5);
+    useOfflineDescription.setText(resourceMap.getString("useOfflineDescription.text")); // NOI18N
+    useOfflineDescription.setWrapStyleWord(true);
+    useOfflineDescription.setAutoscrolls(false);
+    useOfflineDescription.setBorder(null);
+    useOfflineDescription.setName("useOfflineDescription"); // NOI18N
+    jScrollPane1.setViewportView(useOfflineDescription);
+
+    passwordLabel.setText(resourceMap.getString("passwordLabel.text")); // NOI18N
+    passwordLabel.setName("passwordLabel"); // NOI18N
+
+    logInButton.setAction(actionMap.get("logIn")); // NOI18N
+    logInButton.setText(resourceMap.getString("logInButton.text")); // NOI18N
+    logInButton.setName("logInButton"); // NOI18N
+
+    usernameLabel.setText(resourceMap.getString("usernameLabel.text")); // NOI18N
+    usernameLabel.setName("usernameLabel"); // NOI18N
+
+    usernameInput.setText(resourceMap.getString("usernameInput.text")); // NOI18N
+    usernameInput.setName("usernameInput"); // NOI18N
+
+    loginOfflineSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+    loginOfflineSeparator.setName("loginOfflineSeparator"); // NOI18N
+
+    javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+    loginPanel.setLayout(loginPanelLayout);
+    loginPanelLayout.setHorizontalGroup(
+        loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(loginPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(logInLabel)
+                .addComponent(usernameLabel)
+                .addComponent(passwordLabel)
+                .addComponent(usernameInput)
+                .addComponent(passwordInput, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addComponent(logInButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(18, 18, 18)
+            .addComponent(loginOfflineSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(useOfflineLabel)
+                .addComponent(startOfflineButton, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
+            .addGap(23, 23, 23))
+    );
+    loginPanelLayout.setVerticalGroup(
+        loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(loginPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(loginOfflineSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                .addGroup(loginPanelLayout.createSequentialGroup()
+                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(loginPanelLayout.createSequentialGroup()
+                            .addComponent(logInLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(usernameLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(passwordLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(loginPanelLayout.createSequentialGroup()
+                            .addComponent(useOfflineLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(18, 18, 18)
+                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(logInButton)
+                        .addComponent(startOfflineButton))))
+            .addContainerGap())
+    );
+
+    titlePanel.setName("titlePanel"); // NOI18N
 
     smallLogoLabel.setIcon(resourceMap.getIcon("smallLogoLabel.icon")); // NOI18N
     smallLogoLabel.setText(resourceMap.getString("smallLogoLabel.text")); // NOI18N
     smallLogoLabel.setName("smallLogoLabel"); // NOI18N
 
-    jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
-    jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
-    jLabel1.setName("jLabel1"); // NOI18N
+    versionLabel.setFont(resourceMap.getFont("versionLabel.font")); // NOI18N
+    versionLabel.setText(resourceMap.getString("versionLabel.text")); // NOI18N
+    versionLabel.setName("versionLabel"); // NOI18N
 
-    jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
-    jLabel2.setName("jLabel2"); // NOI18N
+    mainTitle.setFont(resourceMap.getFont("mainTitle.font")); // NOI18N
+    mainTitle.setText(resourceMap.getString("mainTitle.text")); // NOI18N
+    mainTitle.setName("mainTitle"); // NOI18N
 
-    jTextField4.setText(resourceMap.getString("jTextField4.text")); // NOI18N
-    jTextField4.setName("jTextField4"); // NOI18N
+    javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
+    titlePanel.setLayout(titlePanelLayout);
+    titlePanelLayout.setHorizontalGroup(
+        titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(titlePanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(smallLogoLabel)
+            .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(titlePanelLayout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18))
+                .addGroup(titlePanelLayout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(versionLabel)
+                    .addContainerGap())))
+    );
+    titlePanelLayout.setVerticalGroup(
+        titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(titlePanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(titlePanelLayout.createSequentialGroup()
+                    .addComponent(mainTitle)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(versionLabel))
+                .addComponent(smallLogoLabel))
+            .addGap(14, 14, 14))
+    );
 
-    jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
-    jLabel3.setName("jLabel3"); // NOI18N
-
-    jButton4.setText(resourceMap.getString("jButton4.text")); // NOI18N
-    jButton4.setName("jButton4"); // NOI18N
-
-    jPasswordField1.setText(resourceMap.getString("jPasswordField1.text")); // NOI18N
-    jPasswordField1.setName("jPasswordField1"); // NOI18N
+    javax.swing.GroupLayout titleLoginPanelLayout = new javax.swing.GroupLayout(titleLoginPanel);
+    titleLoginPanel.setLayout(titleLoginPanelLayout);
+    titleLoginPanelLayout.setHorizontalGroup(
+        titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(titleLoginPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap())
+    );
+    titleLoginPanelLayout.setVerticalGroup(
+        titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(titleLoginPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
+    );
 
     javax.swing.GroupLayout preConfigPanelLayout = new javax.swing.GroupLayout(preConfigPanel);
     preConfigPanel.setLayout(preConfigPanelLayout);
     preConfigPanelLayout.setHorizontalGroup(
         preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(preConfigPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(preConfigPanelLayout.createSequentialGroup()
-                    .addComponent(smallLogoLabel)
-                    .addGroup(preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(preConfigPanelLayout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(mainTitle))
-                        .addGroup(preConfigPanelLayout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(versionLabel))))
-                .addComponent(jLabel2)
-                .addComponent(jLabel3)
-                .addGroup(preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)))
-            .addContainerGap(367, Short.MAX_VALUE))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, preConfigPanelLayout.createSequentialGroup()
+            .addContainerGap(24, Short.MAX_VALUE)
+            .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(19, 19, 19))
     );
     preConfigPanelLayout.setVerticalGroup(
         preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(preConfigPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(smallLogoLabel)
-                .addGroup(preConfigPanelLayout.createSequentialGroup()
-                    .addComponent(mainTitle)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(versionLabel)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-            .addComponent(jLabel1)
-            .addGap(18, 18, 18)
-            .addComponent(jLabel2)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jLabel3)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(11, 11, 11)
-            .addComponent(jButton4)
-            .addGap(43, 43, 43))
+            .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(15, 15, 15))
     );
 
-    configPanel1.setMinimumSize(new java.awt.Dimension(720, 350));
-    configPanel1.setName("configPanel1"); // NOI18N
+    onlineConfigPanel.setMinimumSize(new java.awt.Dimension(720, 350));
+    onlineConfigPanel.setName("onlineConfigPanel"); // NOI18N
 
     okConfigButton1.setText(resourceMap.getString("okConfigButton1.text")); // NOI18N
     okConfigButton1.setName("okConfigButton1"); // NOI18N
@@ -799,15 +912,11 @@ public class EventSwipeView extends FrameView {
         }
     });
 
-    titleLabel1.setFont(resourceMap.getFont("titleLabel1.font")); // NOI18N
-    titleLabel1.setText(resourceMap.getString("titleLabel1.text")); // NOI18N
-    titleLabel1.setName("titleLabel1"); // NOI18N
-
     bookingDetailsPanel1.setEnabled(false);
     bookingDetailsPanel1.setName("bookingDetailsPanel1"); // NOI18N
 
-    entrySlotBookingListLabel4.setText(resourceMap.getString("entrySlotBookingListLabel4.text")); // NOI18N
-    entrySlotBookingListLabel4.setName("entrySlotBookingListLabel4"); // NOI18N
+    entrySlotIdLabel1.setText(resourceMap.getString("entrySlotIdLabel1.text")); // NOI18N
+    entrySlotIdLabel1.setName("entrySlotIdLabel1"); // NOI18N
 
     entrySlotsLabel1.setText(resourceMap.getString("entrySlotsLabel1.text")); // NOI18N
     entrySlotsLabel1.setName("entrySlotsLabel1"); // NOI18N
@@ -819,100 +928,119 @@ public class EventSwipeView extends FrameView {
         }
     });
 
-    entrySlotBookingListFilePathInput4.setText(idInputDefault);
-    entrySlotBookingListFilePathInput4.setEnabled(false);
-    entrySlotBookingListFilePathInput4.setName("entrySlotBookingListFilePathInput4"); // NOI18N
-    entrySlotBookingListFilePathInput4.addFocusListener(new java.awt.event.FocusAdapter() {
+    entrySlotIdInput3.setText(idInputDefault);
+    entrySlotIdInput3.setEnabled(false);
+    entrySlotIdInput3.setName("entrySlotIdInput3"); // NOI18N
+    entrySlotIdInput3.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
-            entrySlotBookingListFilePathInput4inputFocusGained(evt);
+            entrySlotIdInput3inputFocusGained(evt);
         }
         public void focusLost(java.awt.event.FocusEvent evt) {
-            entrySlotBookingListFilePathInput4inputFocusLost(evt);
+            entrySlotIdInput3inputFocusLost(evt);
         }
     });
 
-    entrySlotBookingListFilePathInput5.setText(idInputDefault);
-    entrySlotBookingListFilePathInput5.setEnabled(false);
-    entrySlotBookingListFilePathInput5.setName("entrySlotBookingListFilePathInput5"); // NOI18N
-    entrySlotBookingListFilePathInput5.addFocusListener(new java.awt.event.FocusAdapter() {
+    entrySlotIdInput2.setText(idInputDefault);
+    entrySlotIdInput2.setEnabled(false);
+    entrySlotIdInput2.setName("entrySlotIdInput2"); // NOI18N
+    entrySlotIdInput2.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
-            entrySlotBookingListFilePathInput5inputFocusGained(evt);
+            entrySlotIdInput2inputFocusGained(evt);
         }
         public void focusLost(java.awt.event.FocusEvent evt) {
-            entrySlotBookingListFilePathInput5inputFocusLost(evt);
+            entrySlotIdInput2inputFocusLost(evt);
         }
     });
 
-    entrySlotBookingListLabel5.setText(resourceMap.getString("entrySlotBookingListLabel5.text")); // NOI18N
-    entrySlotBookingListLabel5.setName("entrySlotBookingListLabel5"); // NOI18N
+    entrySlotIdLabel3.setText(resourceMap.getString("entrySlotIdLabel3.text")); // NOI18N
+    entrySlotIdLabel3.setName("entrySlotIdLabel3"); // NOI18N
 
-    entrySlotBookingListLabel6.setText(resourceMap.getString("entrySlotBookingListLabel6.text")); // NOI18N
-    entrySlotBookingListLabel6.setName("entrySlotBookingListLabel6"); // NOI18N
+    entrySlotIdLabel2.setText(resourceMap.getString("entrySlotIdLabel2.text")); // NOI18N
+    entrySlotIdLabel2.setName("entrySlotIdLabel2"); // NOI18N
 
-    waitingListButtonGroup.add(noWaitingListRadioButton1);
-    noWaitingListRadioButton1.setText(resourceMap.getString("noWaitingListRadioButton1.text")); // NOI18N
-    noWaitingListRadioButton1.setName("noWaitingListRadioButton1"); // NOI18N
-    noWaitingListRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+    waitingListButtonGroup.add(noLoadWaitingListRadioButton);
+    noLoadWaitingListRadioButton.setText(resourceMap.getString("noLoadWaitingListRadioButton.text")); // NOI18N
+    noLoadWaitingListRadioButton.setName("noLoadWaitingListRadioButton"); // NOI18N
+    noLoadWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            noWaitingListRadioButton1ActionPerformed(evt);
+            noLoadWaitingListRadioButtonActionPerformed(evt);
         }
     });
 
-    waitingListLabel1.setText(resourceMap.getString("waitingListLabel1.text")); // NOI18N
-    waitingListLabel1.setName("waitingListLabel1"); // NOI18N
+    loadWaitingListLabel.setText(resourceMap.getString("loadWaitingListLabel.text")); // NOI18N
+    loadWaitingListLabel.setName("loadWaitingListLabel"); // NOI18N
 
-    entrySlotBookingListFilePathInput6.setText(idInputDefault);
-    entrySlotBookingListFilePathInput6.setName("entrySlotBookingListFilePathInput6"); // NOI18N
-    entrySlotBookingListFilePathInput6.addFocusListener(new java.awt.event.FocusAdapter() {
+    entrySlotIdInput1.setText(idInputDefault);
+    entrySlotIdInput1.setName("entrySlotIdInput1"); // NOI18N
+    entrySlotIdInput1.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
-            entrySlotBookingListFilePathInput6inputFocusGained(evt);
+            entrySlotIdInput1inputFocusGained(evt);
         }
         public void focusLost(java.awt.event.FocusEvent evt) {
-            entrySlotBookingListFilePathInput6inputFocusLost(evt);
+            entrySlotIdInput1inputFocusLost(evt);
         }
     });
 
-    waitingListButtonGroup.add(yesWaitingListRadioButton1);
-    yesWaitingListRadioButton1.setSelected(true);
-    yesWaitingListRadioButton1.setText(resourceMap.getString("yesWaitingListRadioButton1.text")); // NOI18N
-    yesWaitingListRadioButton1.setName("yesWaitingListRadioButton1"); // NOI18N
-    yesWaitingListRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+    waitingListButtonGroup.add(yesLoadWaitingListRadioButton);
+    yesLoadWaitingListRadioButton.setSelected(true);
+    yesLoadWaitingListRadioButton.setText(resourceMap.getString("yesLoadWaitingListRadioButton.text")); // NOI18N
+    yesLoadWaitingListRadioButton.setName("yesLoadWaitingListRadioButton"); // NOI18N
+    yesLoadWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            yesWaitingListRadioButton1ActionPerformed(evt);
+            yesLoadWaitingListRadioButtonActionPerformed(evt);
         }
     });
 
-    jTextField1.setText(resourceMap.getString("jTextField1.text")); // NOI18N
-    jTextField1.setEnabled(false);
-    jTextField1.setName("jTextField1"); // NOI18N
+    generatedTitle1.setText(resourceMap.getString("generatedTitle1.text")); // NOI18N
+    generatedTitle1.setEnabled(false);
+    generatedTitle1.setName("generatedTitle1"); // NOI18N
 
-    jTextField2.setText(resourceMap.getString("jTextField2.text")); // NOI18N
-    jTextField2.setEnabled(false);
-    jTextField2.setName("jTextField2"); // NOI18N
+    generatedTitle2.setText(resourceMap.getString("generatedTitle2.text")); // NOI18N
+    generatedTitle2.setEnabled(false);
+    generatedTitle2.setName("generatedTitle2"); // NOI18N
 
-    jTextField3.setText(resourceMap.getString("jTextField3.text")); // NOI18N
-    jTextField3.setEnabled(false);
-    jTextField3.setName("jTextField3"); // NOI18N
+    generatedTitle3.setText(resourceMap.getString("generatedTitle3.text")); // NOI18N
+    generatedTitle3.setEnabled(false);
+    generatedTitle3.setName("generatedTitle3"); // NOI18N
 
-    jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-    jButton1.setName("jButton1"); // NOI18N
+    loadEventButton1.setText(resourceMap.getString("loadEventButton1.text")); // NOI18N
+    loadEventButton1.setName("loadEventButton1"); // NOI18N
+    loadEventButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            loadEventButtonActionPerformed(evt);
+        }
+    });
 
-    jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
-    jButton2.setEnabled(false);
-    jButton2.setName("jButton2"); // NOI18N
+    loadEventButton2.setText(resourceMap.getString("loadEventButton2.text")); // NOI18N
+    loadEventButton2.setEnabled(false);
+    loadEventButton2.setName("loadEventButton2"); // NOI18N
+    loadEventButton2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            loadEventButtonActionPerformed(evt);
+        }
+    });
 
-    jButton3.setText(resourceMap.getString("jButton3.text")); // NOI18N
-    jButton3.setEnabled(false);
-    jButton3.setName("jButton3"); // NOI18N
+    loadEventButton3.setText(resourceMap.getString("loadEventButton3.text")); // NOI18N
+    loadEventButton3.setEnabled(false);
+    loadEventButton3.setName("loadEventButton3"); // NOI18N
+    loadEventButton3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            loadEventButtonActionPerformed(evt);
+        }
+    });
 
-    entrySlotBookingListLabel7.setText(resourceMap.getString("entrySlotBookingListLabel7.text")); // NOI18N
-    entrySlotBookingListLabel7.setName("entrySlotBookingListLabel7"); // NOI18N
+    generatedTitleLabel1.setText(resourceMap.getString("generatedTitleLabel1.text")); // NOI18N
+    generatedTitleLabel1.setName("generatedTitleLabel1"); // NOI18N
 
-    entrySlotBookingListLabel8.setText(resourceMap.getString("entrySlotBookingListLabel8.text")); // NOI18N
-    entrySlotBookingListLabel8.setName("entrySlotBookingListLabel8"); // NOI18N
+    generatedTitleLabel2.setText(resourceMap.getString("generatedTitleLabel2.text")); // NOI18N
+    generatedTitleLabel2.setName("generatedTitleLabel2"); // NOI18N
 
-    entrySlotBookingListLabel9.setText(resourceMap.getString("entrySlotBookingListLabel9.text")); // NOI18N
-    entrySlotBookingListLabel9.setName("entrySlotBookingListLabel9"); // NOI18N
+    generatedTitleLabel3.setText(resourceMap.getString("generatedTitleLabel3.text")); // NOI18N
+    generatedTitleLabel3.setName("generatedTitleLabel3"); // NOI18N
+
+    aboutEventLabel.setFont(resourceMap.getFont("aboutEventLabel.font")); // NOI18N
+    aboutEventLabel.setText(resourceMap.getString("aboutEventLabel.text")); // NOI18N
+    aboutEventLabel.setName("aboutEventLabel"); // NOI18N
 
     javax.swing.GroupLayout bookingDetailsPanel1Layout = new javax.swing.GroupLayout(bookingDetailsPanel1);
     bookingDetailsPanel1.setLayout(bookingDetailsPanel1Layout);
@@ -927,87 +1055,90 @@ public class EventSwipeView extends FrameView {
                     .addGap(24, 24, 24)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
-                            .addComponent(entrySlotBookingListLabel4)
+                            .addComponent(entrySlotIdLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(entrySlotBookingListFilePathInput6, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrySlotIdInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+                            .addComponent(loadEventButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
                             .addGap(80, 80, 80)
-                            .addComponent(waitingListLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(yesWaitingListRadioButton1)
+                            .addComponent(loadWaitingListLabel)
+                            .addGap(4, 4, 4)
+                            .addComponent(yesLoadWaitingListRadioButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(noWaitingListRadioButton1))
+                            .addComponent(noLoadWaitingListRadioButton))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bookingDetailsPanel1Layout.createSequentialGroup()
                             .addGap(46, 46, 46)
-                            .addComponent(entrySlotBookingListLabel7)
+                            .addComponent(generatedTitleLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))))
+                            .addComponent(generatedTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bookingDetailsPanel1Layout.createSequentialGroup()
                     .addGap(306, 306, 306)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(entrySlotBookingListLabel9)
-                        .addComponent(entrySlotBookingListLabel5))
+                        .addComponent(generatedTitleLabel3)
+                        .addComponent(entrySlotIdLabel3))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                        .addComponent(generatedTitle3, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
-                            .addComponent(entrySlotBookingListFilePathInput4, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrySlotIdInput3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))))
+                            .addComponent(loadEventButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bookingDetailsPanel1Layout.createSequentialGroup()
                     .addGap(306, 306, 306)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(entrySlotBookingListLabel8)
-                        .addComponent(entrySlotBookingListLabel6))
+                        .addComponent(generatedTitleLabel2)
+                        .addComponent(entrySlotIdLabel2))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
-                            .addComponent(entrySlotBookingListFilePathInput5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrySlotIdInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
-                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))))
+                            .addComponent(loadEventButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                        .addComponent(generatedTitle2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)))
+                .addComponent(aboutEventLabel))
             .addContainerGap())
     );
     bookingDetailsPanel1Layout.setVerticalGroup(
         bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
             .addContainerGap()
+            .addComponent(aboutEventLabel)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(entrySlotsLabel1)
                 .addComponent(entrySlotsSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(entrySlotBookingListLabel4)
-                .addComponent(entrySlotBookingListFilePathInput6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton1))
+                .addComponent(entrySlotIdLabel1)
+                .addComponent(entrySlotIdInput1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loadEventButton1))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(entrySlotBookingListLabel7))
+                .addComponent(generatedTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(generatedTitleLabel1))
             .addGap(33, 33, 33)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(entrySlotBookingListLabel6)
-                .addComponent(entrySlotBookingListFilePathInput5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton2))
+                .addComponent(entrySlotIdLabel2)
+                .addComponent(entrySlotIdInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loadEventButton2))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(entrySlotBookingListLabel8))
+                .addComponent(generatedTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(generatedTitleLabel2))
             .addGap(37, 37, 37)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(entrySlotBookingListFilePathInput4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(entrySlotBookingListLabel5)
-                .addComponent(jButton3))
+                .addComponent(entrySlotIdInput3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(entrySlotIdLabel3)
+                .addComponent(loadEventButton3))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(entrySlotBookingListLabel9))
-            .addGap(26, 26, 26)
+                .addComponent(generatedTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(generatedTitleLabel3))
+            .addGap(18, 18, 18)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(waitingListLabel1)
-                .addComponent(yesWaitingListRadioButton1)
-                .addComponent(noWaitingListRadioButton1))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(loadWaitingListLabel)
+                .addComponent(yesLoadWaitingListRadioButton)
+                .addComponent(noLoadWaitingListRadioButton))
+            .addContainerGap(16, Short.MAX_VALUE))
     );
 
     clearButton2.setText(resourceMap.getString("clearButton2.text")); // NOI18N
@@ -1018,123 +1149,41 @@ public class EventSwipeView extends FrameView {
         }
     });
 
-    javax.swing.GroupLayout configPanel1Layout = new javax.swing.GroupLayout(configPanel1);
-    configPanel1.setLayout(configPanel1Layout);
-    configPanel1Layout.setHorizontalGroup(
-        configPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(configPanel1Layout.createSequentialGroup()
+    javax.swing.GroupLayout onlineConfigPanelLayout = new javax.swing.GroupLayout(onlineConfigPanel);
+    onlineConfigPanel.setLayout(onlineConfigPanelLayout);
+    onlineConfigPanelLayout.setHorizontalGroup(
+        onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(onlineConfigPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(configPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(configPanel1Layout.createSequentialGroup()
-                    .addComponent(bookingDetailsPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap())
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configPanel1Layout.createSequentialGroup()
-                    .addComponent(titleLabel1)
-                    .addContainerGap(573, Short.MAX_VALUE))
-                .addGroup(configPanel1Layout.createSequentialGroup()
+            .addGroup(onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineConfigPanelLayout.createSequentialGroup()
                     .addComponent(okConfigButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 495, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 494, Short.MAX_VALUE)
                     .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(22, 22, 22))))
+                    .addGap(23, 23, 23))
+                .addGroup(onlineConfigPanelLayout.createSequentialGroup()
+                    .addComponent(bookingDetailsPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap())))
     );
-    configPanel1Layout.setVerticalGroup(
-        configPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(configPanel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(titleLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+    onlineConfigPanelLayout.setVerticalGroup(
+        onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineConfigPanelLayout.createSequentialGroup()
             .addComponent(bookingDetailsPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(configPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(okConfigButton1)
-                .addComponent(clearButton2))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(clearButton2)
+                .addComponent(okConfigButton1))
             .addContainerGap())
     );
 
-    setComponent(configPanel);
+    setComponent(preConfigPanel);
     setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
-
-    @Action
-    private void okConfigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okConfigButtonActionPerformed
-        checkConfiguration();
-    }//GEN-LAST:event_okConfigButtonActionPerformed
 
     @Action
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         switchToPanel(configPanel);
     }//GEN-LAST:event_backButtonActionPerformed
-
-    @Action
-    private void yesBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesBookingRadioButtonActionPerformed
-        updateBookingPanel(yesBookingRadioButton.isSelected());
-    }//GEN-LAST:event_yesBookingRadioButtonActionPerformed
-
-    @Action
-    private void noBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noBookingRadioButtonActionPerformed
-        updateBookingPanel(yesBookingRadioButton.isSelected());
-    }//GEN-LAST:event_noBookingRadioButtonActionPerformed
-
-    @Action
-    private void yesWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesWaitingListRadioButtonActionPerformed
-        updateBookingPanel(true);
-    }//GEN-LAST:event_yesWaitingListRadioButtonActionPerformed
-
-    @Action
-    private void noWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noWaitingListRadioButtonActionPerformed
-        updateBookingPanel(true);
-    }//GEN-LAST:event_noWaitingListRadioButtonActionPerformed
-
-    @Action
-    private void entrySlotsSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_entrySlotsSpinnerStateChanged
-        updateBookingPanel(true);
-    }//GEN-LAST:event_entrySlotsSpinnerStateChanged
-
-    @Action
-    private void inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusGained
-        JFormattedTextField input = (JFormattedTextField) evt.getSource();
-        if (input == eventTitleInput && input.getText().equals(titleInputDefault))
-            input.setText("");
-        else if (input.getText().equals(fileInputDefault))
-            input.setText("");
-    }//GEN-LAST:event_inputFocusGained
-
-    @Action
-    private void inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusLost
-        JFormattedTextField input = (JFormattedTextField) evt.getSource();
-        if (input == eventTitleInput && input.getText().equals(""))
-            input.setText(titleInputDefault);
-        else if (input.getText().equals(""))
-            input.setText(fileInputDefault);
-    }//GEN-LAST:event_inputFocusLost
-
-    @Action
-    private void browseFileAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseFileAction
-        JFileChooser fc = new JFileChooser();
-        File file = null;
-        fc.addChoosableFileFilter(new TextCSVFilter());
-        int returnVal = fc.showDialog(EventSwipeApp.getApplication().getMainFrame(), "Choose");
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            file = fc.getSelectedFile();
-            if (evt.getSource() == bookingListBrowseButton1) {
-                entrySlotBookingListFilePathInput1.setText(file.getPath());
-            }
-            if (evt.getSource() == bookingListBrowseButton2) {
-                entrySlotBookingListFilePathInput2.setText(file.getPath());
-            }
-            if (evt.getSource() == bookingListBrowseButton3) {
-                entrySlotBookingListFilePathInput3.setText(file.getPath());
-            }
-            if (evt.getSource() == waitingListBrowseButton) {
-                waitingListFilePathInput.setText(file.getPath());
-            }
-        }
-    }//GEN-LAST:event_browseFileAction
-
-    @Action
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        clearSession(evt);
-    }//GEN-LAST:event_clearButtonActionPerformed
 
     @Action
     private void enterStudentNumberButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterStudentNumberButtonActionPerformed
@@ -1166,44 +1215,178 @@ public class EventSwipeView extends FrameView {
     }//GEN-LAST:event_okConfigButton1ActionPerformed
 
     private void entrySlotsSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_entrySlotsSpinner1StateChanged
-        // TODO add your handling code here:
+        updateOnlineBookingPanel(true);
     }//GEN-LAST:event_entrySlotsSpinner1StateChanged
 
-    private void entrySlotBookingListFilePathInput4inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotBookingListFilePathInput4inputFocusGained
+    private void entrySlotIdInput3inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput3inputFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotBookingListFilePathInput4inputFocusGained
+    }//GEN-LAST:event_entrySlotIdInput3inputFocusGained
 
-    private void entrySlotBookingListFilePathInput4inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotBookingListFilePathInput4inputFocusLost
+    private void entrySlotIdInput3inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput3inputFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotBookingListFilePathInput4inputFocusLost
+    }//GEN-LAST:event_entrySlotIdInput3inputFocusLost
 
-    private void entrySlotBookingListFilePathInput5inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotBookingListFilePathInput5inputFocusGained
+    private void entrySlotIdInput2inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput2inputFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotBookingListFilePathInput5inputFocusGained
+    }//GEN-LAST:event_entrySlotIdInput2inputFocusGained
 
-    private void entrySlotBookingListFilePathInput5inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotBookingListFilePathInput5inputFocusLost
+    private void entrySlotIdInput2inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput2inputFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotBookingListFilePathInput5inputFocusLost
+    }//GEN-LAST:event_entrySlotIdInput2inputFocusLost
 
-    private void noWaitingListRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noWaitingListRadioButton1ActionPerformed
+    private void noLoadWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noLoadWaitingListRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_noWaitingListRadioButton1ActionPerformed
+    }//GEN-LAST:event_noLoadWaitingListRadioButtonActionPerformed
 
-    private void entrySlotBookingListFilePathInput6inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotBookingListFilePathInput6inputFocusGained
+    private void entrySlotIdInput1inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput1inputFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotBookingListFilePathInput6inputFocusGained
+    }//GEN-LAST:event_entrySlotIdInput1inputFocusGained
 
-    private void entrySlotBookingListFilePathInput6inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotBookingListFilePathInput6inputFocusLost
+    private void entrySlotIdInput1inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput1inputFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotBookingListFilePathInput6inputFocusLost
+    }//GEN-LAST:event_entrySlotIdInput1inputFocusLost
 
-    private void yesWaitingListRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesWaitingListRadioButton1ActionPerformed
+    private void yesLoadWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesLoadWaitingListRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_yesWaitingListRadioButton1ActionPerformed
+    }//GEN-LAST:event_yesLoadWaitingListRadioButtonActionPerformed
 
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_clearButton2ActionPerformed
+
+@Action()
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        clearSession(evt);
+}//GEN-LAST:event_clearButtonActionPerformed
+
+@Action()
+private void inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusLost
+    JFormattedTextField input = (JFormattedTextField) evt.getSource();
+    if (input == eventTitleInput && input.getText().equals(""))
+        input.setText(titleInputDefault);
+    else if (input.getText().equals(""))
+        input.setText(fileInputDefault);
+}//GEN-LAST:event_inputFocusLost
+
+@Action()
+private void inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusGained
+    JFormattedTextField input = (JFormattedTextField) evt.getSource();
+    if (input == eventTitleInput && input.getText().equals(titleInputDefault))
+        input.setText("");
+    else if (input.getText().equals(fileInputDefault))
+        input.setText("");
+}//GEN-LAST:event_inputFocusGained
+
+@Action()
+private void yesWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesWaitingListRadioButtonActionPerformed
+    updateBookingPanel(true);
+}//GEN-LAST:event_yesWaitingListRadioButtonActionPerformed
+
+@Action()
+private void noWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noWaitingListRadioButtonActionPerformed
+    updateBookingPanel(true);
+}//GEN-LAST:event_noWaitingListRadioButtonActionPerformed
+
+@Action()
+private void browseFileAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseFileAction
+    JFileChooser fc = new JFileChooser();
+    File file = null;
+    fc.addChoosableFileFilter(new TextCSVFilter());
+    int returnVal = fc.showDialog(EventSwipeApp.getApplication().getMainFrame(), "Choose");
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        file = fc.getSelectedFile();
+        if (evt.getSource() == bookingListBrowseButton1) {
+            entrySlotBookingListFilePathInput1.setText(file.getPath());
+        }
+        if (evt.getSource() == bookingListBrowseButton2) {
+            entrySlotBookingListFilePathInput2.setText(file.getPath());
+        }
+        if (evt.getSource() == bookingListBrowseButton3) {
+            entrySlotBookingListFilePathInput3.setText(file.getPath());
+        }
+        if (evt.getSource() == waitingListBrowseButton) {
+            waitingListFilePathInput.setText(file.getPath());
+        }
+    }
+}//GEN-LAST:event_browseFileAction
+
+@Action()
+private void entrySlotsSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_entrySlotsSpinnerStateChanged
+    updateBookingPanel(true);
+}//GEN-LAST:event_entrySlotsSpinnerStateChanged
+
+@Action()
+private void okConfigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okConfigButtonActionPerformed
+    checkConfiguration();
+}//GEN-LAST:event_okConfigButtonActionPerformed
+
+@Action()
+private void noBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noBookingRadioButtonActionPerformed
+    updateBookingPanel(yesBookingRadioButton.isSelected());
+}//GEN-LAST:event_noBookingRadioButtonActionPerformed
+
+@Action()
+private void yesBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesBookingRadioButtonActionPerformed
+    updateBookingPanel(yesBookingRadioButton.isSelected());
+}//GEN-LAST:event_yesBookingRadioButtonActionPerformed
+
+@Action()
+private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadEventButtonActionPerformed
+        if (evt.getSource() == loadEventButton1) {
+            String id = entrySlotIdInput1.getText();
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                              "You have not entered an entry slot ID!",
+                                              "Event ID error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String slotTitle = "";
+                try {
+                    slotTitle = EventSwipeApp.getApplication().getSlotTitle(id);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                generatedTitle1.setText(slotTitle);
+            }
+        }
+        if (evt.getSource() == loadEventButton2) {
+            String id = entrySlotIdInput2.getText();
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                              "You have not entered an entry slot ID!",
+                                              "Event ID error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String slotTitle = "";
+                try {
+                    slotTitle = EventSwipeApp.getApplication().getSlotTitle(id);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                generatedTitle2.setText(slotTitle);
+            }
+        }
+        if (evt.getSource() == loadEventButton3) {
+            String id = entrySlotIdInput3.getText();
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                              "You have not entered an entry slot ID!",
+                                              "Event ID error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String slotTitle = "";
+                try {
+                    slotTitle = EventSwipeApp.getApplication().getSlotTitle(id);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                generatedTitle3.setText(slotTitle);
+            }
+        }
+}//GEN-LAST:event_loadEventButtonActionPerformed
     
     private void checkConfiguration() {
         EventSwipeApp.getApplication().setBookingFlag(yesBookingRadioButton.isSelected());
@@ -1354,7 +1537,7 @@ public class EventSwipeView extends FrameView {
         timer.start();
     }
 
-        private void switchToPanel(JPanel panel) {
+    private void switchToPanel(JPanel panel) {
         JFrame mainFrame = EventSwipeApp.getApplication().getMainFrame();
         mainFrame.setContentPane(panel);
         if (panel == mainPanel)
@@ -1396,6 +1579,27 @@ public class EventSwipeView extends FrameView {
         toggleMenuItem.setEnabled(enabled);
     }
 
+    private void updateOnlineBookingPanel(boolean enabled) {
+        Integer slots = (Integer)entrySlotsSpinner1.getValue();
+        bookingDetailsPanel.setEnabled(enabled);
+
+        loadEventButton1.setEnabled(enabled);
+        entrySlotIdInput1.setEnabled(enabled);
+
+        loadEventButton2.setEnabled(enabled && slots > 1);
+        entrySlotIdInput2.setEnabled(enabled && slots > 1);
+
+        loadEventButton3.setEnabled(enabled && slots > 2);
+        entrySlotIdInput3.setEnabled(enabled && slots > 2);
+
+        checkingModeToggle.setEnabled(enabled);
+        checkingModeToggle.setText(enabled ? "Checking booking lists" :
+                                             "Recording all students");
+        checkingModeToggle.setSelected(enabled);
+        toggleMenuItem.setEnabled(enabled);
+    }
+
+
     private void toggleCheckingMode() {
         if (checkingModeToggle.isSelected()) {
             EventSwipeApp.getApplication().setBookingFlag(true);
@@ -1433,7 +1637,39 @@ public class EventSwipeView extends FrameView {
         }
     }
 
+    @Action
+    public void logIn() {
+        String username = usernameInput.getText();
+        char[] password = passwordInput.getPassword();
+        if (username.isEmpty() || username.equals(usernameInputDefault)) {
+            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                          "Please enter your CareerHub username.",
+                                          "No username",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        else if (password.length == 0) {
+            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                          "Please enter your CareerHub password.",
+                                          "No password",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            try {
+                EventSwipeApp.getApplication().logIn(username, password);
+                switchToPanel(onlineConfigPanel);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+                                              "Your username or password were incorrect." +
+                                              "Please try again",
+                                              "Log in error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        Arrays.fill(password,'0');
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel aboutEventLabel;
     private javax.swing.JFormattedTextField attendeeCountDisplayTextField;
     private javax.swing.JLabel attendeeCountLabel;
     private javax.swing.JButton backButton;
@@ -1449,24 +1685,20 @@ public class EventSwipeView extends FrameView {
     private javax.swing.JButton clearButton1;
     private javax.swing.JButton clearButton2;
     private javax.swing.JPanel configPanel;
-    private javax.swing.JPanel configPanel1;
     private javax.swing.JButton enterStudentNumberButton;
     private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput1;
     private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput2;
     private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput3;
-    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput4;
-    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput5;
-    private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput6;
     private javax.swing.JLabel entrySlotBookingListLabel1;
     private javax.swing.JLabel entrySlotBookingListLabel2;
     private javax.swing.JLabel entrySlotBookingListLabel3;
-    private javax.swing.JLabel entrySlotBookingListLabel4;
-    private javax.swing.JLabel entrySlotBookingListLabel5;
-    private javax.swing.JLabel entrySlotBookingListLabel6;
-    private javax.swing.JLabel entrySlotBookingListLabel7;
-    private javax.swing.JLabel entrySlotBookingListLabel8;
-    private javax.swing.JLabel entrySlotBookingListLabel9;
     private javax.swing.JFormattedTextField entrySlotDisplayTextField;
+    private javax.swing.JFormattedTextField entrySlotIdInput1;
+    private javax.swing.JFormattedTextField entrySlotIdInput2;
+    private javax.swing.JFormattedTextField entrySlotIdInput3;
+    private javax.swing.JLabel entrySlotIdLabel1;
+    private javax.swing.JLabel entrySlotIdLabel2;
+    private javax.swing.JLabel entrySlotIdLabel3;
     private javax.swing.JLabel entrySlotLabel;
     private javax.swing.JLabel entrySlotsLabel;
     private javax.swing.JLabel entrySlotsLabel1;
@@ -1474,53 +1706,65 @@ public class EventSwipeView extends FrameView {
     private javax.swing.JSpinner entrySlotsSpinner1;
     private javax.swing.JFormattedTextField eventTitleInput;
     private javax.swing.JLabel eventTitleInputLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField generatedTitle1;
+    private javax.swing.JTextField generatedTitle2;
+    private javax.swing.JTextField generatedTitle3;
+    private javax.swing.JLabel generatedTitleLabel1;
+    private javax.swing.JLabel generatedTitleLabel2;
+    private javax.swing.JLabel generatedTitleLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton loadEventButton1;
+    private javax.swing.JButton loadEventButton2;
+    private javax.swing.JButton loadEventButton3;
+    private javax.swing.JLabel loadWaitingListLabel;
+    private javax.swing.JButton logInButton;
+    private javax.swing.JLabel logInLabel;
+    private javax.swing.JSeparator loginOfflineSeparator;
+    private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mainTitle;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JRadioButton noBookingRadioButton;
+    private javax.swing.JRadioButton noLoadWaitingListRadioButton;
     private javax.swing.JRadioButton noWaitingListRadioButton;
-    private javax.swing.JRadioButton noWaitingListRadioButton1;
     private javax.swing.JButton okConfigButton;
     private javax.swing.JButton okConfigButton1;
+    private javax.swing.JPanel onlineConfigPanel;
+    private javax.swing.JPasswordField passwordInput;
+    private javax.swing.JLabel passwordLabel;
     private javax.swing.JPanel preConfigPanel;
     private javax.swing.ButtonGroup requireBookingButtonGroup;
     private javax.swing.JLabel requireBookingLabel;
     private javax.swing.JButton saveButton;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JLabel smallLogoLabel;
+    private javax.swing.JButton startOfflineButton;
     private javax.swing.JFormattedTextField statusDisplayTextField;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JFormattedTextField studentNumberInput;
     private javax.swing.JLabel studentNumberInputLabel;
     private javax.swing.JLabel titleLabel;
-    private javax.swing.JLabel titleLabel1;
+    private javax.swing.JPanel titleLoginPanel;
+    private javax.swing.JPanel titlePanel;
     private javax.swing.JMenuItem toggleMenuItem;
+    private javax.swing.JTextArea useOfflineDescription;
+    private javax.swing.JLabel useOfflineLabel;
+    private javax.swing.JTextField usernameInput;
+    private javax.swing.JLabel usernameLabel;
     private javax.swing.JLabel versionLabel;
     private javax.swing.JButton waitingListBrowseButton;
     private javax.swing.ButtonGroup waitingListButtonGroup;
     private javax.swing.JLabel waitingListFileLabel;
     private javax.swing.JFormattedTextField waitingListFilePathInput;
     private javax.swing.JLabel waitingListLabel;
-    private javax.swing.JLabel waitingListLabel1;
     private javax.swing.JRadioButton yesBookingRadioButton;
+    private javax.swing.JRadioButton yesLoadWaitingListRadioButton;
     private javax.swing.JRadioButton yesWaitingListRadioButton;
-    private javax.swing.JRadioButton yesWaitingListRadioButton1;
     // End of variables declaration//GEN-END:variables
     private JDialog aboutBox;
     private String titleInputDefault;
     private String fileInputDefault;
     private String idInputDefault;
+    private String usernameInputDefault;
 
 }
