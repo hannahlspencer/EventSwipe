@@ -2,6 +2,8 @@ package eventswipe;
 
 public class Event {
 
+    public Event() { }
+
     public Event(String title, String date, String id) {
         this.title = title;
         this.startDate = date;
@@ -32,8 +34,17 @@ public class Event {
         this.id = id;
     }
 
+    public int getBookingLimit() {
+        return bookingLimit;
+    }
+
+    public void setBookingLimit(int bookingLimit) {
+        this.bookingLimit = bookingLimit;
+    }
+
     private String startDate;
     private String title;
     private String id;
+    private int bookingLimit;
 
 }

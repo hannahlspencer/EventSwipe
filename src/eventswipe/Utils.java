@@ -27,15 +27,24 @@ public class Utils {
     public static final String UTF8 = "UTF8";
     public static final String UNICODE = "UTF-16";
     public static final String ANSI = "Cp1252";
-    
-     public static boolean isInternetReachable() {
+
+    public static boolean isInternetReachable() {
         try {
             InetAddress address = InetAddress.getByName("java.sun.com");
-            if(address == null) {
+            if (address == null) {
                 return false;
             }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
@@ -83,15 +92,16 @@ public class Utils {
             InputStreamReader isr = new InputStreamReader(dis, encoding);
             BufferedReader br = new BufferedReader(isr);
             String strLine = null;
-            while ((strLine = br.readLine()) != null)   {
-                strLine = firstLine && encoding.equals("UTF8") ?
-                          Utils.removeUTF8BOM(strLine) : strLine;
+            while ((strLine = br.readLine()) != null) {
+                strLine = firstLine && encoding.equals("UTF8")
+                        ? Utils.removeUTF8BOM(strLine) : strLine;
                 list.add(strLine);
-                if (firstLine)
+                if (firstLine) {
                     firstLine = false;
+                }
             }
             dis.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
         return list;
@@ -99,30 +109,30 @@ public class Utils {
 
     public static String getEncoding(File file) {
         String testString = Utils.readLine(file, ANSI).substring(0, 2);
-        if (testString.equals(UTF8_TEST_STRING))
+        if (testString.equals(UTF8_TEST_STRING)) {
             return UTF8;
-        else if (testString.equals(UNICODE_LE_TEST_STRING) ||
-                 testString.equals(UNICODE_BE_TEST_STRING))
+        } else if (testString.equals(UNICODE_LE_TEST_STRING)
+                || testString.equals(UNICODE_BE_TEST_STRING)) {
             return UNICODE;
-        else return ANSI;
+        } else {
+            return ANSI;
+        }
     }
 
-     private static String removeUTF8BOM(String s) {
+    private static String removeUTF8BOM(String s) {
         if (s.startsWith(UTF8_BOM)) {
             s = s.substring(1);
         }
         return s;
     }
 
-     public static String getDate(String format) {
+    public static String getDate(String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
-	Date date = new Date();
-	return dateFormat.format(date);
-     }
-
-     private static final String UTF8_BOM = "\uFEFF";
-     private static final String UTF8_TEST_STRING = "ï»";
-     private static final String UNICODE_LE_TEST_STRING = "ÿþ";
-     private static final String UNICODE_BE_TEST_STRING = "þÿ";
-
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+    private static final String UTF8_BOM = "\uFEFF";
+    private static final String UTF8_TEST_STRING = "ï»";
+    private static final String UNICODE_LE_TEST_STRING = "ÿþ";
+    private static final String UNICODE_BE_TEST_STRING = "þÿ";
 }

@@ -15,42 +15,139 @@ public class EventSwipeData {
     public static String BOOKING_1_ENCODING, BOOKING_2_ENCODING, 
                          BOOKING_3_ENCODING, WAITING_LIST_ENCODING = Utils.ANSI;
 
-    public EventSwipeData() {
-        attendeesList = new ArrayList<String>();
-        allBookedList = new ArrayList<String>();
-    }
-
     public enum BookingList {
         BOOKING_1, BOOKING_2, BOOKING_3, WAITING_LIST
     }
 
+    public EventSwipeData() {
+        attendeesList = new ArrayList<String>();
+        allFileBookedList = new ArrayList<String>();
+    }
+
+    public void setId(BookingList bookingList, String id) {
+         switch (bookingList) {
+            case BOOKING_2:
+                setId2(id);
+                break;
+            case BOOKING_3:
+                setId3(id);
+                break;
+            default :
+                setId1(id);
+                break;
+        }
+    }
+
+    public String getId1() {
+        return id1;
+    }
+
+    public void setId1(String id1) {
+        this.id1 = id1;
+    }
+
+    public String getId2() {
+        return id2;
+    }
+
+    public void setId2(String id2) {
+        this.id2 = id2;
+    }
+
+    public String getId3() {
+        return id3;
+    }
+
+    public void setId3(String id3) {
+        this.id3 = id3;
+    }
+
+    public void setBookingList(BookingList bookingList, List<Booking> list) {
+        switch (bookingList) {
+            case BOOKING_2:
+                setApiBookingList2(list);
+                break;
+            case BOOKING_3:
+                setApiBookingList3(list);
+                break;
+            default :
+                setApiBookingList1(list);
+                break;
+        }
+    }
+
     public void clearData() {
-        setAttendeesCount(0);
+        setLocalAttendeeCount(0);
         setWaitingListFlag(false);
         setSlots(0);
         setEventTitle("");
         clearList(attendeesList);
-        clearList(allBookedList);
+        clearList(allFileBookedList);
     }
 
     public void incrementAttendeesCount() {
-        setAttendeesCount(getAttendeesCount() + 1);
+        setLocalAttendeeCount(getLocalAttendeeCount() + 1);
     }
 
-    public int getAttendeesCount() {
-        return attendeesCount;
+    public int getLocalAttendeeCount() {
+        return localAttendeeCount;
     }
 
-    public void setAttendeesCount(int attendeesCount) {
-        this.attendeesCount = attendeesCount;
+    public void setLocalAttendeeCount(int count) {
+        this.localAttendeeCount = count;
+    }
+
+    public int getGlobalAttendeeCount() {
+        return localAttendeeCount;
+    }
+
+    public void setGlobalAttendeeCount(int count) {
+        this.localAttendeeCount = count;
+    }
+
+    public List<Booking> getApiBookingList1() {
+        return apiBookingList1;
+    }
+
+    public void setApiBookingList1(List<Booking> apiBookingList1) {
+        this.apiBookingList1 = apiBookingList1;
+    }
+
+    public List<Booking> getApiBookingList2() {
+        return apiBookingList2;
+    }
+
+    public void setApiBookingList2(List<Booking> apiBookingList2) {
+        this.apiBookingList2 = apiBookingList2;
+    }
+
+    public List<Booking> getApiBookingList3() {
+        return apiBookingList3;
+    }
+
+    public void setApiBookingList3(List<Booking> apiBookingList3) {
+        this.apiBookingList3 = apiBookingList3;
+    }
+
+    public List<Booking> getApiWaitingList() {
+        return apiWaitingList;
+    }
+
+    public void setApiWaitingList(List<Booking> apiWaitingList) {
+        if (this.apiWaitingList.isEmpty()) {
+            this.apiWaitingList = apiWaitingList;
+        }
+        else {
+            this.apiWaitingList.addAll(apiWaitingList);
+        }
     }
 
     public List<String> getAllBookedList() {
-        return allBookedList;
+        return allFileBookedList;
     }
 
     public void setAllBookedList(ArrayList<String> allBookedList) {
-        this.allBookedList = allBookedList;
+        this.allFileBookedList = allBookedList;
     }
 
     public List<String> getAttendeesList() {
@@ -67,6 +164,14 @@ public class EventSwipeData {
     
     public void setNetFlag(boolean b) {
         this.netFlag = b;
+    }
+
+    public boolean isOnlineMode() {
+        return onlineMode;
+    }
+
+    public void setOnlineMode(boolean onlineMode) {
+        this.onlineMode = onlineMode;
     }
 
     public int getSlots() {
@@ -122,22 +227,22 @@ public class EventSwipeData {
             case BOOKING_2:
                 bookingFile2 = file;
                 BOOKING_2_ENCODING = Utils.getEncoding(bookingFile2);
-                bookingList2 = makeBookingList(bookingFile2, BOOKING_2_ENCODING);
+                fileBookingList2 = makeBookingList(bookingFile2, BOOKING_2_ENCODING);
                 break;
             case BOOKING_3:
                 bookingFile3 = file;
                 BOOKING_3_ENCODING = Utils.getEncoding(bookingFile3);
-                bookingList3 = makeBookingList(bookingFile3, BOOKING_3_ENCODING);
+                fileBookingList3 = makeBookingList(bookingFile3, BOOKING_3_ENCODING);
                 break;
             case WAITING_LIST:
                 waitingListFile = file;
                 WAITING_LIST_ENCODING = Utils.getEncoding(waitingListFile);
-                waitingList = makeBookingList(waitingListFile, WAITING_LIST_ENCODING);
+                fileWaitingList = makeBookingList(waitingListFile, WAITING_LIST_ENCODING);
                 break;
             default:
                 bookingFile1 = file;
                 BOOKING_1_ENCODING = Utils.getEncoding(bookingFile1);
-                bookingList1 = makeBookingList(bookingFile1, BOOKING_1_ENCODING);
+                fileBookingList1 = makeBookingList(bookingFile1, BOOKING_1_ENCODING);
                 break;
         }
         return true;
@@ -146,13 +251,13 @@ public class EventSwipeData {
     public List<String> getBookingList(BookingList fileFunction) {
         switch (fileFunction) {
             case BOOKING_2:
-                return bookingList2;
+                return fileBookingList2;
             case BOOKING_3:
-                return bookingList3;
+                return fileBookingList3;
             case WAITING_LIST:
-                return waitingList;
+                return fileWaitingList;
             default:
-                return bookingList1;
+                return fileBookingList1;
         }
     }
 
@@ -165,20 +270,33 @@ public class EventSwipeData {
         return (ArrayList<String>) Utils.readAllLines(file, encoding);
     }
 
+    private String id1;
+    private String id2;
+    private String id3;
+
+    private List<Booking> apiBookingList1;
+    private List<Booking> apiBookingList2;
+    private List<Booking> apiBookingList3;
+    private List<Booking> apiWaitingList = new ArrayList<Booking>();
+
+    private List<String> attendeesList;
+
     private File bookingFile1;
     private File bookingFile2;
     private File bookingFile3;
     private File waitingListFile;
-    private List<String> allBookedList;
-    private List<String> bookingList1;
-    private List<String> bookingList2;
-    private List<String> bookingList3;
-    private List<String> waitingList;
-    private List<String> attendeesList;
+    private List<String> allFileBookedList;
+    private List<String> fileBookingList1;
+    private List<String> fileBookingList2;
+    private List<String> fileBookingList3;
+    private List<String> fileWaitingList;
+
     private String eventTitle;
-    private int attendeesCount = 0;
+    private int localAttendeeCount = 0;
+    private int totalAttendeeCount = 0;
     private int slots;
     private boolean netFlag;
+    private boolean onlineMode;
     private boolean waitingListFlag;
     private boolean bookingFlag;
     private boolean savedFlag = true;

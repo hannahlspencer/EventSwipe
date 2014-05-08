@@ -12,7 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -25,8 +27,12 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
@@ -43,27 +49,62 @@ public class EventSwipeView extends FrameView {
         titleInputDefault = resourceMap.getString("eventTitleInputDefault");
         fileInputDefault = resourceMap.getString("fileInputDefault");
         idInputDefault = resourceMap.getString("idInputDefault");
+        recordingAllText = resourceMap.getString("checkingModeToggle1.text");
+        checkingListsText = resourceMap.getString("checkingListsText");
+        onlineModeTooltipText = resourceMap.getString("onlineModeToggler.toolTipText");
+        offlineModeTooltipText = resourceMap.getString("offlineModeTooltipText");
         initComponents();
         updateBookingPanel(false);
         try {
-            Image i = ImageIO.read(getClass().getResource("/eventswipe/resources/logo.jpeg"));
+            Image i = ImageIO.read(getClass().getResource("/eventswipe/resources/yourLogoLarge.jpeg"));
             this.getFrame().setIconImage(i);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         this.getFrame().setPreferredSize(new Dimension(750, 410));
         this.getFrame().setResizable(false);
-        
     }
 
     @Action
     public void showAboutBox() {
         if (aboutBox == null) {
-            JFrame mainFrame = EventSwipeApp.getApplication().getMainFrame();
+            JFrame mainFrame = app.getMainFrame();
             aboutBox = new EventSwipeAboutBox(mainFrame);
             aboutBox.setLocationRelativeTo(mainFrame);
         }
-        EventSwipeApp.getApplication().show(aboutBox);
+        app.show(aboutBox);
+    }
+
+    @Action
+    public void logIn() {
+        String username = usernameInput.getText();
+        char[] password = passwordInput.getPassword();
+        if (username.isEmpty() || username.equals(usernameInputDefault)) {
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          "Please enter your CareerHub username.",
+                                          "No username",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        else if (password.length == 0) {
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          "Please enter your CareerHub password.",
+                                          "No password",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            try {
+                app.logIn(username, password);
+                app.setOnlineModeFlag(true);
+                switchToPanel(onlineConfigPanel);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(app.getMainFrame(),
+                                              "Your username or password were incorrect. " +
+                                              "Please try again",
+                                              "Log in error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        Arrays.fill(password,'0');
     }
 
     /** This method is called from within the constructor to
@@ -125,6 +166,7 @@ public class EventSwipeView extends FrameView {
         yesWaitingListRadioButton = new javax.swing.JRadioButton();
         eventTitleInput = new javax.swing.JFormattedTextField();
         clearButton = new javax.swing.JButton();
+        configBackButton = new javax.swing.JButton();
         requireBookingButtonGroup = new javax.swing.ButtonGroup();
         waitingListButtonGroup = new javax.swing.ButtonGroup();
         preConfigPanel = new javax.swing.JPanel();
@@ -169,7 +211,35 @@ public class EventSwipeView extends FrameView {
         generatedTitleLabel2 = new javax.swing.JLabel();
         generatedTitleLabel3 = new javax.swing.JLabel();
         aboutEventLabel = new javax.swing.JLabel();
+        searchEventsButton1 = new javax.swing.JButton();
+        searchEventsButton2 = new javax.swing.JButton();
+        searchEventsButton3 = new javax.swing.JButton();
         clearButton2 = new javax.swing.JButton();
+        onlineConfigBackButton = new javax.swing.JButton();
+        mainOnlinePanel = new javax.swing.JPanel();
+        clearButton3 = new javax.swing.JButton();
+        searchInput = new javax.swing.JFormattedTextField();
+        searchButton = new javax.swing.JButton();
+        bookingStatusScrollPane1 = new javax.swing.JScrollPane();
+        bookingStatusTextArea1 = new javax.swing.JTextArea();
+        backButton1 = new javax.swing.JButton();
+        saveButton1 = new javax.swing.JButton();
+        searchInputLabel = new javax.swing.JLabel();
+        checkingModeToggle1 = new javax.swing.JToggleButton();
+        generatedStudentName = new javax.swing.JTextField();
+        generatedStudentLabel = new javax.swing.JLabel();
+        onlineModeToggle = new javax.swing.JToggleButton();
+        bookingStatusPanel = new javax.swing.JPanel();
+        totalLabel = new javax.swing.JLabel();
+        entrySlotDisplayTextField1 = new javax.swing.JFormattedTextField();
+        attendeeCountLabel1 = new javax.swing.JLabel();
+        statusDisplayTextField1 = new javax.swing.JFormattedTextField();
+        attendeeCountLabel2 = new javax.swing.JLabel();
+        localAttendeeCountTextField = new javax.swing.JFormattedTextField();
+        statusLabel1 = new javax.swing.JLabel();
+        entrySlotLabel1 = new javax.swing.JLabel();
+        thisMachineLabel = new javax.swing.JLabel();
+        totalAttendeeCountDisplay = new javax.swing.JFormattedTextField();
 
         mainPanel.setMinimumSize(new java.awt.Dimension(720, 350));
         mainPanel.setName("mainPanel"); // NOI18N
@@ -333,7 +403,7 @@ public class EventSwipeView extends FrameView {
                     .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(checkingModeToggle, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                         .addComponent(attendeeCountDisplayTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
-                .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                     .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
                     .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -362,11 +432,12 @@ public class EventSwipeView extends FrameView {
                 .addComponent(attendeeCountLabel))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(bookingStatusScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
-            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(backButton)
-                .addComponent(clearButton1)
-                .addComponent(saveButton))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clearButton1)
+                    .addComponent(saveButton))
+                .addComponent(backButton))
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
@@ -423,6 +494,7 @@ public class EventSwipeView extends FrameView {
     });
 
     requireBookingButtonGroup.add(noBookingRadioButton);
+    noBookingRadioButton.setSelected(true);
     noBookingRadioButton.setText(resourceMap.getString("noBookingRadioButton.text")); // NOI18N
     noBookingRadioButton.setName("noBookingRadioButton"); // NOI18N
     noBookingRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -537,6 +609,7 @@ public class EventSwipeView extends FrameView {
     });
 
     waitingListButtonGroup.add(noWaitingListRadioButton);
+    noWaitingListRadioButton.setSelected(true);
     noWaitingListRadioButton.setText(resourceMap.getString("noWaitingListRadioButton.text")); // NOI18N
     noWaitingListRadioButton.setName("noWaitingListRadioButton"); // NOI18N
     noWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -607,8 +680,8 @@ public class EventSwipeView extends FrameView {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(entrySlotBookingListFilePathInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(bookingListBrowseButton1)))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bookingListBrowseButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGap(22, 22, 22))
     );
     bookingDetailsPanelLayout.setVerticalGroup(
         bookingDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -668,6 +741,14 @@ public class EventSwipeView extends FrameView {
         }
     });
 
+    configBackButton.setText(resourceMap.getString("configBackButton.text")); // NOI18N
+    configBackButton.setName("configBackButton"); // NOI18N
+    configBackButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            configBackButtonActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout configPanelLayout = new javax.swing.GroupLayout(configPanel);
     configPanel.setLayout(configPanelLayout);
     configPanelLayout.setHorizontalGroup(
@@ -675,28 +756,30 @@ public class EventSwipeView extends FrameView {
         .addGroup(configPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(configPanelLayout.createSequentialGroup()
+                    .addComponent(configBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(205, 205, 205)
+                    .addComponent(okConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
+                    .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(configPanelLayout.createSequentialGroup()
                     .addComponent(requireBookingLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(yesBookingRadioButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(noBookingRadioButton))
+                .addComponent(titleLabel)
                 .addGroup(configPanelLayout.createSequentialGroup()
                     .addComponent(eventTitleInputLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(eventTitleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(titleLabel)
-                .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configPanelLayout.createSequentialGroup()
-                    .addComponent(okConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 504, Short.MAX_VALUE)
-                    .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(eventTitleInput, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)))
             .addContainerGap())
     );
     configPanelLayout.setVerticalGroup(
         configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(configPanelLayout.createSequentialGroup()
-            .addGap(41, 41, 41)
+            .addContainerGap()
             .addComponent(titleLabel)
             .addGap(18, 18, 18)
             .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -707,12 +790,13 @@ public class EventSwipeView extends FrameView {
                 .addComponent(requireBookingLabel)
                 .addComponent(yesBookingRadioButton)
                 .addComponent(noBookingRadioButton))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGap(18, 18, 18)
             .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
             .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(clearButton)
-                .addComponent(okConfigButton))
+                .addComponent(configBackButton)
+                .addComponent(okConfigButton)
+                .addComponent(clearButton))
             .addContainerGap())
     );
 
@@ -736,6 +820,11 @@ public class EventSwipeView extends FrameView {
 
     startOfflineButton.setText(resourceMap.getString("startOfflineButton.text")); // NOI18N
     startOfflineButton.setName("startOfflineButton"); // NOI18N
+    startOfflineButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            startOfflineButtonActionPerformed(evt);
+        }
+    });
 
     jScrollPane1.setBorder(null);
     jScrollPane1.setName("jScrollPane1"); // NOI18N
@@ -879,7 +968,7 @@ public class EventSwipeView extends FrameView {
         titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(titleLoginPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addContainerGap())
@@ -933,10 +1022,10 @@ public class EventSwipeView extends FrameView {
     entrySlotIdInput3.setName("entrySlotIdInput3"); // NOI18N
     entrySlotIdInput3.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
-            entrySlotIdInput3inputFocusGained(evt);
+            inputFocusGained(evt);
         }
         public void focusLost(java.awt.event.FocusEvent evt) {
-            entrySlotIdInput3inputFocusLost(evt);
+            inputFocusLost(evt);
         }
     });
 
@@ -945,10 +1034,10 @@ public class EventSwipeView extends FrameView {
     entrySlotIdInput2.setName("entrySlotIdInput2"); // NOI18N
     entrySlotIdInput2.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
-            entrySlotIdInput2inputFocusGained(evt);
+            inputFocusGained(evt);
         }
         public void focusLost(java.awt.event.FocusEvent evt) {
-            entrySlotIdInput2inputFocusLost(evt);
+            inputFocusLost(evt);
         }
     });
 
@@ -961,11 +1050,6 @@ public class EventSwipeView extends FrameView {
     waitingListButtonGroup.add(noLoadWaitingListRadioButton);
     noLoadWaitingListRadioButton.setText(resourceMap.getString("noLoadWaitingListRadioButton.text")); // NOI18N
     noLoadWaitingListRadioButton.setName("noLoadWaitingListRadioButton"); // NOI18N
-    noLoadWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            noLoadWaitingListRadioButtonActionPerformed(evt);
-        }
-    });
 
     loadWaitingListLabel.setText(resourceMap.getString("loadWaitingListLabel.text")); // NOI18N
     loadWaitingListLabel.setName("loadWaitingListLabel"); // NOI18N
@@ -974,22 +1058,16 @@ public class EventSwipeView extends FrameView {
     entrySlotIdInput1.setName("entrySlotIdInput1"); // NOI18N
     entrySlotIdInput1.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
-            entrySlotIdInput1inputFocusGained(evt);
+            inputFocusGained(evt);
         }
         public void focusLost(java.awt.event.FocusEvent evt) {
-            entrySlotIdInput1inputFocusLost(evt);
+            inputFocusLost(evt);
         }
     });
 
     waitingListButtonGroup.add(yesLoadWaitingListRadioButton);
-    yesLoadWaitingListRadioButton.setSelected(true);
     yesLoadWaitingListRadioButton.setText(resourceMap.getString("yesLoadWaitingListRadioButton.text")); // NOI18N
     yesLoadWaitingListRadioButton.setName("yesLoadWaitingListRadioButton"); // NOI18N
-    yesLoadWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            yesLoadWaitingListRadioButtonActionPerformed(evt);
-        }
-    });
 
     generatedTitle1.setText(resourceMap.getString("generatedTitle1.text")); // NOI18N
     generatedTitle1.setEnabled(false);
@@ -1042,6 +1120,32 @@ public class EventSwipeView extends FrameView {
     aboutEventLabel.setText(resourceMap.getString("aboutEventLabel.text")); // NOI18N
     aboutEventLabel.setName("aboutEventLabel"); // NOI18N
 
+    searchEventsButton1.setText(resourceMap.getString("searchEventsButton1.text")); // NOI18N
+    searchEventsButton1.setName("searchEventsButton1"); // NOI18N
+    searchEventsButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            searchEventsButtonActionPerformed(evt);
+        }
+    });
+
+    searchEventsButton2.setText(resourceMap.getString("searchEventsButton2.text")); // NOI18N
+    searchEventsButton2.setEnabled(false);
+    searchEventsButton2.setName("searchEventsButton2"); // NOI18N
+    searchEventsButton2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            searchEventsButtonActionPerformed(evt);
+        }
+    });
+
+    searchEventsButton3.setText(resourceMap.getString("searchEventsButton3.text")); // NOI18N
+    searchEventsButton3.setEnabled(false);
+    searchEventsButton3.setName("searchEventsButton3"); // NOI18N
+    searchEventsButton3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            searchEventsButtonActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout bookingDetailsPanel1Layout = new javax.swing.GroupLayout(bookingDetailsPanel1);
     bookingDetailsPanel1.setLayout(bookingDetailsPanel1Layout);
     bookingDetailsPanel1Layout.setHorizontalGroup(
@@ -1049,17 +1153,19 @@ public class EventSwipeView extends FrameView {
         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
-                    .addComponent(entrySlotsLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(entrySlotsLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(entrySlotsSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(24, 24, 24)
+                    .addGap(30, 30, 30)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
                             .addComponent(entrySlotIdLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(entrySlotIdInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrySlotIdInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(loadEventButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+                            .addComponent(loadEventButton1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(searchEventsButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
                             .addGap(80, 80, 80)
                             .addComponent(loadWaitingListLabel)
@@ -1081,9 +1187,11 @@ public class EventSwipeView extends FrameView {
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(generatedTitle3, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
-                            .addComponent(entrySlotIdInput3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrySlotIdInput3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(loadEventButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))))
+                            .addComponent(loadEventButton3)
+                            .addGap(7, 7, 7)
+                            .addComponent(searchEventsButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bookingDetailsPanel1Layout.createSequentialGroup()
                     .addGap(306, 306, 306)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1092,9 +1200,11 @@ public class EventSwipeView extends FrameView {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(bookingDetailsPanel1Layout.createSequentialGroup()
-                            .addComponent(entrySlotIdInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrySlotIdInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(loadEventButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                            .addComponent(loadEventButton2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(searchEventsButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                         .addComponent(generatedTitle2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)))
                 .addComponent(aboutEventLabel))
             .addContainerGap())
@@ -1107,10 +1217,11 @@ public class EventSwipeView extends FrameView {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(entrySlotsLabel1)
-                .addComponent(entrySlotsSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(entrySlotIdLabel1)
                 .addComponent(entrySlotIdInput1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(loadEventButton1))
+                .addComponent(loadEventButton1)
+                .addComponent(searchEventsButton1)
+                .addComponent(entrySlotsSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(generatedTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1119,7 +1230,8 @@ public class EventSwipeView extends FrameView {
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(entrySlotIdLabel2)
                 .addComponent(entrySlotIdInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(loadEventButton2))
+                .addComponent(loadEventButton2)
+                .addComponent(searchEventsButton2))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(generatedTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1128,7 +1240,8 @@ public class EventSwipeView extends FrameView {
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(entrySlotIdInput3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(entrySlotIdLabel3)
-                .addComponent(loadEventButton3))
+                .addComponent(loadEventButton3)
+                .addComponent(searchEventsButton3))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(bookingDetailsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(generatedTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1143,9 +1256,12 @@ public class EventSwipeView extends FrameView {
 
     clearButton2.setText(resourceMap.getString("clearButton2.text")); // NOI18N
     clearButton2.setName("clearButton2"); // NOI18N
-    clearButton2.addActionListener(new java.awt.event.ActionListener() {
+
+    onlineConfigBackButton.setText(resourceMap.getString("onlineConfigBackButton.text")); // NOI18N
+    onlineConfigBackButton.setName("onlineConfigBackButton"); // NOI18N
+    onlineConfigBackButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            clearButton2ActionPerformed(evt);
+            onlineConfigBackButtonActionPerformed(evt);
         }
     });
 
@@ -1157,8 +1273,10 @@ public class EventSwipeView extends FrameView {
             .addContainerGap()
             .addGroup(onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineConfigPanelLayout.createSequentialGroup()
+                    .addComponent(onlineConfigBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                     .addComponent(okConfigButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 494, Short.MAX_VALUE)
+                    .addGap(199, 199, 199)
                     .addComponent(clearButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(23, 23, 23))
                 .addGroup(onlineConfigPanelLayout.createSequentialGroup()
@@ -1170,9 +1288,253 @@ public class EventSwipeView extends FrameView {
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineConfigPanelLayout.createSequentialGroup()
             .addComponent(bookingDetailsPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(clearButton2)
+                .addComponent(onlineConfigBackButton)
                 .addComponent(okConfigButton1))
+            .addContainerGap())
+    );
+
+    mainOnlinePanel.setMinimumSize(new java.awt.Dimension(720, 350));
+    mainOnlinePanel.setName("mainOnlinePanel"); // NOI18N
+
+    clearButton3.setText(resourceMap.getString("clearButton3.text")); // NOI18N
+    clearButton3.setFocusPainted(false);
+    clearButton3.setFocusable(false);
+    clearButton3.setName("clearButton3"); // NOI18N
+    clearButton3.setRequestFocusEnabled(false);
+    clearButton3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            clearButton3ActionPerformed(evt);
+        }
+    });
+
+    searchInput.setName("searchInput"); // NOI18N
+
+    searchButton.setText(resourceMap.getString("searchButton.text")); // NOI18N
+    searchButton.setFocusable(false);
+    searchButton.setName("searchButton"); // NOI18N
+    searchButton.setRequestFocusEnabled(false);
+    searchButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            searchButtonActionPerformed(evt);
+        }
+    });
+
+    bookingStatusScrollPane1.setBackground(null);
+    bookingStatusScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    bookingStatusScrollPane1.setName("bookingStatusScrollPane1"); // NOI18N
+
+    bookingStatusTextArea1.setBackground(null);
+    bookingStatusTextArea1.setColumns(20);
+    bookingStatusTextArea1.setEditable(false);
+    bookingStatusTextArea1.setRows(5);
+    bookingStatusTextArea1.setFocusable(false);
+    bookingStatusTextArea1.setName("bookingStatusTextArea1"); // NOI18N
+    bookingStatusTextArea1.setRequestFocusEnabled(false);
+    bookingStatusScrollPane1.setViewportView(bookingStatusTextArea1);
+
+    backButton1.setText(resourceMap.getString("backButton1.text")); // NOI18N
+    backButton1.setFocusable(false);
+    backButton1.setName("backButton1"); // NOI18N
+    backButton1.setRequestFocusEnabled(false);
+    backButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            backButton1ActionPerformed(evt);
+        }
+    });
+
+    saveButton1.setAction(actionMap.get("saveAttendeesToFile")); // NOI18N
+    saveButton1.setText(resourceMap.getString("saveButton1.text")); // NOI18N
+    saveButton1.setFocusable(false);
+    saveButton1.setName("saveButton1"); // NOI18N
+    saveButton1.setRequestFocusEnabled(false);
+
+    searchInputLabel.setText(resourceMap.getString("searchInputLabel.text")); // NOI18N
+    searchInputLabel.setName("searchInputLabel"); // NOI18N
+
+    checkingModeToggle1.setText(resourceMap.getString("checkingModeToggle1.text")); // NOI18N
+    checkingModeToggle1.setToolTipText(resourceMap.getString("checkingModeToggle1.toolTipText")); // NOI18N
+    checkingModeToggle1.setFocusPainted(false);
+    checkingModeToggle1.setFocusable(false);
+    checkingModeToggle1.setName("checkingModeToggle1"); // NOI18N
+    checkingModeToggle1.setRequestFocusEnabled(false);
+    checkingModeToggle1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            checkingModeToggle1ActionPerformed(evt);
+        }
+    });
+
+    generatedStudentName.setEditable(false);
+    generatedStudentName.setText(resourceMap.getString("generatedStudentName.text")); // NOI18N
+    generatedStudentName.setName("generatedStudentName"); // NOI18N
+
+    generatedStudentLabel.setText(resourceMap.getString("generatedStudentLabel.text")); // NOI18N
+    generatedStudentLabel.setName("generatedStudentLabel"); // NOI18N
+
+    onlineModeToggle.setIcon(resourceMap.getIcon("onlineModeToggler.icon")); // NOI18N
+    onlineModeToggle.setSelected(true);
+    onlineModeToggle.setText(resourceMap.getString("onlineModeToggler.text")); // NOI18N
+    onlineModeToggle.setToolTipText(resourceMap.getString("onlineModeToggler.toolTipText")); // NOI18N
+    onlineModeToggle.setFocusable(false);
+    onlineModeToggle.setName("onlineModeToggler"); // NOI18N
+    onlineModeToggle.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            onlineModeToggleActionPerformed(evt);
+        }
+    });
+
+    bookingStatusPanel.setName("bookingStatusPanel"); // NOI18N
+
+    totalLabel.setText(resourceMap.getString("totalLabel.text")); // NOI18N
+    totalLabel.setName("totalLabel"); // NOI18N
+
+    entrySlotDisplayTextField1.setEditable(false);
+    entrySlotDisplayTextField1.setFocusable(false);
+    entrySlotDisplayTextField1.setFont(resourceMap.getFont("entrySlotDisplayTextField1.font")); // NOI18N
+    entrySlotDisplayTextField1.setName("entrySlotDisplayTextField1"); // NOI18N
+    entrySlotDisplayTextField1.setRequestFocusEnabled(false);
+
+    attendeeCountLabel1.setText(resourceMap.getString("attendeeCountLabel1.text")); // NOI18N
+    attendeeCountLabel1.setName("attendeeCountLabel1"); // NOI18N
+
+    statusDisplayTextField1.setEditable(false);
+    statusDisplayTextField1.setFocusable(false);
+    statusDisplayTextField1.setFont(resourceMap.getFont("statusDisplayTextField1.font")); // NOI18N
+    statusDisplayTextField1.setName("statusDisplayTextField1"); // NOI18N
+
+    attendeeCountLabel2.setText(resourceMap.getString("attendeeCountLabel2.text")); // NOI18N
+    attendeeCountLabel2.setName("attendeeCountLabel2"); // NOI18N
+
+    localAttendeeCountTextField.setEditable(false);
+    localAttendeeCountTextField.setText(resourceMap.getString("localAttendeeCountTextField.text")); // NOI18N
+    localAttendeeCountTextField.setFocusable(false);
+    localAttendeeCountTextField.setFont(resourceMap.getFont("localAttendeeCountTextField.font")); // NOI18N
+    localAttendeeCountTextField.setName("localAttendeeCountTextField"); // NOI18N
+    localAttendeeCountTextField.setRequestFocusEnabled(false);
+
+    statusLabel1.setText(resourceMap.getString("statusLabel1.text")); // NOI18N
+    statusLabel1.setName("statusLabel1"); // NOI18N
+
+    entrySlotLabel1.setText(resourceMap.getString("entrySlotLabel1.text")); // NOI18N
+    entrySlotLabel1.setName("entrySlotLabel1"); // NOI18N
+
+    thisMachineLabel.setText(resourceMap.getString("thisMachineLabel.text")); // NOI18N
+    thisMachineLabel.setName("thisMachineLabel"); // NOI18N
+
+    totalAttendeeCountDisplay.setEditable(false);
+    totalAttendeeCountDisplay.setText(resourceMap.getString("totalAttendeeCountDisplay.text")); // NOI18N
+    totalAttendeeCountDisplay.setFocusable(false);
+    totalAttendeeCountDisplay.setFont(resourceMap.getFont("totalAttendeeCountDisplay.font")); // NOI18N
+    totalAttendeeCountDisplay.setName("totalAttendeeCountDisplay"); // NOI18N
+    totalAttendeeCountDisplay.setRequestFocusEnabled(false);
+
+    javax.swing.GroupLayout bookingStatusPanelLayout = new javax.swing.GroupLayout(bookingStatusPanel);
+    bookingStatusPanel.setLayout(bookingStatusPanelLayout);
+    bookingStatusPanelLayout.setHorizontalGroup(
+        bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(bookingStatusPanelLayout.createSequentialGroup()
+            .addComponent(statusLabel1)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(statusDisplayTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(entrySlotLabel1)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(entrySlotDisplayTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(thisMachineLabel)
+                .addComponent(attendeeCountLabel1))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(localAttendeeCountTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(attendeeCountLabel2)
+                .addComponent(totalLabel))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(totalAttendeeCountDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+    bookingStatusPanelLayout.setVerticalGroup(
+        bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(bookingStatusPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(statusLabel1)
+                .addGroup(bookingStatusPanelLayout.createSequentialGroup()
+                    .addGap(2, 2, 2)
+                    .addGroup(bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(statusDisplayTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(entrySlotDisplayTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(localAttendeeCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(entrySlotLabel1)
+                .addGroup(bookingStatusPanelLayout.createSequentialGroup()
+                    .addComponent(attendeeCountLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(thisMachineLabel))
+                .addGroup(bookingStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalAttendeeCountDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalLabel))
+                .addComponent(attendeeCountLabel2))
+            .addContainerGap(6, Short.MAX_VALUE))
+    );
+
+    javax.swing.GroupLayout mainOnlinePanelLayout = new javax.swing.GroupLayout(mainOnlinePanel);
+    mainOnlinePanel.setLayout(mainOnlinePanelLayout);
+    mainOnlinePanelLayout.setHorizontalGroup(
+        mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainOnlinePanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                .addComponent(bookingStatusPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainOnlinePanelLayout.createSequentialGroup()
+                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(generatedStudentLabel)
+                        .addComponent(searchInputLabel))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(mainOnlinePanelLayout.createSequentialGroup()
+                            .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(generatedStudentName, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(checkingModeToggle1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(onlineModeToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainOnlinePanelLayout.createSequentialGroup()
+                    .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(210, 210, 210)
+                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
+                    .addComponent(clearButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap())
+    );
+    mainOnlinePanelLayout.setVerticalGroup(
+        mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(mainOnlinePanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainOnlinePanelLayout.createSequentialGroup()
+                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(searchInputLabel)
+                        .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(generatedStudentName, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                        .addComponent(generatedStudentLabel)))
+                .addComponent(onlineModeToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(checkingModeToggle1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(bookingStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(clearButton3)
+                .addComponent(backButton1)
+                .addComponent(saveButton1))
             .addContainerGap())
     );
 
@@ -1180,119 +1542,89 @@ public class EventSwipeView extends FrameView {
     setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
 
-    @Action
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         switchToPanel(configPanel);
     }//GEN-LAST:event_backButtonActionPerformed
 
-    @Action
     private void enterStudentNumberButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterStudentNumberButtonActionPerformed
         checkBooking();
     }//GEN-LAST:event_enterStudentNumberButtonActionPerformed
     
-    @Action
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        EventSwipeApp.getApplication().saveAttendeesToFile();
+        app.saveAttendeesToFile();
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    @Action
     private void checkingModeToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkingModeToggleActionPerformed
         toggleCheckingMode();
     }//GEN-LAST:event_checkingModeToggleActionPerformed
 
-    @Action
     private void clearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton1ActionPerformed
         clearSession(evt);
     }//GEN-LAST:event_clearButton1ActionPerformed
 
-    @Action
     private void toggleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleMenuItemActionPerformed
         checkingModeToggle.doClick();
     }//GEN-LAST:event_toggleMenuItemActionPerformed
 
     private void okConfigButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okConfigButton1ActionPerformed
-        // TODO add your handling code here:
+        checkOnlineConfiguration();
     }//GEN-LAST:event_okConfigButton1ActionPerformed
 
     private void entrySlotsSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_entrySlotsSpinner1StateChanged
         updateOnlineBookingPanel(true);
     }//GEN-LAST:event_entrySlotsSpinner1StateChanged
 
-    private void entrySlotIdInput3inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput3inputFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotIdInput3inputFocusGained
-
-    private void entrySlotIdInput3inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput3inputFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotIdInput3inputFocusLost
-
-    private void entrySlotIdInput2inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput2inputFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotIdInput2inputFocusGained
-
-    private void entrySlotIdInput2inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput2inputFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotIdInput2inputFocusLost
-
-    private void noLoadWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noLoadWaitingListRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_noLoadWaitingListRadioButtonActionPerformed
-
-    private void entrySlotIdInput1inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput1inputFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotIdInput1inputFocusGained
-
-    private void entrySlotIdInput1inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySlotIdInput1inputFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySlotIdInput1inputFocusLost
-
-    private void yesLoadWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesLoadWaitingListRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_yesLoadWaitingListRadioButtonActionPerformed
-
-    private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clearButton2ActionPerformed
-
-@Action()
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         clearSession(evt);
 }//GEN-LAST:event_clearButtonActionPerformed
 
-@Action()
 private void inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusLost
     JFormattedTextField input = (JFormattedTextField) evt.getSource();
+    boolean isFileInput = (input == entrySlotBookingListFilePathInput1 ||
+                           input == entrySlotBookingListFilePathInput2 ||
+                           input == entrySlotBookingListFilePathInput3 ||
+                           input == waitingListFilePathInput);
+    boolean isIdInput = (input == entrySlotIdInput1 ||
+                         input == entrySlotIdInput2 ||
+                         input == entrySlotIdInput3);
     if (input == eventTitleInput && input.getText().equals(""))
         input.setText(titleInputDefault);
-    else if (input.getText().equals(""))
+    else if (isFileInput && input.getText().equals(""))
         input.setText(fileInputDefault);
+    else if (isIdInput && input.getText().equals(""))
+        input.setText(idInputDefault);
 }//GEN-LAST:event_inputFocusLost
 
-@Action()
 private void inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusGained
     JFormattedTextField input = (JFormattedTextField) evt.getSource();
+    boolean isFileInput = (input == entrySlotBookingListFilePathInput1 ||
+                           input == entrySlotBookingListFilePathInput2 ||
+                           input == entrySlotBookingListFilePathInput3 ||
+                           input == waitingListFilePathInput);
+    boolean isIdInput = (input == entrySlotIdInput1 ||
+                         input == entrySlotIdInput2 ||
+                         input == entrySlotIdInput3);
     if (input == eventTitleInput && input.getText().equals(titleInputDefault))
         input.setText("");
-    else if (input.getText().equals(fileInputDefault))
+    else if (isFileInput && input.getText().equals(fileInputDefault))
+        input.setText("");
+    else if (isIdInput && input.getText().equals(idInputDefault))
         input.setText("");
 }//GEN-LAST:event_inputFocusGained
 
-@Action()
 private void yesWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesWaitingListRadioButtonActionPerformed
     updateBookingPanel(true);
 }//GEN-LAST:event_yesWaitingListRadioButtonActionPerformed
 
-@Action()
 private void noWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noWaitingListRadioButtonActionPerformed
     updateBookingPanel(true);
 }//GEN-LAST:event_noWaitingListRadioButtonActionPerformed
 
-@Action()
 private void browseFileAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseFileAction
     JFileChooser fc = new JFileChooser();
     File file = null;
     fc.addChoosableFileFilter(new TextCSVFilter());
-    int returnVal = fc.showDialog(EventSwipeApp.getApplication().getMainFrame(), "Choose");
+    int returnVal = fc.showDialog(app.getMainFrame(), "Choose");
     if (returnVal == JFileChooser.APPROVE_OPTION) {
         file = fc.getSelectedFile();
         if (evt.getSource() == bookingListBrowseButton1) {
@@ -1310,123 +1642,302 @@ private void browseFileAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event
     }
 }//GEN-LAST:event_browseFileAction
 
-@Action()
 private void entrySlotsSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_entrySlotsSpinnerStateChanged
     updateBookingPanel(true);
 }//GEN-LAST:event_entrySlotsSpinnerStateChanged
 
-@Action()
 private void okConfigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okConfigButtonActionPerformed
     checkConfiguration();
 }//GEN-LAST:event_okConfigButtonActionPerformed
 
-@Action()
 private void noBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noBookingRadioButtonActionPerformed
     updateBookingPanel(yesBookingRadioButton.isSelected());
 }//GEN-LAST:event_noBookingRadioButtonActionPerformed
 
-@Action()
 private void yesBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesBookingRadioButtonActionPerformed
     updateBookingPanel(yesBookingRadioButton.isSelected());
 }//GEN-LAST:event_yesBookingRadioButtonActionPerformed
 
-@Action()
 private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadEventButtonActionPerformed
-        if (evt.getSource() == loadEventButton1) {
-            String id = entrySlotIdInput1.getText();
-            if (id.isEmpty()) {
-                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                              "You have not entered an entry slot ID!",
-                                              "Event ID error",
-                                              JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String slotTitle = "";
-                try {
-                    slotTitle = EventSwipeApp.getApplication().getSlotTitle(id);
-                } catch (IOException ex) {
-                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                generatedTitle1.setText(slotTitle);
-            }
+    String id = "";
+    JTextField titleInput;
+    if (evt.getSource() == loadEventButton1) {
+        id = entrySlotIdInput1.getText();
+        titleInput = generatedTitle1;
+    }
+    else if(evt.getSource() == loadEventButton2) {
+        id = entrySlotIdInput2.getText();
+        titleInput = generatedTitle2;
+    }
+    else {
+        id = entrySlotIdInput3.getText();
+        titleInput = generatedTitle3;
+    }
+
+    if (id.isEmpty()) {
+        JOptionPane.showMessageDialog(app.getMainFrame(),
+                                      "You have not entered an entry slot ID!",
+                                      "Event ID error",
+                                      JOptionPane.ERROR_MESSAGE);
+    }
+    else {
+        String slotTitle = "";
+        try {
+            slotTitle = app.getSlotTitle(id);
+            titleInput.setText(slotTitle);
+        } catch (org.jsoup.HttpStatusException ex) {
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          "No event with this ID was found!",
+                                          "Event ID error",
+                                          JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (evt.getSource() == loadEventButton2) {
-            String id = entrySlotIdInput2.getText();
-            if (id.isEmpty()) {
-                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                              "You have not entered an entry slot ID!",
-                                              "Event ID error",
-                                              JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String slotTitle = "";
-                try {
-                    slotTitle = EventSwipeApp.getApplication().getSlotTitle(id);
-                } catch (IOException ex) {
-                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                generatedTitle2.setText(slotTitle);
-            }
-        }
-        if (evt.getSource() == loadEventButton3) {
-            String id = entrySlotIdInput3.getText();
-            if (id.isEmpty()) {
-                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                              "You have not entered an entry slot ID!",
-                                              "Event ID error",
-                                              JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String slotTitle = "";
-                try {
-                    slotTitle = EventSwipeApp.getApplication().getSlotTitle(id);
-                } catch (IOException ex) {
-                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                generatedTitle3.setText(slotTitle);
-            }
-        }
+    }
 }//GEN-LAST:event_loadEventButtonActionPerformed
+
+private void searchEventsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchEventsButtonActionPerformed
+    List<Event> events = new ArrayList<Event>();
+    try {
+        events = app.getEvents("");
+    } catch (Exception ex) {
+        Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    List<String> eventTitles = new ArrayList<String>();
+    for (Event event : events){
+        eventTitles.add(event.getTitle());
+    }
+    JList eventList = new JList(eventTitles.toArray());
+    eventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    eventList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    eventList.setVisibleRowCount(-1);
+    JScrollPane eventListScroller = new JScrollPane(eventList);
+    eventListScroller.setPreferredSize(new Dimension(500, 80));
+    JOptionPane.showMessageDialog(null, eventListScroller, "Select event", JOptionPane.PLAIN_MESSAGE);
+    int i = eventList.getSelectedIndex();
+    if (i != -1) {
+        if (evt.getSource() == searchEventsButton1) {
+            entrySlotIdInput1.setText(events.get(i).getId());
+            generatedTitle1.setText(events.get(i).getTitle());
+        }
+        if (evt.getSource() == searchEventsButton2) {
+            entrySlotIdInput2.setText(events.get(i).getId());
+            generatedTitle2.setText(events.get(i).getTitle());
+        }
+        if (evt.getSource() == searchEventsButton3) {
+            entrySlotIdInput3.setText(events.get(i).getId());
+            generatedTitle3.setText(events.get(i).getTitle());
+        }
+    }
+}//GEN-LAST:event_searchEventsButtonActionPerformed
+
+private void onlineConfigBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlineConfigBackButtonActionPerformed
+    switchToPanel(preConfigPanel);
+}//GEN-LAST:event_onlineConfigBackButtonActionPerformed
+
+private void configBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configBackButtonActionPerformed
+    switchToPanel(preConfigPanel);
+}//GEN-LAST:event_configBackButtonActionPerformed
+
+private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
+    if (app.isOnlineMode())
+        switchToPanel(onlineConfigPanel);
+    else
+        switchToPanel(configPanel);
+}//GEN-LAST:event_backButton1ActionPerformed
+
+private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+    String input = searchInput.getText();
+    if (!input.isEmpty()) {
+        if (Utils.isNumeric(input)) {
+            Booking booking = app.processSearchInput(input);
+            updateBookingStatus(booking);
+        }
+        else {
+            List<Student> students = new ArrayList<Student>();
+            try {
+                students = app.getStudents(input);
+            } catch (Exception ex) {
+                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            List<String> studentNames = new ArrayList<String>();
+            for (Student student : students){
+                studentNames.add(student.getFirstName()+" "+student.getLastName());
+            }
+            JList studentList = new JList(studentNames.toArray());
+            studentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            studentList.setLayoutOrientation(JList.VERTICAL_WRAP);
+            studentList.setVisibleRowCount(-1);
+            JScrollPane studentListScroller = new JScrollPane(studentList);
+            studentListScroller.setPreferredSize(new Dimension(500, 80));
+            JOptionPane.showMessageDialog(null, studentListScroller, "Select student",
+                                          JOptionPane.PLAIN_MESSAGE);
+            int i = studentList.getSelectedIndex();
+            if (i != -1) {
+                searchInput.setText(students.get(i).getStuNumber().toString());
+                searchButton.doClick();
+            }
+        }
+    }
+}//GEN-LAST:event_searchButtonActionPerformed
+
+private void checkingModeToggle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkingModeToggle1ActionPerformed
+    toggleCheckingMode();
+}//GEN-LAST:event_checkingModeToggle1ActionPerformed
+
+private void onlineModeToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlineModeToggleActionPerformed
+    toggleOnlineMode();
+}//GEN-LAST:event_onlineModeToggleActionPerformed
+
+private void clearButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButton3ActionPerformed
+    clearSession(evt);
+}//GEN-LAST:event_clearButton3ActionPerformed
+
+private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startOfflineButtonActionPerformed
+    app.setOnlineModeFlag(false);
+    switchToPanel(configPanel);
+}//GEN-LAST:event_startOfflineButtonActionPerformed
     
     private void checkConfiguration() {
-        EventSwipeApp.getApplication().setBookingFlag(yesBookingRadioButton.isSelected());
-        EventSwipeApp.getApplication().setWaitingListFlag(yesWaitingListRadioButton.isSelected());
-        EventSwipeApp.getApplication().setSlots((Integer)entrySlotsSpinner.getValue());
+        int slots = (Integer) entrySlotsSpinner.getValue();
+        boolean booking = yesBookingRadioButton.isSelected();
+        boolean waitingList = yesWaitingListRadioButton.isSelected();
+        app.setBookingFlag(booking);
+        app.setWaitingListFlag(waitingList);
+        app.setSlots(slots);
         boolean configOK = false;
         if (eventTitleInput.getText().equals(titleInputDefault)) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+            JOptionPane.showMessageDialog(app.getMainFrame(),
                                           "You have not entered an event title. Please write one!",
                                           "Event title error",
                                           JOptionPane.ERROR_MESSAGE);
         }
         else {
-            EventSwipeApp.getApplication().setEventTitle(eventTitleInput.getText());
+            app.setEventTitle(eventTitleInput.getText());
             configOK = true;
         }
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 0)
-            configOK = EventSwipeApp.getApplication().setFile(BookingList.BOOKING_1, new File(entrySlotBookingListFilePathInput1.getText()));
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 1)
-            configOK = EventSwipeApp.getApplication().setFile(BookingList.BOOKING_2, new File(entrySlotBookingListFilePathInput2.getText()));
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getSlots() > 2)
-            configOK = EventSwipeApp.getApplication().setFile(BookingList.BOOKING_3, new File(entrySlotBookingListFilePathInput3.getText()));
-        if (configOK && EventSwipeApp.getApplication().getBookingFlag() && EventSwipeApp.getApplication().getWaitingListFlag())
-            configOK = EventSwipeApp.getApplication().setFile(BookingList.WAITING_LIST, new File(waitingListFilePathInput.getText()));
+        if (configOK && booking && slots > 0) {
+            configOK = app.setFile(BookingList.BOOKING_1,
+                                   new File(entrySlotBookingListFilePathInput1.getText()));
+        }
+        if (configOK && booking && slots > 1) {
+            configOK = app.setFile(BookingList.BOOKING_2,
+                                   new File(entrySlotBookingListFilePathInput2.getText()));
+        }
+        if (configOK && booking && slots > 2) {
+            configOK = app.setFile(BookingList.BOOKING_3,
+                                   new File(entrySlotBookingListFilePathInput3.getText()));
+        }
+        if (configOK && booking && waitingList) {
+            configOK = app.setFile(BookingList.WAITING_LIST,
+                                   new File(waitingListFilePathInput.getText()));
+        }
         if (configOK) {
-            EventSwipeApp.getApplication().createLog(eventTitleInput.getText());
-            switchToPanel(mainPanel);
+            app.createLog(eventTitleInput.getText());
+            onlineModeToggle.setEnabled(false);
+            switchToPanel(mainOnlinePanel);
+        }
+    }
+
+    private void checkOnlineConfiguration() {
+        int slots = (Integer) entrySlotsSpinner1.getValue();
+        boolean useWaitingList = yesLoadWaitingListRadioButton.isSelected();
+        app.setWaitingListFlag(useWaitingList);
+        app.setSlots(slots);
+        boolean configOK = false;
+        String id = entrySlotIdInput1.getText();
+        String title = generatedTitle1.getText();
+        String eventTitle = "";
+        if (!(id.equals(idInputDefault) || id.equals(""))) {
+            try {
+                if (title.equals("")) {
+                    generatedTitle1.setText(app.getSlotTitle(id));
+                }
+                eventTitle = title;
+                app.setApiBookingList(BookingList.BOOKING_1, id);
+                app.setId(BookingList.BOOKING_1, id);
+                if (useWaitingList) {
+                    app.setApiWaitingList(id);
+                }
+                configOK = true;
+            } catch (Exception ex) {
+                configOK = false;
+                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else {
+            configOK = false;
+        }
+        id = entrySlotIdInput2.getText();
+        title = generatedTitle2.getText();
+        if (configOK && slots > 1 && !(id.equals(idInputDefault) || id.equals(""))) {
+            try {
+                if (title.equals("")) {
+                    generatedTitle1.setText(app.getSlotTitle(id));
+                }
+                eventTitle += " / " + title;
+                app.setApiBookingList(BookingList.BOOKING_2, id);
+                app.setId(BookingList.BOOKING_2, id);
+                if (useWaitingList) {
+                    app.setApiWaitingList(id);
+                }
+                configOK = true;
+            } catch (Exception ex) {
+                configOK = false;
+                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else if (slots > 1) {
+            configOK = false;
+        }
+        id = entrySlotIdInput3.getText();
+        title = generatedTitle3.getText();
+        if (configOK && slots > 2 && !(id.equals(idInputDefault) || id.equals(""))) {
+            try {
+                if (title.equals("")) {
+                    generatedTitle1.setText(app.getSlotTitle(id));
+                }
+                eventTitle += " / " + title;
+                app.setApiBookingList(BookingList.BOOKING_3, id);
+                app.setId(BookingList.BOOKING_3, id);
+                if (useWaitingList) {
+                    app.setApiWaitingList(id);
+                }
+                configOK = true;
+            } catch (Exception ex) {
+                configOK = false;
+                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else if (slots > 2) {
+            configOK = false;
+        }
+
+        if (configOK) {
+            app.setEventTitle(eventTitle);
+            app.createLog(eventTitle);
+            onlineModeToggle.setEnabled(true);
+            switchToPanel(mainOnlinePanel);
+        }
+        else {
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          "There is something wrong with your event details. " +
+                                          "Please try entering them again.",
+                                          "Event configuration error",
+                                          JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void checkBooking() {
-        String stuNumber = studentNumberInput.getText();
+        String stuNumber = searchInput.getText();
         if (stuNumber.isEmpty()) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
+            JOptionPane.showMessageDialog(app.getMainFrame(),
                                           "Please enter a student number!",
                                           "No student number",
                                           JOptionPane.ERROR_MESSAGE);
         }
         else {
-            updateBookingStatus(EventSwipeApp.getApplication().checkBooking(stuNumber));
+            updateBookingStatus(app.checkBooking(stuNumber));
         }
     }
 
@@ -1442,14 +1953,14 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
         }
         else if(booking.isOnWaitingList()) {
             Utils.pressAlt();
-            int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+            int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
                                                       "Student is on the waiting list. "
                                                       + "Allow student to enter?",
                                                       "Student on waiting list",
                                                       JOptionPane.YES_NO_OPTION);
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
-                EventSwipeApp.getApplication().recordAttendance(stuNumber, 0);
+                app.recordAttendance(stuNumber, 0);
                 bookingStatus = "Recorded";
                 message += " has been recorded";
             }
@@ -1459,10 +1970,10 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
         }
         else if (booking.isBooked()) {
-            if (EventSwipeApp.getApplication().getBookingFlag()) {
+            if (app.getBookingFlag()) {
                 bookingStatus = "Booked";
                 message += " has booked";
-                if (EventSwipeApp.getApplication().getSlots() > 1) {
+                if (app.getSlots() > 1) {
                     message += " for entry slot " + slot;
                 }
             }
@@ -1473,14 +1984,14 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
         }
         else { //not booked
             Utils.pressAlt();
-            int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                                      "Student is not booked. "
-                                                      + "Allow student to enter?",
+            int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
+                                                      "Student is not booked. " +
+                                                      "Allow student to enter?",
                                                       "Student not booked",
                                                       JOptionPane.YES_NO_OPTION);
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
-                EventSwipeApp.getApplication().recordAttendance(stuNumber, 0);
+                app.recordAttendance(stuNumber, 0);
                 bookingStatus = "Recorded";
                 message += " has been recorded";
             }
@@ -1491,57 +2002,69 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
         }
         displayBookingStatus(bookingStatus, slot);
         displayBookingMessage(message);
-        EventSwipeApp.getApplication().log(message);
+        app.log(message);
     }
 
     private void displayBookingMessage(String message) {
         message += "\n";
-        bookingStatusTextArea.append(message);
-        studentNumberInput.setText("");
-        studentNumberInput.requestFocusInWindow();
+        bookingStatusTextArea1.append(message);
+        searchInput.setText("");
+        searchInput.requestFocusInWindow();
     }
 
     private void displayBookingStatus(String statusMessage, String slot) {
-        statusDisplayTextField.setText(statusMessage);
-        entrySlotDisplayTextField.setText(slot);
+        statusDisplayTextField1.setText(statusMessage);
+        entrySlotDisplayTextField1.setText(slot);
         Color color;
         boolean enabled;
         if(statusMessage.equals("Booked")) {
             color = Color.GREEN;
             enabled = true;
-            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication()
-                                                  .getAttendeeCount());
+            localAttendeeCountTextField.setText(app.getLocalAttendeeCount());
         }
         else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
             color = Color.WHITE;
             enabled = false;
-            attendeeCountDisplayTextField.setText(EventSwipeApp.getApplication()
-                                                  .getAttendeeCount());
+            localAttendeeCountTextField.setText(app.getLocalAttendeeCount());
         }
         else {
             enabled = false;
             color = statusMessage.equals("Not booked") ? Color.RED : Color.ORANGE;
         }
-        statusDisplayTextField.setBackground(color);
-        entrySlotLabel.setEnabled(enabled);
-        entrySlotDisplayTextField.setEnabled(enabled);
+        statusDisplayTextField1.setBackground(color);
+        entrySlotLabel1.setEnabled(enabled);
+        entrySlotDisplayTextField1.setEnabled(enabled);
         //set up and start timer to remove background colour from bookking status
         int delay = 250; //milliseconds
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                statusDisplayTextField.setBackground(null);
+                statusDisplayTextField1.setBackground(null);
             }
         };
         Timer timer = new Timer(delay, taskPerformer);
         timer.setRepeats(false);
         timer.start();
+        try {
+            totalAttendeeCountDisplay.setText(app.getAttendeeCount());
+        } catch (Exception ex) {
+            Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void switchToPanel(JPanel panel) {
-        JFrame mainFrame = EventSwipeApp.getApplication().getMainFrame();
+        JFrame mainFrame = app.getMainFrame();
         mainFrame.setContentPane(panel);
-        if (panel == mainPanel)
-            studentNumberInput.requestFocusInWindow();
+        if (panel == mainOnlinePanel) {
+            boolean online = app.isOnlineMode();
+            boolean booking = app.getBookingFlag();
+            searchInput.requestFocusInWindow();
+            onlineModeToggle.setSelected(online);
+            onlineModeToggle.setToolTipText(online ? onlineModeTooltipText : 
+                                                     offlineModeTooltipText);
+            checkingModeToggle1.setSelected(booking);
+            checkingModeToggle1.setText(booking ? checkingListsText :
+                                                  recordingAllText);
+        }
         panel.revalidate();
         mainFrame.repaint();
     }
@@ -1569,13 +2092,13 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
         noWaitingListRadioButton.setEnabled(enabled);
         yesWaitingListRadioButton.setEnabled(enabled);
         waitingListLabel.setEnabled(enabled);
-        entrySlotLabel.setEnabled(enabled);
-        entrySlotDisplayTextField.setText(enabled ? "": "N/A");
-        entrySlotDisplayTextField.setEnabled(enabled);
-        checkingModeToggle.setEnabled(enabled);
-        checkingModeToggle.setText(enabled ? "Checking booking lists" :
-                                             "Recording all students");
-        checkingModeToggle.setSelected(enabled);
+        
+        entrySlotLabel1.setEnabled(enabled);
+        entrySlotDisplayTextField1.setText(enabled ? "": "N/A");
+        entrySlotDisplayTextField1.setEnabled(enabled);
+        checkingModeToggle1.setEnabled(enabled);
+        checkingModeToggle1.setText(enabled ? checkingListsText :
+                                             recordingAllText);
         toggleMenuItem.setEnabled(enabled);
     }
 
@@ -1585,105 +2108,109 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
 
         loadEventButton1.setEnabled(enabled);
         entrySlotIdInput1.setEnabled(enabled);
+        searchEventsButton1.setEnabled(enabled);
 
         loadEventButton2.setEnabled(enabled && slots > 1);
         entrySlotIdInput2.setEnabled(enabled && slots > 1);
+        searchEventsButton2.setEnabled(enabled && slots > 1);
 
         loadEventButton3.setEnabled(enabled && slots > 2);
         entrySlotIdInput3.setEnabled(enabled && slots > 2);
+        searchEventsButton3.setEnabled(enabled && slots > 2);
 
-        checkingModeToggle.setEnabled(enabled);
-        checkingModeToggle.setText(enabled ? "Checking booking lists" :
-                                             "Recording all students");
-        checkingModeToggle.setSelected(enabled);
+        checkingModeToggle1.setEnabled(enabled);
+        checkingModeToggle1.setText(enabled ? checkingListsText :
+                                             recordingAllText);
         toggleMenuItem.setEnabled(enabled);
     }
 
 
     private void toggleCheckingMode() {
-        if (checkingModeToggle.isSelected()) {
-            EventSwipeApp.getApplication().setBookingFlag(true);
-            checkingModeToggle.setText("Checking booking lists");
+        if (checkingModeToggle1.isSelected()) {
+            app.setBookingFlag(true);
+            checkingModeToggle1.setText(checkingListsText);
         }
         else {
-            EventSwipeApp.getApplication().setBookingFlag(false);
-            checkingModeToggle.setText("Recording all students");
+            app.setBookingFlag(false);
+            checkingModeToggle1.setText(recordingAllText);
+        }
+    }
+
+    private void toggleOnlineMode() {
+        if (onlineModeToggle.isSelected()) {
+            app.setOnlineModeFlag(true);
+            onlineModeToggle.setToolTipText(onlineModeTooltipText);
+        }
+        else {
+            app.setOnlineModeFlag(false);
+            onlineModeToggle.setToolTipText(offlineModeTooltipText);
         }
     }
 
     private void clearSession(java.awt.event.ActionEvent evt) {
         Utils.pressAlt();
-        int reply = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
+        int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
                                                       "Clear all booking data and restart session?",
                                                       "Clear all data warning",
                                                       JOptionPane.YES_NO_OPTION);
         Utils.releaseAlt();
         if (reply == JOptionPane.YES_OPTION) {
-            if (evt.getSource().equals(clearButton1))
-                switchToPanel(configPanel);
-            EventSwipeApp.getApplication().clearData();
-            eventTitleInput.setText(titleInputDefault);
-            entrySlotBookingListFilePathInput1.setText(fileInputDefault);
-            entrySlotBookingListFilePathInput2.setText(fileInputDefault);
-            entrySlotBookingListFilePathInput3.setText(fileInputDefault);
-            waitingListFilePathInput.setText(fileInputDefault);
-            entrySlotsSpinner.setValue(1);
-            noWaitingListRadioButton.setSelected(true);
-            noBookingRadioButton.setSelected(true);
+            if (evt.getSource() == clearButton3)
+                switchToPanel(preConfigPanel);
+            app.clearData();
+            clearConfigPanel();
+            clearOnlineConfigPanel();
             displayBookingStatus("", "N/A");
             bookingStatusTextArea.setText("");
-            eventTitleInput.requestFocusInWindow();
-            updateBookingPanel(false);
         }
     }
 
-    @Action
-    public void logIn() {
-        String username = usernameInput.getText();
-        char[] password = passwordInput.getPassword();
-        if (username.isEmpty() || username.equals(usernameInputDefault)) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                          "Please enter your CareerHub username.",
-                                          "No username",
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        else if (password.length == 0) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                          "Please enter your CareerHub password.",
-                                          "No password",
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-            try {
-                EventSwipeApp.getApplication().logIn(username, password);
-                switchToPanel(onlineConfigPanel);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                              "Your username or password were incorrect." +
-                                              "Please try again",
-                                              "Log in error",
-                                              JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        Arrays.fill(password,'0');
+    private void clearConfigPanel() {
+        eventTitleInput.setText(titleInputDefault);
+        entrySlotBookingListFilePathInput1.setText(fileInputDefault);
+        entrySlotBookingListFilePathInput2.setText(fileInputDefault);
+        entrySlotBookingListFilePathInput3.setText(fileInputDefault);
+        waitingListFilePathInput.setText(fileInputDefault);
+        entrySlotsSpinner.setValue(1);
+        noWaitingListRadioButton.setSelected(true);
+        noBookingRadioButton.setSelected(true);
+        updateBookingPanel(false);
+    }
+
+    private void clearOnlineConfigPanel() {
+        entrySlotIdInput1.setText(idInputDefault);
+        entrySlotIdInput2.setText(idInputDefault);
+        entrySlotIdInput3.setText(idInputDefault);
+        yesLoadWaitingListRadioButton.setSelected(true);
+        entrySlotsSpinner1.setValue(1);
+        updateOnlineBookingPanel(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aboutEventLabel;
     private javax.swing.JFormattedTextField attendeeCountDisplayTextField;
     private javax.swing.JLabel attendeeCountLabel;
+    private javax.swing.JLabel attendeeCountLabel1;
+    private javax.swing.JLabel attendeeCountLabel2;
     private javax.swing.JButton backButton;
+    private javax.swing.JButton backButton1;
     private javax.swing.JPanel bookingDetailsPanel;
     private javax.swing.JPanel bookingDetailsPanel1;
     private javax.swing.JButton bookingListBrowseButton1;
     private javax.swing.JButton bookingListBrowseButton2;
     private javax.swing.JButton bookingListBrowseButton3;
+    private javax.swing.JPanel bookingStatusPanel;
     private javax.swing.JScrollPane bookingStatusScrollPane;
+    private javax.swing.JScrollPane bookingStatusScrollPane1;
     private javax.swing.JTextArea bookingStatusTextArea;
+    private javax.swing.JTextArea bookingStatusTextArea1;
     private javax.swing.JToggleButton checkingModeToggle;
+    private javax.swing.JToggleButton checkingModeToggle1;
     private javax.swing.JButton clearButton;
     private javax.swing.JButton clearButton1;
     private javax.swing.JButton clearButton2;
+    private javax.swing.JButton clearButton3;
+    private javax.swing.JButton configBackButton;
     private javax.swing.JPanel configPanel;
     private javax.swing.JButton enterStudentNumberButton;
     private javax.swing.JFormattedTextField entrySlotBookingListFilePathInput1;
@@ -1693,6 +2220,7 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JLabel entrySlotBookingListLabel2;
     private javax.swing.JLabel entrySlotBookingListLabel3;
     private javax.swing.JFormattedTextField entrySlotDisplayTextField;
+    private javax.swing.JFormattedTextField entrySlotDisplayTextField1;
     private javax.swing.JFormattedTextField entrySlotIdInput1;
     private javax.swing.JFormattedTextField entrySlotIdInput2;
     private javax.swing.JFormattedTextField entrySlotIdInput3;
@@ -1700,12 +2228,15 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JLabel entrySlotIdLabel2;
     private javax.swing.JLabel entrySlotIdLabel3;
     private javax.swing.JLabel entrySlotLabel;
+    private javax.swing.JLabel entrySlotLabel1;
     private javax.swing.JLabel entrySlotsLabel;
     private javax.swing.JLabel entrySlotsLabel1;
     private javax.swing.JSpinner entrySlotsSpinner;
     private javax.swing.JSpinner entrySlotsSpinner1;
     private javax.swing.JFormattedTextField eventTitleInput;
     private javax.swing.JLabel eventTitleInputLabel;
+    private javax.swing.JLabel generatedStudentLabel;
+    private javax.swing.JTextField generatedStudentName;
     private javax.swing.JTextField generatedTitle1;
     private javax.swing.JTextField generatedTitle2;
     private javax.swing.JTextField generatedTitle3;
@@ -1717,10 +2248,12 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JButton loadEventButton2;
     private javax.swing.JButton loadEventButton3;
     private javax.swing.JLabel loadWaitingListLabel;
+    private javax.swing.JFormattedTextField localAttendeeCountTextField;
     private javax.swing.JButton logInButton;
     private javax.swing.JLabel logInLabel;
     private javax.swing.JSeparator loginOfflineSeparator;
     private javax.swing.JPanel loginPanel;
+    private javax.swing.JPanel mainOnlinePanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mainTitle;
     private javax.swing.JMenuBar menuBar;
@@ -1729,24 +2262,38 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JRadioButton noWaitingListRadioButton;
     private javax.swing.JButton okConfigButton;
     private javax.swing.JButton okConfigButton1;
+    private javax.swing.JButton onlineConfigBackButton;
     private javax.swing.JPanel onlineConfigPanel;
+    private javax.swing.JToggleButton onlineModeToggle;
     private javax.swing.JPasswordField passwordInput;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JPanel preConfigPanel;
     private javax.swing.ButtonGroup requireBookingButtonGroup;
     private javax.swing.JLabel requireBookingLabel;
     private javax.swing.JButton saveButton;
+    private javax.swing.JButton saveButton1;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JButton searchEventsButton1;
+    private javax.swing.JButton searchEventsButton2;
+    private javax.swing.JButton searchEventsButton3;
+    private javax.swing.JFormattedTextField searchInput;
+    private javax.swing.JLabel searchInputLabel;
     private javax.swing.JLabel smallLogoLabel;
     private javax.swing.JButton startOfflineButton;
     private javax.swing.JFormattedTextField statusDisplayTextField;
+    private javax.swing.JFormattedTextField statusDisplayTextField1;
     private javax.swing.JLabel statusLabel;
+    private javax.swing.JLabel statusLabel1;
     private javax.swing.JFormattedTextField studentNumberInput;
     private javax.swing.JLabel studentNumberInputLabel;
+    private javax.swing.JLabel thisMachineLabel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titleLoginPanel;
     private javax.swing.JPanel titlePanel;
     private javax.swing.JMenuItem toggleMenuItem;
+    private javax.swing.JFormattedTextField totalAttendeeCountDisplay;
+    private javax.swing.JLabel totalLabel;
     private javax.swing.JTextArea useOfflineDescription;
     private javax.swing.JLabel useOfflineLabel;
     private javax.swing.JTextField usernameInput;
@@ -1766,5 +2313,11 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private String fileInputDefault;
     private String idInputDefault;
     private String usernameInputDefault;
+    private String recordingAllText;
+    private String checkingListsText;
+    private String onlineModeTooltipText;
+    private String offlineModeTooltipText;
+
+    private EventSwipeApp app = EventSwipeApp.getApplication();
 
 }

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.EventObject;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
@@ -25,12 +26,12 @@ public class EventSwipeApp extends SingleFrameApplication {
      * At startup create and show the main frame of the application.
      */
     @Override protected void startup() {
-        eventSwipeData = new EventSwipeData();
+        data = new EventSwipeData();
         logger = new EventSwipeLogger();
         api = new CareerHubAPI();
         HttpUtils.setCookiePolicy();
         if (Utils.isInternetReachable()) {
-            eventSwipeData.setNetFlag(true);
+            data.setNetFlag(true);
         }
         show(new EventSwipeView(this));
     }
@@ -45,7 +46,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         this.addExitListener(new org.jdesktop.application.Application.ExitListener() {
 
             public boolean canExit(EventObject arg0) {
-                return eventSwipeData.getSavedFlag();
+                return data.getSavedFlag();
             }
 
             public void willExit(EventObject arg0) {
@@ -58,7 +59,7 @@ public class EventSwipeApp extends SingleFrameApplication {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                if (e.getID() == WindowEvent.WINDOW_CLOSING && !eventSwipeData.getSavedFlag()) {
+                if (e.getID() == WindowEvent.WINDOW_CLOSING && !data.getSavedFlag()) {
                     Utils.pressAlt();
                     int exit = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                      "You have recorded unsaved records. " +
@@ -67,10 +68,10 @@ public class EventSwipeApp extends SingleFrameApplication {
                                                      JOptionPane.YES_NO_OPTION);
                     Utils.releaseAlt();
                     if (exit == JOptionPane.YES_OPTION) {
-                        eventSwipeData.setSavedFlag(true);
+                        data.setSavedFlag(true);
                     }
                     else {
-                        eventSwipeData.setSavedFlag(false);
+                        data.setSavedFlag(false);
                     }
                 }
                 else {
@@ -90,35 +91,47 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public void setBookingFlag(boolean selected) {
-        eventSwipeData.setBookingFlag(selected);
+        data.setBookingFlag(selected);
     }
 
     public void setWaitingListFlag(boolean selected) {
-        eventSwipeData.setWaitingListFlag(selected);
+        data.setWaitingListFlag(selected);
     }
 
     public boolean getBookingFlag() {
-        return eventSwipeData.isBookingFlag();
+        return data.isBookingFlag();
     }
 
     public boolean getWaitingListFlag() {
-        return eventSwipeData.isWaitingListFlag();
+        return data.isWaitingListFlag();
     }
 
     public void setSlots(int slots) {
-        eventSwipeData.setSlots(slots);
+        data.setSlots(slots);
     }
 
     public int getSlots() {
-        return eventSwipeData.getSlots();
+        return data.getSlots();
     }
 
     public boolean setFile(BookingList fileFunction, File file) {
-        return eventSwipeData.setFile(fileFunction, file);
+        return data.setFile(fileFunction, file);
     }
 
     public void setEventTitle(String title) {
-        eventSwipeData.setEventTitle(title);
+        data.setEventTitle(title);
+    }
+
+    public void setOnlineModeFlag(boolean flag) {
+        data.setOnlineMode(flag);
+    }
+
+    public boolean isOnlineMode() {
+        return data.isOnlineMode();
+    }
+
+    public void setId(BookingList bookingList, String id) {
+        data.setId(bookingList, id);
     }
 
     public Booking checkBooking(String stuNumber) {
@@ -128,24 +141,24 @@ public class EventSwipeApp extends SingleFrameApplication {
         boolean booked = true;
         boolean waitingList = false;
         boolean alreadyRecorded = false;
-        if(eventSwipeData.isBookingFlag()) {
-            if (slots > 0 && eventSwipeData.getBookingList(BookingList.BOOKING_1).contains(stuNumber)) {
+        if(data.isBookingFlag()) {
+            if (slots > 0 && data.getBookingList(BookingList.BOOKING_1).contains(stuNumber)) {
                 slot = 1;
             }
-            else if(slots > 1 && eventSwipeData.getBookingList(BookingList.BOOKING_2).contains(stuNumber)) {
+            else if(slots > 1 && data.getBookingList(BookingList.BOOKING_2).contains(stuNumber)) {
                 slot = 2;
             }
-            else if(slots > 2 && eventSwipeData.getBookingList(BookingList.BOOKING_3).contains(stuNumber)) {
+            else if(slots > 2 && data.getBookingList(BookingList.BOOKING_3).contains(stuNumber)) {
                 slot = 3;
             }
             else {
                 booked = false;
-                if (eventSwipeData.isWaitingListFlag())
-                    waitingList = eventSwipeData.getBookingList(BookingList.WAITING_LIST)
+                if (data.isWaitingListFlag())
+                    waitingList = data.getBookingList(BookingList.WAITING_LIST)
                                   .contains(stuNumber);
             }
         }
-        if (eventSwipeData.getAllBookedList().contains(stuNumber)) {
+        if (data.getAllBookedList().contains(stuNumber)) {
             alreadyRecorded = true;
         }
         else if(booked) {
@@ -158,9 +171,20 @@ public class EventSwipeApp extends SingleFrameApplication {
         return booking;
     }
     
-    public String getAttendeeCount() {
-        Integer a = eventSwipeData.getAttendeesCount();
+    public String getLocalAttendeeCount() {
+        Integer a = data.getLocalAttendeeCount();
         return a.toString();
+    }
+
+    public String getAttendeeCount() throws MalformedURLException, IOException {
+        int slots = data.getSlots();
+        int a1 = api.getAttendeeCount(data.getId1()), a2 = 0, a3 = 0;
+        if (slots > 1)
+            a2 = api.getAttendeeCount(data.getId2());
+        if (slots > 2)
+        a3 = api.getAttendeeCount(data.getId3());
+        Integer i = a1 + a2 + a3;
+        return i.toString();
     }
 
     public void recordAttendance(String stuNumber, int slot) {
@@ -178,10 +202,10 @@ public class EventSwipeApp extends SingleFrameApplication {
             default: 
                 break;
         }
-        eventSwipeData.getAttendeesList().add(record);
-        eventSwipeData.incrementAttendeesCount();
-        eventSwipeData.getAllBookedList().add(stuNumber);
-        eventSwipeData.setSavedFlag(false);
+        data.getAttendeesList().add(record);
+        data.incrementAttendeesCount();
+        data.getAllBookedList().add(stuNumber);
+        data.setSavedFlag(false);
     }
 
     public void writeToFile(File file, String content) {
@@ -196,7 +220,7 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     @Action
     public void saveAttendeesToFile() {
-        String header = eventSwipeData.getEventTitle();
+        String header = data.getEventTitle();
 	header += " - " + Utils.getDate("dd/MM/yyyy HH:mm:ss") + System.getProperty("line.separator");
         FileDialog fDialog = new FileDialog(this.getMainFrame(), 
                         "Save attendees list", FileDialog.SAVE);
@@ -213,11 +237,11 @@ public class EventSwipeApp extends SingleFrameApplication {
                 System.err.println("Error: " + e.getMessage());
             }
             writeToFile(saveFile, header);
-            for (int i = 0; i < eventSwipeData.getAttendeesList().size(); i++) {
-                writeToFile(saveFile, eventSwipeData.getAttendeesList().get(i) + 
+            for (int i = 0; i < data.getAttendeesList().size(); i++) {
+                writeToFile(saveFile, data.getAttendeesList().get(i) +
                                       System.getProperty("line.separator"));
             }
-            eventSwipeData.setSavedFlag(true);
+            data.setSavedFlag(true);
             Desktop dk = Desktop.getDesktop();
             try {
                 dk.open(saveFile);
@@ -236,7 +260,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public void clearData() {
-        eventSwipeData.clearData();
+        data.clearData();
     }
 
     public void logIn(String username, char[] password) throws MalformedURLException, IOException {
@@ -248,6 +272,29 @@ public class EventSwipeApp extends SingleFrameApplication {
         return api.getEventTitle(id);
     }
 
+    public List<Event> getEvents(String term) throws MalformedURLException, IOException {
+        return api.getEvents(term);
+    }
+
+    public void setApiBookingList(BookingList bookingList, String eventKey) throws MalformedURLException, IOException {
+        List<Booking> bookings = api.getBookingList(eventKey);
+        data.setBookingList(bookingList, bookings);
+    }
+
+    public void setApiWaitingList(String eventKey) throws MalformedURLException, IOException {
+        List<Booking> waitingList = api.getWaitingList(eventKey);
+        data.setApiWaitingList(waitingList);
+    }
+
+    public Booking processSearchInput(String input) {
+        //TODO
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Student> getStudents(String input) throws MalformedURLException, IOException {
+        return api.getStudents(input);
+    }
+
     /**
      * Main method launching the application.
      */
@@ -256,7 +303,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     private EventSwipeLogger logger;
-    private EventSwipeData eventSwipeData;
+    private EventSwipeData data;
     private BookingSystemAPI api;
 
 }
