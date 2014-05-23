@@ -1,5 +1,6 @@
 package eventswipe;
 
+import eventswipe.BookingSystemAPI.STATUS;
 import eventswipe.EventSwipeData.BookingList;
 import java.awt.Desktop;
 import java.awt.FileDialog;
@@ -9,9 +10,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventObject;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
@@ -134,41 +138,69 @@ public class EventSwipeApp extends SingleFrameApplication {
         data.setId(bookingList, id);
     }
 
-    public Booking checkBooking(String stuNumber) {
-        Booking booking = new Booking(stuNumber);
-        int slots = getSlots();
+    public Booking checkBooking(String stuNumber) throws MalformedURLException, IOException {
+        Booking bookingResult = new Booking(stuNumber);
         int slot = 0;
+        String bookingId = "";
         boolean booked = true;
         boolean waitingList = false;
         boolean alreadyRecorded = false;
-        if(data.isBookingFlag()) {
-            if (slots > 0 && data.getBookingList(BookingList.BOOKING_1).contains(stuNumber)) {
-                slot = 1;
-            }
-            else if(slots > 1 && data.getBookingList(BookingList.BOOKING_2).contains(stuNumber)) {
-                slot = 2;
-            }
-            else if(slots > 2 && data.getBookingList(BookingList.BOOKING_3).contains(stuNumber)) {
-                slot = 3;
-            }
-            else {
-                booked = false;
-                if (data.isWaitingListFlag())
-                    waitingList = data.getBookingList(BookingList.WAITING_LIST)
-                                  .contains(stuNumber);
-            }
-        }
-        if (data.getAllBookedList().contains(stuNumber)) {
+
+        if (data.getAllRecordedList().contains(stuNumber)) {
             alreadyRecorded = true;
         }
-        else if(booked) {
-            recordAttendance(stuNumber, slot);
+        else if(data.isBookingFlag()) {
+            booked = false;
+            for (Event event : data.getEvents()) {
+                for (Booking booking : event.getBookingList()) {
+                    if (booking.getStuNumber().equals(stuNumber)) {
+                        booked = true;
+                        slot = event.getSlot();
+                        bookingId = booking.getBookingId().toString();
+                        break;
+                    }
+                }
+            }
+            if (!booked && data.isWaitingListFlag()) {
+                for (Event event : data.getEvents()) {
+                    for (Student student : event.getWaitingList()) {
+                        if (student.getStuNumber() == Integer.parseInt(stuNumber)) {
+                            waitingList = true;
+                            slot = event.getSlot();
+                        }
+                    }
+                }
+            }
         }
-        booking.setBooked(booked);
-        booking.setEntrySlot(slot);
-        booking.setAlreadyRecorded(alreadyRecorded);
-        booking.setOnWaitingList(waitingList);
-        return booking;
+        else if (data.isOnlineMode()) {
+            api.bookStudent(stuNumber, data.getMasterEvent().getId());
+            slot = EventSwipeData.MASTER_SLOT;
+        }
+
+        if(booked && !alreadyRecorded) {
+            String key = data.isOnlineMode() ? bookingId : stuNumber;
+            recordAttendance(key, slot);
+        }
+
+        bookingResult.setBooked(booked);
+        bookingResult.setEntrySlot(slot);
+        bookingResult.setAlreadyRecorded(alreadyRecorded);
+        bookingResult.setOnWaitingList(waitingList);
+        return bookingResult;
+    }
+
+    public void recordAttendance(String stuNumber, int slot) throws MalformedURLException, IOException {
+        Event event = slot == EventSwipeData.MASTER_SLOT ? data.getMasterEvent() :
+                                                           data.getEvents().get(slot - 1);
+        if (data.isOnlineMode()) {
+            api.markStatus(STATUS.ATTENDED, stuNumber, event.getId());
+        }
+        else {
+            event.getUnsavedList().add(stuNumber);
+            data.setSavedFlag(false);
+        }
+        data.incrementAttendeesCount();
+        data.getAllRecordedList().add(stuNumber);
     }
     
     public String getLocalAttendeeCount() {
@@ -177,35 +209,11 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public String getAttendeeCount() throws MalformedURLException, IOException {
-        int slots = data.getSlots();
-        int a1 = api.getAttendeeCount(data.getId1()), a2 = 0, a3 = 0;
-        if (slots > 1)
-            a2 = api.getAttendeeCount(data.getId2());
-        if (slots > 2)
-        a3 = api.getAttendeeCount(data.getId3());
-        Integer i = a1 + a2 + a3;
-        return i.toString();
-    }
-
-    public void recordAttendance(String stuNumber, int slot) {
-        String record = stuNumber;
-        switch (slot) {
-            case 1:
-                record += ", entry slot 1";
-                break;
-            case 2:
-                record += ", entry slot 2";
-                break;
-            case 3:
-                record += ", entry slot 3";
-                break;
-            default: 
-                break;
+        Integer a = 0;
+        for (Event event : data.getEvents()) {
+            a += api.getAttendeeCount(event.getId());
         }
-        data.getAttendeesList().add(record);
-        data.incrementAttendeesCount();
-        data.getAllBookedList().add(stuNumber);
-        data.setSavedFlag(false);
+        return a.toString();
     }
 
     public void writeToFile(File file, String content) {
@@ -251,8 +259,8 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
-    public void createLog(String title) {
-        logger.createLog(title);
+    public void createLog() {
+        logger.createLog(data.getEventTitle());
     }
 
     public void log(String message) {
@@ -268,8 +276,8 @@ public class EventSwipeApp extends SingleFrameApplication {
         Arrays.fill(password, '0');
     }
 
-    public String getSlotTitle(String id) throws IOException {
-        return api.getEventTitle(id);
+    public Event getEvent(String key) throws MalformedURLException, IOException {
+        return api.getEvent(key);
     }
 
     public List<Event> getEvents(String term) throws MalformedURLException, IOException {
@@ -282,17 +290,65 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public void setApiWaitingList(String eventKey) throws MalformedURLException, IOException {
-        List<Booking> waitingList = api.getWaitingList(eventKey);
+        List<Student> waitingList = api.getWaitingList(eventKey);
         data.setApiWaitingList(waitingList);
     }
 
-    public Booking processSearchInput(String input) {
-        //TODO
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void createWaitingList(String path) {
+        File file = new File(path);
+        List<String> numberList = Utils.readAllLines(file, Utils.getEncoding(file));
+        List<Student> waitingList = new ArrayList<Student>();
+        for (String number : numberList) {
+            Student student = new Student();
+            student.setStuNumber(Integer.parseInt(number));
+            waitingList.add(student);
+        }
+        for (Event event : data.getEvents()) {
+            event.setWaitingList(waitingList);
+        }
+    }
+
+    public Booking processSearchInput(String input) throws MalformedURLException, IOException {
+        return checkBooking(input);
     }
 
     public List<Student> getStudents(String input) throws MalformedURLException, IOException {
         return api.getStudents(input);
+    }
+
+    public void setEvents(List<String> paths) {
+        for (int i = 0; i < data.getSlots(); i++) {
+            File file = new File(paths.get(i));
+            List<String> numberList = Utils.readAllLines(file, Utils.getEncoding(file));
+            List<Booking> bookingList = new ArrayList<Booking>();
+            for (String number : numberList) {
+                Booking booking = new Booking(number);
+                bookingList.add(booking);
+            }
+            Event event = new Event();
+            event.setBookingList(bookingList);
+            event.setSlot(i+1);
+            data.addEvent(event);
+        }
+    }
+
+    public Event loadEvent(String eventKey, int slot, Boolean waitingList) throws MalformedURLException, IOException {
+        Event event = this.getEvent(eventKey);
+        event.setSlot(slot);
+        event.setBookingList(api.getBookingList(eventKey));
+        if(waitingList) {
+            event.setWaitingList(api.getWaitingList(eventKey));
+        }
+        data.addEvent(event);
+        return event;
+    }
+
+    public int getBookedCount() {
+        Integer b = 0;
+        for (Event event : data.getEvents()) {
+            b += event.getBookingList().size();
+        }
+        return b;
     }
 
     /**

@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class EventSwipeData {
     
-    public static final int MAX_ENTRY_SLOTS = 3;
+    public static final int MAX_ENTRY_SLOTS = 3, MASTER_SLOT = 0;
     public static String BOOKING_1_ENCODING, BOOKING_2_ENCODING, 
                          BOOKING_3_ENCODING, WAITING_LIST_ENCODING = Utils.ANSI;
 
@@ -22,6 +22,30 @@ public class EventSwipeData {
     public EventSwipeData() {
         attendeesList = new ArrayList<String>();
         allFileBookedList = new ArrayList<String>();
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public void registerEvent(int slot, Event event) {
+        events.add(slot, event);
+    }
+
+    public void addEvent(Event event) {
+        events.add(event);
+    }
+
+    public Event getMasterEvent() {
+        return masterEvent;
+    }
+
+    public void setMasterEvent(Event masterEvent) {
+        this.masterEvent = masterEvent;
     }
 
     public void setId(BookingList bookingList, String id) {
@@ -129,11 +153,11 @@ public class EventSwipeData {
         this.apiBookingList3 = apiBookingList3;
     }
 
-    public List<Booking> getApiWaitingList() {
+    public List<Student> getApiWaitingList() {
         return apiWaitingList;
     }
 
-    public void setApiWaitingList(List<Booking> apiWaitingList) {
+    public void setApiWaitingList(List<Student> apiWaitingList) {
         if (this.apiWaitingList.isEmpty()) {
             this.apiWaitingList = apiWaitingList;
         }
@@ -142,7 +166,7 @@ public class EventSwipeData {
         }
     }
 
-    public List<String> getAllBookedList() {
+    public List<String> getAllRecordedList() {
         return allFileBookedList;
     }
 
@@ -270,6 +294,9 @@ public class EventSwipeData {
         return (ArrayList<String>) Utils.readAllLines(file, encoding);
     }
 
+    private List<Event> events = new ArrayList<Event>();
+    private Event masterEvent;
+
     private String id1;
     private String id2;
     private String id3;
@@ -277,7 +304,7 @@ public class EventSwipeData {
     private List<Booking> apiBookingList1;
     private List<Booking> apiBookingList2;
     private List<Booking> apiBookingList3;
-    private List<Booking> apiWaitingList = new ArrayList<Booking>();
+    private List<Student> apiWaitingList = new ArrayList<Student>();
 
     private List<String> attendeesList;
 

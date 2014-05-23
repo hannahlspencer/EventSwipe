@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -609,7 +610,6 @@ public class EventSwipeView extends FrameView {
     });
 
     waitingListButtonGroup.add(noWaitingListRadioButton);
-    noWaitingListRadioButton.setSelected(true);
     noWaitingListRadioButton.setText(resourceMap.getString("noWaitingListRadioButton.text")); // NOI18N
     noWaitingListRadioButton.setName("noWaitingListRadioButton"); // NOI18N
     noWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1066,6 +1066,7 @@ public class EventSwipeView extends FrameView {
     });
 
     waitingListButtonGroup.add(yesLoadWaitingListRadioButton);
+    yesLoadWaitingListRadioButton.setSelected(true);
     yesLoadWaitingListRadioButton.setText(resourceMap.getString("yesLoadWaitingListRadioButton.text")); // NOI18N
     yesLoadWaitingListRadioButton.setName("yesLoadWaitingListRadioButton"); // NOI18N
 
@@ -1681,11 +1682,12 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
                                       JOptionPane.ERROR_MESSAGE);
     }
     else {
-        String slotTitle = "";
+        Event event;
         try {
-            slotTitle = app.getSlotTitle(id);
-            titleInput.setText(slotTitle);
+            event = app.getEvent(id);
+            titleInput.setText(event.getTitle());
         } catch (org.jsoup.HttpStatusException ex) {
+            Logger.getLogger(EventSwipeView.class.getName()).log(Level.WARNING, null, ex);
             JOptionPane.showMessageDialog(app.getMainFrame(),
                                           "No event with this ID was found!",
                                           "Event ID error",
@@ -1750,7 +1752,14 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     String input = searchInput.getText();
     if (!input.isEmpty()) {
         if (Utils.isNumeric(input)) {
-            Booking booking = app.processSearchInput(input);
+            Booking booking = new Booking("");
+                try {
+                    booking = app.processSearchInput(input);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             updateBookingStatus(booking);
         }
         else {
@@ -1816,24 +1825,28 @@ private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {
             app.setEventTitle(eventTitleInput.getText());
             configOK = true;
         }
-        if (configOK && booking && slots > 0) {
-            configOK = app.setFile(BookingList.BOOKING_1,
-                                   new File(entrySlotBookingListFilePathInput1.getText()));
+
+        if (booking) {
+            List<String> filePaths = new ArrayList<String>();
+            switch (slots) {
+                case 3:
+                   filePaths.add(entrySlotBookingListFilePathInput3.getText());
+                case 2:
+                   filePaths.add(entrySlotBookingListFilePathInput2.getText());
+                case 1:
+                   filePaths.add(entrySlotBookingListFilePathInput1.getText());
+                default:
+                   break;
+            }
+            app.setEvents(filePaths);
         }
-        if (configOK && booking && slots > 1) {
-            configOK = app.setFile(BookingList.BOOKING_2,
-                                   new File(entrySlotBookingListFilePathInput2.getText()));
+
+        if (waitingList) {
+            app.createWaitingList(waitingListFilePathInput.getText());
         }
-        if (configOK && booking && slots > 2) {
-            configOK = app.setFile(BookingList.BOOKING_3,
-                                   new File(entrySlotBookingListFilePathInput3.getText()));
-        }
-        if (configOK && booking && waitingList) {
-            configOK = app.setFile(BookingList.WAITING_LIST,
-                                   new File(waitingListFilePathInput.getText()));
-        }
+
         if (configOK) {
-            app.createLog(eventTitleInput.getText());
+            app.createLog();
             onlineModeToggle.setEnabled(false);
             switchToPanel(mainOnlinePanel);
         }
@@ -1845,77 +1858,37 @@ private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {
         app.setWaitingListFlag(useWaitingList);
         app.setSlots(slots);
         boolean configOK = false;
-        String id = entrySlotIdInput1.getText();
-        String title = generatedTitle1.getText();
-        String eventTitle = "";
-        if (!(id.equals(idInputDefault) || id.equals(""))) {
-            try {
-                if (title.equals("")) {
-                    generatedTitle1.setText(app.getSlotTitle(id));
+        String displayTitle = "";
+
+        javax.swing.JTextField[] idArray = {entrySlotIdInput1, entrySlotIdInput2, entrySlotIdInput3};
+        List<javax.swing.JTextField> idList = Arrays.asList(idArray);
+
+        javax.swing.JTextField[] titleArray = {generatedTitle1, generatedTitle2, generatedTitle3};
+        List<javax.swing.JTextField> titleList = Arrays.asList(titleArray);
+
+        for (int i = 0; i < slots; i++) {
+            String id = idList.get(i).getText();
+            if (!(id.equals(idInputDefault) || id.equals(""))) {
+                try {
+                    Event slot = app.loadEvent(id, i + 1, useWaitingList);
+                    String title = slot.getTitle();
+                    titleList.get(i).setText(title);
+                    displayTitle += " - " + title;
+                    configOK = true;
+                } catch (Exception ex) {
+                    configOK = false;
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                eventTitle = title;
-                app.setApiBookingList(BookingList.BOOKING_1, id);
-                app.setId(BookingList.BOOKING_1, id);
-                if (useWaitingList) {
-                    app.setApiWaitingList(id);
-                }
-                configOK = true;
-            } catch (Exception ex) {
-                configOK = false;
-                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else {
-            configOK = false;
-        }
-        id = entrySlotIdInput2.getText();
-        title = generatedTitle2.getText();
-        if (configOK && slots > 1 && !(id.equals(idInputDefault) || id.equals(""))) {
-            try {
-                if (title.equals("")) {
-                    generatedTitle1.setText(app.getSlotTitle(id));
-                }
-                eventTitle += " / " + title;
-                app.setApiBookingList(BookingList.BOOKING_2, id);
-                app.setId(BookingList.BOOKING_2, id);
-                if (useWaitingList) {
-                    app.setApiWaitingList(id);
-                }
-                configOK = true;
-            } catch (Exception ex) {
+            else {
                 configOK = false;
-                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else if (slots > 1) {
-            configOK = false;
-        }
-        id = entrySlotIdInput3.getText();
-        title = generatedTitle3.getText();
-        if (configOK && slots > 2 && !(id.equals(idInputDefault) || id.equals(""))) {
-            try {
-                if (title.equals("")) {
-                    generatedTitle1.setText(app.getSlotTitle(id));
-                }
-                eventTitle += " / " + title;
-                app.setApiBookingList(BookingList.BOOKING_3, id);
-                app.setId(BookingList.BOOKING_3, id);
-                if (useWaitingList) {
-                    app.setApiWaitingList(id);
-                }
-                configOK = true;
-            } catch (Exception ex) {
-                configOK = false;
-                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        else if (slots > 2) {
-            configOK = false;
         }
 
         if (configOK) {
-            app.setEventTitle(eventTitle);
-            app.createLog(eventTitle);
+            app.setEventTitle(displayTitle.substring(3));
+            app.createLog();
+            app.setBookingFlag(app.getBookedCount() > 0);
             onlineModeToggle.setEnabled(true);
             switchToPanel(mainOnlinePanel);
         }
@@ -1937,7 +1910,13 @@ private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {
                                           JOptionPane.ERROR_MESSAGE);
         }
         else {
-            updateBookingStatus(app.checkBooking(stuNumber));
+            try {
+                updateBookingStatus(app.checkBooking(stuNumber));
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -1960,7 +1939,13 @@ private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {
                                                       JOptionPane.YES_NO_OPTION);
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
-                app.recordAttendance(stuNumber, 0);
+                try {
+                    app.recordAttendance(stuNumber, 0);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 bookingStatus = "Recorded";
                 message += " has been recorded";
             }
@@ -1991,7 +1976,13 @@ private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {
                                                       JOptionPane.YES_NO_OPTION);
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
-                app.recordAttendance(stuNumber, 0);
+                try {
+                    app.recordAttendance(stuNumber, 0);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 bookingStatus = "Recorded";
                 message += " has been recorded";
             }
@@ -2061,6 +2052,7 @@ private void startOfflineButtonActionPerformed(java.awt.event.ActionEvent evt) {
             onlineModeToggle.setSelected(online);
             onlineModeToggle.setToolTipText(online ? onlineModeTooltipText : 
                                                      offlineModeTooltipText);
+            checkingModeToggle1.setEnabled(booking);
             checkingModeToggle1.setSelected(booking);
             checkingModeToggle1.setText(booking ? checkingListsText :
                                                   recordingAllText);

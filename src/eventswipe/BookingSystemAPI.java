@@ -8,7 +8,7 @@ public interface BookingSystemAPI {
 
     public void logIn(String username, char[] password) throws MalformedURLException, IOException;
     public List<Booking> getBookingList(String eventKey) throws MalformedURLException, IOException;
-    public List<Booking> getWaitingList(String eventKey) throws MalformedURLException, IOException;
+    public List<Student> getWaitingList(String eventKey) throws MalformedURLException, IOException;
     public int getAttendeeCount(String eventKey) throws MalformedURLException, IOException;
     public void markStatus(STATUS status, String studentKey, String eventKey) throws MalformedURLException, IOException;
     public void markStatus(STATUS status, List<String> studentKeys, String eventKey) throws MalformedURLException, IOException;
