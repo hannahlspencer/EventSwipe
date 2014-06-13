@@ -2,8 +2,6 @@ package eventswipe;
 
 import java.io.File;
 import java.io.FileWriter;
-import org.jdesktop.application.Application;
-import org.jdesktop.application.ResourceMap;
 
 /**
  *
@@ -37,9 +35,6 @@ public class EventSwipeLogger {
             System.err.println("Error: " + e.getMessage());
         }
     }
-
-    private ResourceMap resourceMap = Application.getInstance(eventswipe.EventSwipeApp.class)
-                              .getContext().getResourceMap(EventSwipeLogger.class);
 
     private final String LOG_DIR = System.getenv("USERPROFILE")+ "\\My Documents\\EventSwipeLogs\\";
     private String sessionTitle = "";

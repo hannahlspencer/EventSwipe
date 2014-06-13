@@ -2,245 +2,6 @@
 
 <Form version="1.5" maxVersion="1.7">
   <NonVisualComponents>
-    <Container class="javax.swing.JPanel" name="mainPanel">
-      <Properties>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[720, 350]"/>
-        </Property>
-        <Property name="name" type="java.lang.String" value="mainPanel" noResource="true"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[720, 350]"/>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="bookingStatusScrollPane" alignment="0" pref="700" max="32767" attributes="1"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="1">
-                                  <Component id="studentNumberInputLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="studentNumberInput" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="enterStudentNumberButton" min="-2" pref="83" max="-2" attributes="1"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="statusDisplayTextField" min="-2" pref="243" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Component id="entrySlotLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="entrySlotDisplayTextField" min="-2" pref="70" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Component id="attendeeCountLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="checkingModeToggle" pref="182" max="32767" attributes="0"/>
-                              <Component id="attendeeCountDisplayTextField" alignment="0" pref="182" max="32767" attributes="1"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="backButton" min="-2" pref="90" max="-2" attributes="0"/>
-                          <EmptySpace pref="212" max="32767" attributes="0"/>
-                          <Component id="saveButton" min="-2" pref="91" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
-                          <Component id="clearButton1" min="-2" pref="96" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="studentNumberInputLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="studentNumberInput" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="enterStudentNumberButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkingModeToggle" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="statusDisplayTextField" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                              <Component id="attendeeCountDisplayTextField" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="entrySlotDisplayTextField" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="statusLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="entrySlotLabel" min="-2" max="-2" attributes="0"/>
-                      <Component id="attendeeCountLabel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="bookingStatusScrollPane" min="-2" pref="215" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="backButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="clearButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JButton" name="clearButton1">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="clearButton1.text"/>
-            <Property name="focusPainted" type="boolean" value="false"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="clearButton1" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearButton1ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="studentNumberInput">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="studentNumberInput.text"/>
-            <Property name="name" type="java.lang.String" value="studentNumberInput" noResource="true"/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="javax.swing.Action save = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        EventSwipeApp.getApplication().saveAttendeesToFile();&#xa;    }&#xa;};&#xa;javax.swing.Action toggleBooking = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkingModeToggle.doClick();&#xa;    }&#xa;};&#xa;javax.swing.Action checkBooking = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkBooking();&#xa;    }&#xa;};&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;save&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;save&quot;, save);&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;                                     java.awt.event.InputEvent.CTRL_DOWN_MASK),&#xa;                                     &quot;toggleBooking&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;studentNumberInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;                                     &quot;enterStudentNumber&quot;);&#xa;studentNumberInput.getActionMap().put(&quot;enterStudentNumber&quot;, &#xa;                                      checkBooking);"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="enterStudentNumberButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="enterStudentNumberButton.text"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="enterStudentNumberButton" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enterStudentNumberButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Container class="javax.swing.JScrollPane" name="bookingStatusScrollPane">
-          <Properties>
-            <Property name="verticalScrollBarPolicy" type="int" value="22"/>
-            <Property name="name" type="java.lang.String" value="bookingStatusScrollPane" noResource="true"/>
-          </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="bookingStatusTextArea">
-              <Properties>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="rows" type="int" value="5"/>
-                <Property name="focusable" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="bookingStatusTextArea" noResource="true"/>
-                <Property name="requestFocusEnabled" type="boolean" value="false"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Component class="javax.swing.JButton" name="backButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="backButton.text"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="backButton" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="saveButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="saveButton.text"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="saveButton" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="studentNumberInputLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="studentNumberInputLabel.text"/>
-            <Property name="name" type="java.lang.String" value="studentNumberInputLabel" noResource="true"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="statusDisplayTextField">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="text" type="java.lang.String" resourceKey="statusDisplayTextField.text"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" resourceKey="statusDisplayTextField.font"/>
-            <Property name="name" type="java.lang.String" value="statusDisplayTextField" noResource="true"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="entrySlotDisplayTextField">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="text" type="java.lang.String" resourceKey="entrySlotDisplayTextField.text"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" resourceKey="entrySlotDisplayTextField.font"/>
-            <Property name="name" type="java.lang.String" value="entrySlotDisplayTextField" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="attendeeCountDisplayTextField">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="text" type="java.lang.String" resourceKey="attendeeCountDisplayTextField.text"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" resourceKey="attendeeCountDisplayTextField.font"/>
-            <Property name="name" type="java.lang.String" value="attendeeCountDisplayTextField" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="attendeeCountLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="attendeeCountLabel.text"/>
-            <Property name="name" type="java.lang.String" value="attendeeCountLabel" noResource="true"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="entrySlotLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="entrySlotLabel.text"/>
-            <Property name="name" type="java.lang.String" value="entrySlotLabel" noResource="true"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="statusLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="statusLabel.text"/>
-            <Property name="name" type="java.lang.String" value="statusLabel" noResource="true"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JToggleButton" name="checkingModeToggle">
-          <Properties>
-            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-              <action class="eventswipe.EventSwipeView" id="checkingModeToggleClick" methodName="checkingModeToggleClick"/>
-            </Property>
-            <Property name="text" type="java.lang.String" resourceKey="checkingModeToggle.text"/>
-            <Property name="toolTipText" type="java.lang.String" resourceKey="checkingModeToggle.toolTipText"/>
-            <Property name="focusPainted" type="boolean" value="false"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="checkingModeToggle" noResource="true"/>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkingModeToggleActionPerformed"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JMenuBar" name="menuBar">
       <Properties>
         <Property name="name" type="java.lang.String" value="menuBar" noResource="true"/>
@@ -338,40 +99,35 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="requireBookingLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="yesBookingRadioButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="noBookingRadioButton" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="1">
-                                  <Component id="eventTitleInputLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="eventTitleInput" pref="617" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="titleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="bookingDetailsPanel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="22" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="okConfigButton" min="-2" pref="99" max="-2" attributes="0"/>
-                          <EmptySpace pref="504" max="32767" attributes="0"/>
-                          <Component id="clearButton" min="-2" pref="97" max="-2" attributes="0"/>
+                          <Component id="requireBookingLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="yesBookingRadioButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="noBookingRadioButton" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="titleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="1">
+                          <Component id="eventTitleInputLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="eventTitleInput" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="1">
+                          <Component id="configBackButton" min="-2" pref="93" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="okConfigButton" min="-2" pref="98" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="bookingDetailsPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -384,11 +140,11 @@
                       <Component id="yesBookingRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="noBookingRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="bookingDetailsPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="34" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="clearButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="configBackButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="okConfigButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -460,47 +216,43 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="waitingListLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="yesWaitingListRadioButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="noWaitingListRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
-                              <Component id="waitingListFileLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="waitingListFilePathInput" min="-2" pref="184" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="waitingListBrowseButton" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="entrySlotBookingListLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="entrySlotBookingListFilePathInput3" min="-2" pref="184" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="bookingListBrowseButton3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="entrySlotBookingListLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="entrySlotBookingListFilePathInput2" min="-2" pref="184" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="bookingListBrowseButton2" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="entrySlotsLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="entrySlotsLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="entrySlotsSpinner" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="entrySlotBookingListLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="entrySlotBookingListFilePathInput1" min="-2" pref="184" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="bookingListBrowseButton1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="entrySlotBookingListLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="entrySlotBookingListLabel2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="entrySlotBookingListLabel3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
+                          <Component id="waitingListFileLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="entrySlotBookingListFilePathInput1" pref="217" max="32767" attributes="0"/>
+                          <Component id="entrySlotBookingListFilePathInput2" alignment="0" pref="217" max="32767" attributes="0"/>
+                          <Component id="entrySlotBookingListFilePathInput3" alignment="0" pref="217" max="32767" attributes="0"/>
+                          <Component id="waitingListFilePathInput" alignment="0" pref="217" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="bookingListBrowseButton3" alignment="0" pref="77" max="32767" attributes="1"/>
+                          <Component id="waitingListBrowseButton" alignment="0" pref="77" max="32767" attributes="1"/>
+                          <Component id="bookingListBrowseButton2" alignment="0" max="32767" attributes="1"/>
+                          <Component id="bookingListBrowseButton1" alignment="0" max="32767" attributes="1"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -509,32 +261,38 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="entrySlotBookingListFilePathInput1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="entrySlotBookingListLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bookingListBrowseButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="entrySlotsSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="entrySlotsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotsSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotBookingListLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotBookingListFilePathInput1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bookingListBrowseButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="entrySlotBookingListFilePathInput2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="entrySlotBookingListLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bookingListBrowseButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="entrySlotBookingListFilePathInput3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="entrySlotBookingListLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bookingListBrowseButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="waitingListBrowseButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="waitingListFilePathInput" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="waitingListFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="waitingListLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="yesWaitingListRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="noWaitingListRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="waitingListLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="yesWaitingListRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="noWaitingListRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="waitingListFilePathInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="waitingListFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="waitingListBrowseButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="entrySlotBookingListLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="entrySlotBookingListFilePathInput2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="bookingListBrowseButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="entrySlotBookingListLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="entrySlotBookingListFilePathInput3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="bookingListBrowseButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -668,12 +426,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="noWaitingListRadioButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="waitingListLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" resourceKey="waitingListLabel.text"/>
-                <Property name="name" type="java.lang.String" value="waitingListLabel" noResource="true"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JFormattedTextField" name="entrySlotBookingListFilePathInput1">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -698,6 +450,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="yesWaitingListRadioButtonActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="waitingListLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="waitingListLabel.text"/>
+                <Property name="name" type="java.lang.String" value="waitingListLabel" noResource="true"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JFormattedTextField" name="eventTitleInput">
@@ -715,13 +473,13 @@
             <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="javax.swing.Action checkConfiguration = new AbstractAction() {&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        checkConfiguration();&#xa;    }&#xa;};&#xa;eventTitleInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;                                  &quot;checkConfiguration&quot;);&#xa;eventTitleInput.getActionMap().put(&quot;checkConfiguration&quot;, checkConfiguration);"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="clearButton">
+        <Component class="javax.swing.JButton" name="configBackButton">
           <Properties>
-            <Property name="text" type="java.lang.String" resourceKey="clearButton.text"/>
-            <Property name="name" type="java.lang.String" value="clearButton" noResource="true"/>
+            <Property name="text" type="java.lang.String" resourceKey="configBackButton.text"/>
+            <Property name="name" type="java.lang.String" value="configBackButton" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="configBackButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -730,10 +488,1076 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="waitingListButtonGroup">
     </Component>
+    <Container class="javax.swing.JPanel" name="preConfigPanel">
+      <Properties>
+        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[720, 350]"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="preConfigPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <Component id="titleLoginPanel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="titleLoginPanel" min="-2" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="titleLoginPanel">
+          <Properties>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="titleLoginPanel" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="titlePanel" alignment="0" min="-2" max="-2" attributes="1"/>
+                          <Component id="loginPanel" alignment="0" min="-2" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="titlePanel" min="-2" pref="120" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="loginPanel" min="-2" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="loginPanel">
+              <Properties>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="loginPanel" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="logInLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                              <Component id="usernameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="passwordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="usernameInput" alignment="0" max="32767" attributes="1"/>
+                              <Component id="passwordInput" alignment="0" pref="293" max="32767" attributes="1"/>
+                              <Component id="logInButton" alignment="0" max="32767" attributes="1"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="loginOfflineSeparator" min="-2" pref="10" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPane1" pref="296" max="32767" attributes="1"/>
+                              <Component id="useOfflineLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                              <Component id="startOfflineButton" alignment="0" pref="296" max="32767" attributes="1"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="loginOfflineSeparator" alignment="0" pref="165" max="32767" attributes="1"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="logInLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="usernameLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="usernameInput" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="passwordInput" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="useOfflineLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="logInButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="startOfflineButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="logInLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="logInLabel.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="logInLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="logInLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="useOfflineLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="useOfflineLabel.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="useOfflineLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="useOfflineLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="passwordInput">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="passwordInput.text"/>
+                    <Property name="name" type="java.lang.String" value="passwordInput" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="loginInputKeyPressed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="startOfflineButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="startOfflineButton.text"/>
+                    <Property name="name" type="java.lang.String" value="startOfflineButton" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startOfflineButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="null"/>
+                    </Property>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="useOfflineDescription">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" resourceKey="useOfflineDescription.background"/>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="font" type="java.awt.Font" resourceKey="useOfflineDescription.font"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="text" type="java.lang.String" resourceKey="useOfflineDescription.text"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
+                        <Property name="autoscrolls" type="boolean" value="false"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
+                        </Property>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="name" type="java.lang.String" value="useOfflineDescription" noResource="true"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JLabel" name="passwordLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="passwordLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="passwordLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="logInButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="eventswipe.EventSwipeView" id="logIn" methodName="logIn"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="logInButton.text"/>
+                    <Property name="name" type="java.lang.String" value="logInButton" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="usernameLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="usernameLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="usernameLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="usernameInput">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="usernameInput.text"/>
+                    <Property name="name" type="java.lang.String" value="usernameInput" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="loginInputKeyPressed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="loginOfflineSeparator">
+                  <Properties>
+                    <Property name="orientation" type="int" value="1"/>
+                    <Property name="name" type="java.lang.String" value="loginOfflineSeparator" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="titlePanel">
+              <Properties>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="titlePanel" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="smallLogoLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="mainTitle" min="-2" pref="253" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="mainTitle" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="smallLogoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="smallLogoLabel">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" resourceKey="smallLogoLabel.icon"/>
+                    <Property name="text" type="java.lang.String" resourceKey="smallLogoLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="smallLogoLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="versionLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="versionLabel.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="versionLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="versionLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="mainTitle">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="mainTitle.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="mainTitle.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="mainTitle" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="onlineConfigPanel">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[720, 350]"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="onlineConfigPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="onlineConfigBackButton" min="-2" pref="94" max="-2" attributes="0"/>
+                          <EmptySpace pref="500" max="32767" attributes="0"/>
+                          <Component id="okConfigButton1" min="-2" pref="99" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="bookingDetailsPanel1" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <Component id="bookingDetailsPanel1" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="onlineConfigBackButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="okConfigButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="okConfigButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="okConfigButton1.text"/>
+            <Property name="name" type="java.lang.String" value="okConfigButton1" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="okConfigButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Container class="javax.swing.JPanel" name="bookingDetailsPanel1">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="bookingDetailsPanel1" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" max="-2" attributes="0">
+                              <Component id="entrySlotsLabel1" min="-2" pref="216" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="entrySlotsSpinner1" min="-2" pref="56" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="entrySlotIdLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="entrySlotIdInput1" min="-2" pref="104" max="-2" attributes="1"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="loadEventButton1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="searchEventsButton1" pref="104" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                                      <Component id="loadWaitingListLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                      <Component id="yesLoadWaitingListRadioButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="noLoadWaitingListRadioButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                      <Component id="generatedTitleLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="generatedTitle1" pref="304" max="32767" attributes="1"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="306" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="generatedTitleLabel3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="entrySlotIdLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="generatedTitle3" pref="307" max="32767" attributes="1"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="entrySlotIdInput3" min="-2" pref="103" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="loadEventButton3" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                                      <Component id="searchEventsButton3" pref="104" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="306" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="generatedTitleLabel2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="entrySlotIdLabel2" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="entrySlotIdInput2" min="-2" pref="104" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="loadEventButton2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="searchEventsButton2" pref="104" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="generatedTitle2" alignment="0" pref="307" max="32767" attributes="1"/>
+                              </Group>
+                          </Group>
+                          <Component id="aboutEventLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="aboutEventLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="entrySlotsLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotIdLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotIdInput1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="loadEventButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="searchEventsButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotsSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="generatedTitle1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="generatedTitleLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="entrySlotIdLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotIdInput2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="loadEventButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="searchEventsButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="generatedTitle2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="generatedTitleLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="entrySlotIdInput3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="entrySlotIdLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="loadEventButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="searchEventsButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="generatedTitle3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="generatedTitleLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="loadWaitingListLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="yesLoadWaitingListRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="noLoadWaitingListRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="16" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="entrySlotIdLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="entrySlotIdLabel1.text"/>
+                <Property name="name" type="java.lang.String" value="entrySlotIdLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="entrySlotsLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="entrySlotsLabel1.text"/>
+                <Property name="name" type="java.lang.String" value="entrySlotsLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="entrySlotsSpinner1">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="entrySlotsSpinner1" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="entrySlotsSpinner1StateChanged"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(1, 1, EventSwipeData.MAX_ENTRY_SLOTS, 1))"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="entrySlotIdInput3">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="idInputDefault" type="code"/>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="entrySlotIdInput3" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusLost"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="entrySlotIdInput2">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="idInputDefault" type="code"/>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="entrySlotIdInput2" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusLost"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="entrySlotIdLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="entrySlotIdLabel3.text"/>
+                <Property name="name" type="java.lang.String" value="entrySlotIdLabel3" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="entrySlotIdLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="entrySlotIdLabel2.text"/>
+                <Property name="name" type="java.lang.String" value="entrySlotIdLabel2" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="noLoadWaitingListRadioButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="waitingListButtonGroup"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="noLoadWaitingListRadioButton.text"/>
+                <Property name="name" type="java.lang.String" value="noLoadWaitingListRadioButton" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="loadWaitingListLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="loadWaitingListLabel.text"/>
+                <Property name="name" type="java.lang.String" value="loadWaitingListLabel" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="entrySlotIdInput1">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="idInputDefault" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="entrySlotIdInput1" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="inputFocusLost"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idInputKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="yesLoadWaitingListRadioButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="waitingListButtonGroup"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="yesLoadWaitingListRadioButton.text"/>
+                <Property name="name" type="java.lang.String" value="yesLoadWaitingListRadioButton" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="generatedTitle1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="generatedTitle1.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="generatedTitle1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="generatedTitle2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="generatedTitle2.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="generatedTitle2" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="generatedTitle3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="generatedTitle3.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="generatedTitle3" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="loadEventButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="loadEventButton1.text"/>
+                <Property name="name" type="java.lang.String" value="loadEventButton1" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadEventButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="loadEventButton2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="loadEventButton2.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="loadEventButton2" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadEventButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="loadEventButton3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="loadEventButton3.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="loadEventButton3" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadEventButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="generatedTitleLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="generatedTitleLabel1.text"/>
+                <Property name="name" type="java.lang.String" value="generatedTitleLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="generatedTitleLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="generatedTitleLabel2.text"/>
+                <Property name="name" type="java.lang.String" value="generatedTitleLabel2" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="generatedTitleLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="generatedTitleLabel3.text"/>
+                <Property name="name" type="java.lang.String" value="generatedTitleLabel3" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="aboutEventLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="aboutEventLabel.font"/>
+                <Property name="text" type="java.lang.String" resourceKey="aboutEventLabel.text"/>
+                <Property name="name" type="java.lang.String" value="aboutEventLabel" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="searchEventsButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="searchEventsButton1.text"/>
+                <Property name="name" type="java.lang.String" value="searchEventsButton1" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchEventsButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="searchEventsButton2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="searchEventsButton2.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="searchEventsButton2" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchEventsButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="searchEventsButton3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="searchEventsButton3.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="searchEventsButton3" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchEventsButtonActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JButton" name="onlineConfigBackButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="onlineConfigBackButton.text"/>
+            <Property name="name" type="java.lang.String" value="onlineConfigBackButton" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onlineConfigBackButtonActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="mainOnlinePanel">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[720, 350]"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="mainOnlinePanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="bookingStatusScrollPane1" alignment="0" pref="700" max="32767" attributes="1"/>
+                      <Component id="bookingStatusPanel" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="generatedStudentLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchInputLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="searchInput" pref="297" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="searchButton" min="-2" pref="85" max="-2" attributes="1"/>
+                              </Group>
+                              <Component id="generatedStudentName" pref="388" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="checkingModeToggle1" min="-2" pref="150" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="onlineModeToggle" min="-2" pref="37" max="-2" attributes="1"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="backButton1" min="-2" pref="90" max="-2" attributes="0"/>
+                          <EmptySpace pref="519" max="32767" attributes="0"/>
+                          <Component id="saveButton1" min="-2" pref="91" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="searchInputLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchButton" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="generatedStudentName" alignment="3" pref="20" max="32767" attributes="1"/>
+                              <Component id="generatedStudentLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="onlineModeToggle" min="-2" pref="48" max="-2" attributes="1"/>
+                      <Component id="checkingModeToggle1" alignment="0" pref="49" max="32767" attributes="1"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="bookingStatusPanel" min="-2" pref="61" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="bookingStatusScrollPane1" min="-2" pref="182" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="backButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="saveButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JFormattedTextField" name="searchInput">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="searchInput" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;save&quot;);&#xa;searchInput.getActionMap().put(&quot;save&quot;, save);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleBooking&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;&quot;enterStudentNumber&quot;);&#xa;searchInput.getActionMap().put(&quot;enterStudentNumber&quot;,checkBooking);"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="searchButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="searchButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="searchButton" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="bookingStatusScrollPane1">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="null" type="code"/>
+            </Property>
+            <Property name="verticalScrollBarPolicy" type="int" value="22"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="bookingStatusScrollPane1" noResource="true"/>
+          </Properties>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="bookingStatusTextArea1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="null" type="code"/>
+                </Property>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="rows" type="int" value="5"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="bookingStatusTextArea1" noResource="true"/>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JButton" name="backButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="backButton1.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="backButton1" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="saveButton1">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="eventswipe.EventSwipeApp" id="saveAttendeesToFile" methodName="saveAttendeesToFile"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="saveButton1.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="saveButton1" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="searchInputLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="searchInputLabel.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="searchInputLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="checkingModeToggle1">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="checkingModeToggle1.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="checkingModeToggle1.toolTipText"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="checkingModeToggle1" noResource="true"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkingModeToggle1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="generatedStudentName">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" resourceKey="generatedStudentName.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="generatedStudentName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="generatedStudentLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="generatedStudentLabel.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="generatedStudentLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="onlineModeToggle">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" resourceKey="onlineModeToggler.icon"/>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" resourceKey="onlineModeToggler.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="onlineModeToggler.toolTipText"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="onlineModeToggler" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onlineModeToggleActionPerformed"/>
+          </Events>
+        </Component>
+        <Container class="javax.swing.JPanel" name="bookingStatusPanel">
+          <Properties>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="bookingStatusPanel" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="statusLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="statusDisplayTextField1" min="-2" pref="207" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="entrySlotLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="entrySlotDisplayTextField1" min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="thisMachineLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="attendeeCountLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="localAttendeeCountTextField" pref="65" max="32767" attributes="1"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="attendeeCountLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="totalAttendeeCountDisplay" min="-2" pref="106" max="-2" attributes="1"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="statusLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="statusDisplayTextField1" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="entrySlotDisplayTextField1" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="localAttendeeCountTextField" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="entrySlotLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="attendeeCountLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="thisMachineLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="totalAttendeeCountDisplay" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="totalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="attendeeCountLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="6" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="totalLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="totalLabel.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="totalLabel" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="entrySlotDisplayTextField1">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="entrySlotDisplayTextField1.font"/>
+                <Property name="name" type="java.lang.String" value="entrySlotDisplayTextField1" noResource="true"/>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="attendeeCountLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="attendeeCountLabel1.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="attendeeCountLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="statusDisplayTextField1">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="statusDisplayTextField1.font"/>
+                <Property name="name" type="java.lang.String" value="statusDisplayTextField1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="attendeeCountLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="attendeeCountLabel2.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="attendeeCountLabel2" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="localAttendeeCountTextField">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" resourceKey="localAttendeeCountTextField.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="localAttendeeCountTextField.font"/>
+                <Property name="name" type="java.lang.String" value="localAttendeeCountTextField" noResource="true"/>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="statusLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="statusLabel1.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="statusLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="entrySlotLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="entrySlotLabel1.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="entrySlotLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="thisMachineLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="thisMachineLabel.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="thisMachineLabel" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="totalAttendeeCountDisplay">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" resourceKey="totalAttendeeCountDisplay.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="totalAttendeeCountDisplay.font"/>
+                <Property name="name" type="java.lang.String" value="totalAttendeeCountDisplay" noResource="true"/>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="component" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
-      <ComponentRef name="configPanel"/>
+      <ComponentRef name="preConfigPanel"/>
     </Property>
     <Property name="menuBar" type="javax.swing.JMenuBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
       <ComponentRef name="menuBar"/>
