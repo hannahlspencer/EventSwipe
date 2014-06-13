@@ -1,6 +1,6 @@
 # EventSwipe
 
-*Current version: Buzzard*
+*Current version: Condor*
 
 EventSwipe is a simple Java application for recording attendance at events.
 
@@ -9,6 +9,21 @@ It works by reading some kind of ID string (a student number, for example) and e
 ---
 
 ##Updates
+
+###Condor
+
+*Updated June 2014*
+
+* EventSwipe can now search and update the careers CRM system CareerHub remotely (with an internet connection). New functionality includes:
+    * Loading event details (title, start date/time, booking list and waiting list)
+    * Listing forthcoming events
+    * Checking the status of a booking
+    * Marking attendance in CareerHub directly
+    * Booking in non-booked students directly
+    * Searching for students by name
+    * Displaying attendance for the whole event, not just the attendance recorded by the machine running EventSwipe
+* All the previous functionality of Buzzard remains in an 'offline mode'
+* EventSwipe will automatically switch to offline mode if there are any errors connecting to the internet or CareerHub
 
 ###Buzzard
 
@@ -45,7 +60,11 @@ You can upload up to three booking list files (for different timeslots within th
 
 ###Running the application
 
-When you start up EventSwipe, you'll be asked to enter some details about the event. You need to enter a title and indicate whether or not you want to use a booking list and a waiting list. You can then upload all the necessary lists of IDs.
+When you start up EventSwipe, you'll be asked to log in using your CareerHub details, or to start offline mode.
+
+In online mode you will need to enter the CareerHub IDs of all your entry slots (or choose the slots by listing forthcoming events) and then select whether or not you want to load waiting lists.
+
+In offline mode you will be asked to enter some details about the event. You need to enter a title and indicate whether or not you want to use a booking list and a waiting list. You can then upload all the necessary lists of IDs.
 
 Hit ok to start recording attendance. Depending on the event settings and the attendee's booking status, when you enter an ID EventSwipe will display the following messages:
 
@@ -59,24 +78,33 @@ Hit ok to start recording attendance. Depending on the event settings and the at
 * __Already recorded__ - ID has already been entered and recorded
 * __Not booked__ - ID is not on the booking list and is not recorded in the attendees list. EventSwipe will also open a dialogue box asking you whether or not to let the attendee into the event. Selecting 'Yes' records the student number.
 * __Waiting list__ - ID is on the waiting list. EventSwipe will also open a dialogue box asking you whether or not to let the attendee into the event. Selecting 'Yes' records the student number and takes the student off the waiting list, 'No' keeps the student on the waiting list.
+* __EVENT FULL__ - ID could not be booked onto the event because there are no more places (online mode only).
 
 You can also record an ID which was not on the booking list by switching EventSwipe to 'record all mode' with the button in the top right. You can then enter a non-booked ID and record it. This mode is useful if you want to let in a batch of non-booked attendees in one go and can be used as a fall back to guarantee you record entry to your event, even if something goes wrong with your booking list.
 
 ###Saving the attendance list
 
+####Offline mode
+
 When you have finished recording entry to your event, hit 'save', choose a file name and location and EventSwipe will save the list of recorded IDs (along with the entry slot they were booked for, if applicable) as a text file separated by line breaks.
+
+####Online mode
+
+You won't need to save anything; simply close EventSwipe. However if something went wrong during your attendance recording then EventSwipe might have saved some of the attendance records offline. In this case you will get a prompt when you try to close EventSwipe indicating that there are unsaved records. Follow the offline mode saving instructions in this scenario.
 
 ---
 
 ##Future features
 
-###Condor
+###Dunlin
 
-*Expected release: June 2014*
+*Expected release: September 2014*
 
-Condor features
+Dunlin features
 
-* External booking system integration
-* Search for students within EventSwipe by name or ID
-* Book, mark as attended and cancel bookings from within EventSwipe
-* Synchronised attendence count display across multiple machines
+* Better UX feedback (loading bars etc.)
+* An option to mark all absent attendees as 'absent' on CareerHub
+* Ability to handle multiple booking file types (like .csv)
+* A simple counting mode when recording the IDs isn’t important
+* Incorporation of event and slot opening times (indications of attendees being early/late for example)
+* A duplicate entry slot booking report feature to find people booked onto concurrent slots
