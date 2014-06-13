@@ -20,7 +20,6 @@ public class EventSwipeData {
     }
 
     public EventSwipeData() {
-        attendeesList = new ArrayList<String>();
         allFileBookedList = new ArrayList<String>();
     }
 
@@ -40,72 +39,11 @@ public class EventSwipeData {
         events.add(event);
     }
 
-    public Event getMasterEvent() {
-        return masterEvent;
-    }
-
-    public void setMasterEvent(Event masterEvent) {
-        this.masterEvent = masterEvent;
-    }
-
-    public void setId(BookingList bookingList, String id) {
-         switch (bookingList) {
-            case BOOKING_2:
-                setId2(id);
-                break;
-            case BOOKING_3:
-                setId3(id);
-                break;
-            default :
-                setId1(id);
-                break;
-        }
-    }
-
-    public String getId1() {
-        return id1;
-    }
-
-    public void setId1(String id1) {
-        this.id1 = id1;
-    }
-
-    public String getId2() {
-        return id2;
-    }
-
-    public void setId2(String id2) {
-        this.id2 = id2;
-    }
-
-    public String getId3() {
-        return id3;
-    }
-
-    public void setId3(String id3) {
-        this.id3 = id3;
-    }
-
-    public void setBookingList(BookingList bookingList, List<Booking> list) {
-        switch (bookingList) {
-            case BOOKING_2:
-                setApiBookingList2(list);
-                break;
-            case BOOKING_3:
-                setApiBookingList3(list);
-                break;
-            default :
-                setApiBookingList1(list);
-                break;
-        }
-    }
-
     public void clearData() {
         setLocalAttendeeCount(0);
         setWaitingListFlag(false);
         setSlots(0);
         setEventTitle("");
-        clearList(attendeesList);
         clearList(allFileBookedList);
     }
 
@@ -129,57 +67,12 @@ public class EventSwipeData {
         this.localAttendeeCount = count;
     }
 
-    public List<Booking> getApiBookingList1() {
-        return apiBookingList1;
-    }
-
-    public void setApiBookingList1(List<Booking> apiBookingList1) {
-        this.apiBookingList1 = apiBookingList1;
-    }
-
-    public List<Booking> getApiBookingList2() {
-        return apiBookingList2;
-    }
-
-    public void setApiBookingList2(List<Booking> apiBookingList2) {
-        this.apiBookingList2 = apiBookingList2;
-    }
-
-    public List<Booking> getApiBookingList3() {
-        return apiBookingList3;
-    }
-
-    public void setApiBookingList3(List<Booking> apiBookingList3) {
-        this.apiBookingList3 = apiBookingList3;
-    }
-
-    public List<Student> getApiWaitingList() {
-        return apiWaitingList;
-    }
-
-    public void setApiWaitingList(List<Student> apiWaitingList) {
-        if (this.apiWaitingList.isEmpty()) {
-            this.apiWaitingList = apiWaitingList;
-        }
-        else {
-            this.apiWaitingList.addAll(apiWaitingList);
-        }
-    }
-
     public List<String> getAllRecordedList() {
         return allFileBookedList;
     }
 
     public void setAllBookedList(ArrayList<String> allBookedList) {
         this.allFileBookedList = allBookedList;
-    }
-
-    public List<String> getAttendeesList() {
-        return attendeesList;
-    }
-
-    public void setAttendeesList(ArrayList<String> attendeesList) {
-        this.attendeesList = attendeesList;
     }
 
     public boolean getNetFlag() {
@@ -295,18 +188,6 @@ public class EventSwipeData {
     }
 
     private List<Event> events = new ArrayList<Event>();
-    private Event masterEvent;
-
-    private String id1;
-    private String id2;
-    private String id3;
-
-    private List<Booking> apiBookingList1;
-    private List<Booking> apiBookingList2;
-    private List<Booking> apiBookingList3;
-    private List<Student> apiWaitingList = new ArrayList<Student>();
-
-    private List<String> attendeesList;
 
     private File bookingFile1;
     private File bookingFile2;
@@ -320,7 +201,6 @@ public class EventSwipeData {
 
     private String eventTitle;
     private int localAttendeeCount = 0;
-    private int totalAttendeeCount = 0;
     private int slots;
     private boolean netFlag;
     private boolean onlineMode;

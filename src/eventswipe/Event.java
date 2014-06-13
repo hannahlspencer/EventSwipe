@@ -1,5 +1,6 @@
 package eventswipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
@@ -52,14 +53,6 @@ public class Event {
         this.bookingList = bookingList;
     }
 
-    public List<Student> getAttendanceList() {
-        return attendanceList;
-    }
-
-    public void setAttendanceList(List<Student> attendanceList) {
-        this.attendanceList = attendanceList;
-    }
-
     public List<Student> getWaitingList() {
         return waitingList;
     }
@@ -84,14 +77,6 @@ public class Event {
         this.bookingLimit = bookingLimit;
     }
 
-    public int getNumberBooked() {
-        return numberBooked;
-    }
-
-    public void setNumberBooked(int numberBooked) {
-        this.numberBooked = numberBooked;
-    }
-
     public int getSlot() {
         return slot;
     }
@@ -100,18 +85,44 @@ public class Event {
         this.slot = slot;
     }
 
+    public int getAttendeeCount() {
+        return attendeeCount;
+    }
+
+    public void setAttendeeCount(int attendeeCount) {
+        this.attendeeCount = attendeeCount;
+    }
+
+    public boolean isUnlimited() {
+        return unlimited;
+    }
+
+    public void setUnlimited(boolean unlimited) {
+        this.unlimited = unlimited;
+    }
+
+    public boolean isDropIn() {
+        return dropIn;
+    }
+
+    public void setDropIn(boolean dropIn) {
+        this.dropIn = dropIn;
+    }
+
     private String startDate;
     private String title;
     private String id;
     private String venue;
 
     private List<Booking> bookingList;
-    private List<Student> attendanceList;
     private List<Student> waitingList;
-    private List<String> unsavedList;
+    private List<String> unsavedList = new ArrayList<String>();
 
     private int bookingLimit;
-    private int numberBooked;
     private int slot;
+    private int attendeeCount;
+
+    private boolean unlimited = false;
+    private boolean dropIn = false;
 
 }

@@ -86,8 +86,8 @@ public class Booking {
         this.stuNumber = stuNumber;
     }
 
-    private String stuNumber;
-    private Integer bookingId;
+    private String stuNumber = "";
+    private Integer bookingId = 0;
     private Integer id;
     private String firstName;
     private String lastName;

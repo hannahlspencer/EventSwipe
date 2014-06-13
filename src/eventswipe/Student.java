@@ -2,11 +2,11 @@ package eventswipe;
 
 public class Student {
 
-    public Integer getStuNumber() {
+    public String getStuNumber() {
         return stuNumber;
     }
 
-    public void setStuNumber(Integer stuNumber) {
+    public void setStuNumber(String stuNumber) {
         this.stuNumber = stuNumber;
     }
 
@@ -34,7 +34,7 @@ public class Student {
         this.lastName = lastName;
     }
 
-    private Integer stuNumber;
+    private String stuNumber;
     private Integer id;
     private String firstName;
     private String lastName;
