@@ -2,9 +2,13 @@
 
 *Current version: Condor*
 
-EventSwipe is a simple Java application for recording attendance at events.
+EventSwipe is a Java application for recording attendance at events.
 
-It works by reading some kind of ID string (a student number, for example) and either checking this against a booking list or recording the ID in a text file to be processed later. The ID can be entered from a keyboard or any other external input device, such as an RFID reader.
+It can be used as a standalone desktop application or connected to the careers CRM system, CareerHub.
+
+It works by reading some kind of ID string (a student number, for example), indicating the booking status of that person and either updating CareerHub or recording their details locally to be processed later.
+
+The ID can be entered from a keyboard or any other external input device, such as an RFID reader.
 
 ---
 
@@ -105,6 +109,6 @@ Dunlin features
 * Better UX feedback (loading bars etc.)
 * An option to mark all absent attendees as 'absent' on CareerHub
 * Ability to handle multiple booking file types (like .csv)
-* A simple counting mode when recording the IDs isn’t important
+* A simple counting mode when recording the IDs isn't important
 * Incorporation of event and slot opening times (indications of attendees being early/late for example)
 * A duplicate entry slot booking report feature to find people booked onto concurrent slots
