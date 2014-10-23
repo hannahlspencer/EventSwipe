@@ -1,7 +1,6 @@
 package eventswipe;
 
 import eventswipe.BookingSystemAPI.STATUS;
-import eventswipe.EventFullException;
 import eventswipe.EventSwipeData.BookingList;
 import java.awt.Desktop;
 import java.awt.FileDialog;
@@ -193,6 +192,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             slot = bookingResult.getEntrySlot();
         }
         bookingResult.setBooked(booked);
+        slot = (slot == 0) ? 1 : slot;
         bookingResult.setEntrySlot(slot);
         bookingResult.setAlreadyRecorded(alreadyRecorded);
         bookingResult.setOnWaitingList(waitingList);
@@ -206,14 +206,17 @@ public class EventSwipeApp extends SingleFrameApplication {
         if (data.isOnlineMode()) {
             String studId = "";
             try {
-            studId = api.getStudentData(stuNumber).getId().toString();
+                studId = api.getStudentData(stuNumber).getId().toString();
             } catch (NoStudentFoundException nsf) {
                 throw nsf;
             }
             Event freeEvent = new Event();
             int freeSlot = 0;
             for (Event event : data.getEvents()) {
+                int slot = event.getSlot();
+                event = api.getEvent(event.getId());
                 List<Booking> bookings = api.getBookingList(event.getId());
+                event.setSlot(slot);
                 event.setBookingList(bookings);
                 if (event.isUnlimited() || (event.getBookingLimit() > event.getBookingList().size())) {
                     freeSlot = freeSlot == 0 ? event.getSlot() : freeSlot;
@@ -359,8 +362,12 @@ public class EventSwipeApp extends SingleFrameApplication {
         return api.getStudents(input);
     }
 
+    public void addEvent(Event event) {
+        data.addEvent(event);
+    }
+
     public void setEvents(List<String> paths) {
-        for (int i = 0; i < data.getSlots(); i++) {
+        for (int i = 0; i < paths.size(); i++) {
             File file = new File(paths.get(i));
             List<String> numberList = Utils.readAllLines(file, Utils.getEncoding(file));
             List<Booking> bookingList = new ArrayList<Booking>();
@@ -371,7 +378,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             Event event = new Event();
             event.setBookingList(bookingList);
             event.setSlot(i+1);
-            data.addEvent(event);
+            addEvent(event);
         }
     }
 

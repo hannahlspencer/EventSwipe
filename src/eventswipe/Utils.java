@@ -2,6 +2,7 @@ package eventswipe;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -131,6 +132,31 @@ public class Utils {
         Date date = new Date();
         return dateFormat.format(date);
     }
+    
+    public static void failureNoise() {
+        Runnable sound = (Runnable) Toolkit.getDefaultToolkit().getDesktopProperty("win.sound.hand");
+        if (sound != null) {
+            sound.run();
+        }
+        /*try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }
+
+    public static void successNoise() {
+        Runnable sound = (Runnable) Toolkit.getDefaultToolkit().getDesktopProperty("win.sound.asterisk");
+        if (sound != null) {
+            sound.run();
+        }
+        /*try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }
+
     private static final String UTF8_BOM = "\uFEFF";
     private static final String UTF8_TEST_STRING = "ï»";
     private static final String UNICODE_LE_TEST_STRING = "ÿþ";

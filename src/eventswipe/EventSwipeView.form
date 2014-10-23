@@ -418,7 +418,6 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="waitingListButtonGroup"/>
                 </Property>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" resourceKey="noWaitingListRadioButton.text"/>
                 <Property name="name" type="java.lang.String" value="noWaitingListRadioButton" noResource="true"/>
               </Properties>
@@ -1060,6 +1059,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="waitingListButtonGroup"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" resourceKey="noLoadWaitingListRadioButton.text"/>
                 <Property name="name" type="java.lang.String" value="noLoadWaitingListRadioButton" noResource="true"/>
               </Properties>

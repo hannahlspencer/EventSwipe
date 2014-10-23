@@ -28,6 +28,7 @@ public class HttpUtils {
                                                  String method,
                                                  Map<String, String> headers) throws MalformedURLException, IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setConnectTimeout(10000);
         connection.setRequestMethod(method);
         connection.setDoInput(true);
         connection.setDoOutput(true);
@@ -64,6 +65,19 @@ public class HttpUtils {
 
     public static String getDataFromURL(String url) throws MalformedURLException, IOException {
         HttpURLConnection connection = connectToURL(url, "GET", new HashMap());
+        InputStream response = connection.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(response));
+        String inputLine;
+        String responseData = "";
+        while ((inputLine = in.readLine()) != null) {
+            responseData += inputLine;
+        }
+        in.close();
+        return responseData;
+    }
+
+    public static String getDataFromURL(String url, Map<String,String> headers) throws MalformedURLException, IOException {
+        HttpURLConnection connection = connectToURL(url, "GET", headers);
         InputStream response = connection.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(response));
         String inputLine;

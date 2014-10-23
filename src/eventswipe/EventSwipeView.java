@@ -12,9 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -423,7 +421,6 @@ public class EventSwipeView extends FrameView {
         });
 
         waitingListButtonGroup.add(noWaitingListRadioButton);
-        noWaitingListRadioButton.setSelected(true);
         noWaitingListRadioButton.setText(resourceMap.getString("noWaitingListRadioButton.text")); // NOI18N
         noWaitingListRadioButton.setName("noWaitingListRadioButton"); // NOI18N
         noWaitingListRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -881,6 +878,7 @@ public class EventSwipeView extends FrameView {
         entrySlotIdLabel2.setName("entrySlotIdLabel2"); // NOI18N
 
         waitingListButtonGroup.add(noLoadWaitingListRadioButton);
+        noLoadWaitingListRadioButton.setSelected(true);
         noLoadWaitingListRadioButton.setText(resourceMap.getString("noLoadWaitingListRadioButton.text")); // NOI18N
         noLoadWaitingListRadioButton.setName("noLoadWaitingListRadioButton"); // NOI18N
 
@@ -1567,19 +1565,26 @@ private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_backButton1ActionPerformed
 
 private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+    searchInput.setEnabled(false);
     String input = searchInput.getText();
     if (!input.isEmpty()) {
         if (Utils.isNumeric(input)) {
             Booking booking = new Booking("");
                 try {
                     booking = app.processSearchInput(input);
+                    updateBookingStatus(booking);
                 } catch (EventFullException ef) {
                     eventFullDisplay(ef.getStuNum());
+                } catch (EarlyRegistrationException er) {
+                    earlyRegistrationDisplay(input);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
                     showGenericErrorMessage();
                 }
-            updateBookingStatus(booking);
+                finally {
+                    searchInput.setText("");
+                    searchInput.requestFocusInWindow();
+                }
         }
         else {
             List<Student> students = new ArrayList<Student>();
@@ -1588,6 +1593,7 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 students = app.getStudents(input);
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                searchInput.setEnabled(true);
                 showGenericErrorMessage();
             }
             if (students.isEmpty()) {
@@ -1633,6 +1639,8 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     }
+    searchInput.setEnabled(true);
+    
 }//GEN-LAST:event_searchButtonActionPerformed
 
 private void checkingModeToggle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkingModeToggle1ActionPerformed
@@ -1703,6 +1711,12 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
             }
             app.setEvents(filePaths);
         }
+        else {
+            Event event = new Event();
+            event.setSlot(1);
+            event.setTitle(eventTitleInput.getText());
+            app.addEvent(event);
+        }
 
         if (waitingList) {
             app.createWaitingList(waitingListFilePathInput.getText());
@@ -1754,14 +1768,24 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
                         return;
                     }
                     else if(!slot.isUnlimited()) {
+                        int spaces = bookingLimit - bookingCount;
+                        String message = "";
                         Object[] options = {"Go to event", "Continue"};
+                        if (spaces == 0) {
+                            message = slot.getTitle() + " is fully booked. " +
+                                      System.getProperty("line.separator") +
+                                      "It is strongly recommended you remove the booking limit on CareerHub.";
+                        }
+                        else {
+                            message = "You will only be able to book " +
+                                      spaces + " extra " + 
+                                      (spaces == 1 ? "attendee" : "attendees") +
+                                      " for " + slot.getTitle() + "." +
+                                      System.getProperty("line.separator") +
+                                      "It is recommended you remove the booking limit on CareerHub.";
+                        }
                         int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
-                                                              "You will only be able to book " +
-                                                              (bookingLimit - bookingCount) +
-                                                              " extra attendees for " +
-                                                              slot.getTitle() + "." +
-                                                              System.getProperty("line.separator") +
-                                                              "It is recommended you remove the booking limit.",
+                                                              message,
                                                               "Booking limit warning",
                                                               JOptionPane.YES_NO_OPTION,
                                                               JOptionPane.QUESTION_MESSAGE,
@@ -1811,6 +1835,7 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
         if (booking.isAlreadyRecorded()) {
             message += " has already been recorded";
             bookingStatus = "Already recorded";
+            Utils.successNoise();
         }
         else if(booking.isOnWaitingList()) {
             Utils.pressAlt();
@@ -1822,6 +1847,7 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
             Utils.releaseAlt();
             Utils.pressAlt();
             Utils.releaseAlt();
+            Utils.failureNoise();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     app.recordAttendance(app.bookStudent(stuNumber, new Booking(stuNumber)));
@@ -1841,6 +1867,7 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
             }
         }
         else if (booking.isBooked()) {
+            Utils.successNoise();
             if (app.getBookingFlag()) {
                 bookingStatus = "Booked";
                 message += " has booked";
@@ -1851,17 +1878,17 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
             else {
                 bookingStatus = "Recorded";
                 message += " has been recorded";
+                
             }
         }
         else { //not booked
+            Utils.failureNoise();
             Utils.pressAlt();
             int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
                                                       "Student is not booked. " +
                                                       "Allow student to enter?",
                                                       "Student not booked",
                                                       JOptionPane.YES_NO_OPTION);
-            Utils.releaseAlt();
-            Utils.pressAlt();
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
@@ -1909,7 +1936,7 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
         if(statusMessage.equals("Booked")) {
             color = Color.GREEN;
             enabled = true;
-            localAttendeeCountTextField.setText(app.getLocalAttendeeCount());
+            localAttendeeCountTextField.setText(app.getLocalAttendeeCount());        
         }
         else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
             color = Color.WHITE;
@@ -1943,6 +1970,7 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
     }
 
     private void eventFullDisplay(String stuNumber) {
+        Utils.failureNoise();
         String message = "Student " + stuNumber + " couldn't be booked because the event is full";
         String bookingStatus = "EVENT FULL";
         String slot = "N/A";
@@ -1967,6 +1995,20 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
                 showGenericErrorMessage();
             }
         }
+    }
+
+    private void earlyRegistrationDisplay(String stuNumber) {
+        Utils.failureNoise();
+        String message = "Student " + stuNumber + " is trying to register too early";
+        String bookingStatus = "TOO EARLY";
+        String slot = "N/A";
+        displayBookingStatus(bookingStatus, slot);
+        displayBookingMessage(message);
+        app.log(message);
+        JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          message,
+                                          "Too early to register",
+                                          JOptionPane.ERROR_MESSAGE);
     }
 
     private void switchToPanel(JPanel panel) {
@@ -2113,6 +2155,9 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
     }
 
     private void showGenericErrorMessage() {
+        if (!searchInput.isEnabled()) {
+            searchInput.setEnabled(true);
+        }
         JOptionPane.showMessageDialog(app.getMainFrame(),
                                       "Something has gone wrong! Close EventSwipe and log in again.",
                                       "Unexpected error",
