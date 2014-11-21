@@ -9,9 +9,12 @@ public interface BookingSystemAPI {
     public boolean logIn(String username, char[] password) throws MalformedURLException, IOException;
     public List<Booking> getBookingList(String eventKey) throws MalformedURLException, IOException;
     public List<Student> getWaitingList(String eventKey) throws MalformedURLException, IOException;
+    public List<String> getUnspecified(String eventKey) throws MalformedURLException, IOException;
     public int getAttendeeCount(String eventKey) throws MalformedURLException, IOException;
     public void markStatus(STATUS status, String studentKey, String eventKey) throws MalformedURLException, IOException;
     public void markStatus(STATUS status, List<String> studentKeys, String eventKey) throws MalformedURLException, IOException;
+    public void markAbsent(List<String> studentKeys, String eventKey, Boolean notify) throws MalformedURLException, IOException;
+    public void markAllUnspecifiedAbsent(String eventKey, Boolean notify) throws MalformedURLException, IOException;
     public void cancelBooking(String studentKey, String eventKey) throws MalformedURLException, IOException;
     public Booking bookStudent(String studentKey, String eventKey) throws MalformedURLException, IOException;
     public Student getStudentData(String stuNumber) throws MalformedURLException, IOException;
