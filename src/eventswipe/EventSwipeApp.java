@@ -45,22 +45,17 @@ public class EventSwipeApp extends SingleFrameApplication {
      * Windows shown in our application come fully initialized from the GUI
      * builder, so this additional configuration is not needed.
      */
-    @Override protected void configureWindow(java.awt.Window root) {
-
+    @Override
+    protected void configureWindow(java.awt.Window root) {
         this.addExitListener(new org.jdesktop.application.Application.ExitListener() {
-
             public boolean canExit(EventObject arg0) {
                 return data.getSavedFlag();
             }
-
             public void willExit(EventObject arg0) {
                 System.exit(0);
             }
-
         });
-
         root.addWindowListener(new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 if (e.getID() == WindowEvent.WINDOW_CLOSING && !data.getSavedFlag()) {
@@ -81,8 +76,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                 else {
                     exit();
                 }
-            }
-            
+            }           
         });
     }
 
@@ -430,23 +424,27 @@ public class EventSwipeApp extends SingleFrameApplication {
         return data.getEvents().get(slot);
     }
 
-    public void finish(Boolean markAbsent) throws MalformedURLException, IOException {
-        if (data.isOnlineMode()) {
-            if (!data.getSavedFlag()) {
-                try {
-                    this.bookUnsavedRecords();
-                } catch (Exception e) {
-                    this.saveAttendeesToFile();
-                }
-            }
-            if (markAbsent && data.getSavedFlag()) {
-                for (Event event : data.getEvents()) {
-                    api.markAllUnspecifiedAbsent(event.getId(), false);
-                }
+    public void saveAndFinish() {
+        if (!data.getSavedFlag()) {
+            this.saveAttendeesToFile();
+        }
+        if (data.getSavedFlag()) {
+            System.exit(0);
+        }
+    }
+
+    public void finish(Boolean markAbsent, Boolean notify) throws MalformedURLException, IOException {
+        if (!data.getSavedFlag()) {
+            try {
+                this.bookUnsavedRecords();
+            } catch (Exception e) {
+                this.saveAndFinish();
             }
         }
-        else if (!data.getSavedFlag()) {
-            this.saveAttendeesToFile();
+        if (markAbsent && data.getSavedFlag()) {
+            for (Event event : data.getEvents()) {
+                api.markAllUnspecifiedAbsent(event.getId(), notify);
+            }
         }
         if (data.getSavedFlag()) {
             System.exit(0);

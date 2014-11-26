@@ -86,26 +86,19 @@ public class EventSwipeView extends FrameView {
     };
 
     @Action
-    public void finishAction() {
-        Boolean markAbsent = false;
+    public void initialFinishAction() {
         if (app.isOnlineMode()) {
-            Object[] options = {"Yes", "No"};
-            Utils.pressAlt();
-            int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
-                          "Would youm like EventSwipe to mark all the 'unspecified' students as 'absent'?",
-                          "Mark absentees",
-                          JOptionPane.YES_NO_OPTION,
-                          JOptionPane.QUESTION_MESSAGE,
-                          null,
-                          options,
-                          options[0]);
-            Utils.releaseAlt();
-            if (reply == JOptionPane.YES_OPTION) {
-                markAbsent = true;
-            }
+            this.switchToPanel(finishPanel);
         }
+        else {
+            app.saveAndFinish();
+        }
+    }
+
+    @Action
+    public void finishAction() {
         try {
-            app.finish(markAbsent);
+            app.finish(markAbsentOption.isSelected(), notifyAbsentOption.isSelected());
         } catch (Exception ex) {
             Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(app.getMainFrame(),
@@ -114,8 +107,8 @@ public class EventSwipeView extends FrameView {
                                           JOptionPane.ERROR_MESSAGE);
         }
         try {
-            app.finish(false);
-        } catch (Exception ex) {} //can't catch excpetion with app.finish(false)
+            app.finish(false, false);
+        } catch (Exception ex) {} //app can't throw excpetion with app.finish(false)
     }
 
     @Action
@@ -284,6 +277,12 @@ public class EventSwipeView extends FrameView {
         entrySlotLabel1 = new javax.swing.JLabel();
         thisMachineLabel = new javax.swing.JLabel();
         totalAttendeeCountDisplay = new javax.swing.JFormattedTextField();
+        finishPanel = new javax.swing.JPanel();
+        finishCloseButton = new javax.swing.JButton();
+        finishBackButton = new javax.swing.JButton();
+        finishPanelTitle = new javax.swing.JLabel();
+        markAbsentOption = new javax.swing.JCheckBox();
+        notifyAbsentOption = new javax.swing.JCheckBox();
 
         menuBar.setName("menuBar"); // NOI18N
 
@@ -1198,7 +1197,7 @@ public class EventSwipeView extends FrameView {
             }
         });
 
-        finishButton.setAction(actionMap.get("finishAction")); // NOI18N
+        finishButton.setAction(actionMap.get("initialFinishAction")); // NOI18N
         finishButton.setText(resourceMap.getString("finishButton.text")); // NOI18N
         finishButton.setFocusable(false);
         finishButton.setName("finishButton"); // NOI18N
@@ -1410,6 +1409,79 @@ searchInput.getActionMap().put("toggleBooking", toggleBooking);
 searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
     "enterStudentNumber");
     searchInput.getActionMap().put("enterStudentNumber",checkBooking);
+
+    finishPanel.setMinimumSize(new java.awt.Dimension(720, 350));
+    finishPanel.setName("finishPanel"); // NOI18N
+
+    finishCloseButton.setAction(actionMap.get("finishAction")); // NOI18N
+    finishCloseButton.setText(resourceMap.getString("finishCloseButton.text")); // NOI18N
+    finishCloseButton.setName("finishCloseButton"); // NOI18N
+
+    finishBackButton.setText(resourceMap.getString("finishBackButton.text")); // NOI18N
+    finishBackButton.setName("finishBackButton"); // NOI18N
+    finishBackButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            finishBackButtonActionPerformed(evt);
+        }
+    });
+
+    finishPanelTitle.setFont(resourceMap.getFont("finishPanelTitle.font")); // NOI18N
+    finishPanelTitle.setText(resourceMap.getString("finishPanelTitle.text")); // NOI18N
+    finishPanelTitle.setName("finishPanelTitle"); // NOI18N
+
+    markAbsentOption.setFont(resourceMap.getFont("markAbsentOption.font")); // NOI18N
+    markAbsentOption.setSelected(true);
+    markAbsentOption.setText(resourceMap.getString("markAbsentOption.text")); // NOI18N
+    markAbsentOption.setName("markAbsentOption"); // NOI18N
+    markAbsentOption.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            markAbsentOptionActionPerformed(evt);
+        }
+    });
+
+    notifyAbsentOption.setFont(resourceMap.getFont("notifyAbsentOption.font")); // NOI18N
+    notifyAbsentOption.setSelected(true);
+    notifyAbsentOption.setText(resourceMap.getString("notifyAbsentOption.text")); // NOI18N
+    notifyAbsentOption.setName("notifyAbsentOption"); // NOI18N
+
+    javax.swing.GroupLayout finishPanelLayout = new javax.swing.GroupLayout(finishPanel);
+    finishPanel.setLayout(finishPanelLayout);
+    finishPanelLayout.setHorizontalGroup(
+        finishPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(finishPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(finishPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(finishPanelLayout.createSequentialGroup()
+                    .addComponent(markAbsentOption)
+                    .addContainerGap())
+                .addGroup(finishPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(finishPanelLayout.createSequentialGroup()
+                        .addComponent(notifyAbsentOption)
+                        .addContainerGap())
+                    .addGroup(finishPanelLayout.createSequentialGroup()
+                        .addComponent(finishBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 492, Short.MAX_VALUE)
+                        .addComponent(finishCloseButton)
+                        .addGap(20, 20, 20))
+                    .addGroup(finishPanelLayout.createSequentialGroup()
+                        .addComponent(finishPanelTitle)
+                        .addContainerGap(460, Short.MAX_VALUE)))))
+    );
+    finishPanelLayout.setVerticalGroup(
+        finishPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, finishPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(finishPanelTitle)
+            .addGap(41, 41, 41)
+            .addComponent(markAbsentOption)
+            .addGap(18, 18, 18)
+            .addComponent(notifyAbsentOption)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+            .addGroup(finishPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(finishBackButton)
+                .addComponent(finishCloseButton))
+            .addContainerGap())
+    );
 
     setComponent(preConfigPanel);
     setMenuBar(menuBar);
@@ -1711,6 +1783,14 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
         }
     }
 }//GEN-LAST:event_idInputKeyPressed
+
+private void markAbsentOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAbsentOptionActionPerformed
+    notifyAbsentOption.setEnabled(markAbsentOption.isSelected());
+}//GEN-LAST:event_markAbsentOptionActionPerformed
+
+private void finishBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishBackButtonActionPerformed
+    this.switchToPanel(mainOnlinePanel);
+}//GEN-LAST:event_finishBackButtonActionPerformed
     
     private void checkConfiguration() {
         int slots = (Integer) entrySlotsSpinner.getValue();
@@ -2234,7 +2314,11 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
     private javax.swing.JSpinner entrySlotsSpinner1;
     private javax.swing.JFormattedTextField eventTitleInput;
     private javax.swing.JLabel eventTitleInputLabel;
+    private javax.swing.JButton finishBackButton;
     private javax.swing.JButton finishButton;
+    private javax.swing.JButton finishCloseButton;
+    private javax.swing.JPanel finishPanel;
+    private javax.swing.JLabel finishPanelTitle;
     private javax.swing.JLabel generatedStudentLabel;
     private javax.swing.JTextField generatedStudentName;
     private javax.swing.JTextField generatedTitle1;
@@ -2255,10 +2339,12 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainOnlinePanel;
     private javax.swing.JLabel mainTitle;
+    private javax.swing.JCheckBox markAbsentOption;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JRadioButton noBookingRadioButton;
     private javax.swing.JRadioButton noLoadWaitingListRadioButton;
     private javax.swing.JRadioButton noWaitingListRadioButton;
+    private javax.swing.JCheckBox notifyAbsentOption;
     private javax.swing.JButton okConfigButton;
     private javax.swing.JButton okConfigButton1;
     private javax.swing.JButton onlineConfigBackButton;

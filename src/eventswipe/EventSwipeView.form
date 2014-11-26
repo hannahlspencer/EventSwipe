@@ -1349,7 +1349,7 @@
         <Component class="javax.swing.JButton" name="finishButton">
           <Properties>
             <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-              <action class="eventswipe.EventSwipeView" id="finishAction" methodName="finishAction"/>
+              <action class="eventswipe.EventSwipeView" id="initialFinishAction" methodName="initialFinishAction"/>
             </Property>
             <Property name="text" type="java.lang.String" resourceKey="finishButton.text"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -1552,6 +1552,110 @@
             </Component>
           </SubComponents>
         </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="finishPanel">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[720, 350]"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="finishPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="markAbsentOption" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="notifyAbsentOption" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="finishBackButton" min="-2" pref="94" max="-2" attributes="0"/>
+                              <EmptySpace pref="492" max="32767" attributes="0"/>
+                              <Component id="finishCloseButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="finishPanelTitle" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="460" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="finishPanelTitle" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <Component id="markAbsentOption" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="notifyAbsentOption" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="177" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="finishBackButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="finishCloseButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="finishCloseButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="eventswipe.EventSwipeView" id="finishAction" methodName="finishAction"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="finishCloseButton.text"/>
+            <Property name="name" type="java.lang.String" value="finishCloseButton" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="finishBackButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="finishBackButton.text"/>
+            <Property name="name" type="java.lang.String" value="finishBackButton" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="finishBackButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="finishPanelTitle">
+          <Properties>
+            <Property name="font" type="java.awt.Font" resourceKey="finishPanelTitle.font"/>
+            <Property name="text" type="java.lang.String" resourceKey="finishPanelTitle.text"/>
+            <Property name="name" type="java.lang.String" value="finishPanelTitle" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="markAbsentOption">
+          <Properties>
+            <Property name="font" type="java.awt.Font" resourceKey="markAbsentOption.font"/>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" resourceKey="markAbsentOption.text"/>
+            <Property name="name" type="java.lang.String" value="markAbsentOption" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markAbsentOptionActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="notifyAbsentOption">
+          <Properties>
+            <Property name="font" type="java.awt.Font" resourceKey="notifyAbsentOption.font"/>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" resourceKey="notifyAbsentOption.text"/>
+            <Property name="name" type="java.lang.String" value="notifyAbsentOption" noResource="true"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </NonVisualComponents>
