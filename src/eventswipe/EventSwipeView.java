@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -83,6 +84,39 @@ public class EventSwipeView extends FrameView {
             searchButton.doClick();
         }
     };
+
+    @Action
+    public void finishAction() {
+        Boolean markAbsent = false;
+        if (app.isOnlineMode()) {
+            Object[] options = {"Yes", "No"};
+            Utils.pressAlt();
+            int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
+                          "Would youm like EventSwipe to mark all the 'unspecified' students as 'absent'?",
+                          "Mark absentees",
+                          JOptionPane.YES_NO_OPTION,
+                          JOptionPane.QUESTION_MESSAGE,
+                          null,
+                          options,
+                          options[0]);
+            Utils.releaseAlt();
+            if (reply == JOptionPane.YES_OPTION) {
+                markAbsent = true;
+            }
+        }
+        try {
+            app.finish(markAbsent);
+        } catch (Exception ex) {
+            Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          "Error marking absentees. You'll have to do this manually.",
+                                          "Marking absentee error",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            app.finish(false);
+        } catch (Exception ex) {} //can't catch excpetion with app.finish(false)
+    }
 
     @Action
     public void showAboutBox() {
@@ -233,7 +267,7 @@ public class EventSwipeView extends FrameView {
         bookingStatusScrollPane1 = new javax.swing.JScrollPane();
         bookingStatusTextArea1 = new javax.swing.JTextArea();
         backButton1 = new javax.swing.JButton();
-        saveButton1 = new javax.swing.JButton();
+        finishButton = new javax.swing.JButton();
         searchInputLabel = new javax.swing.JLabel();
         checkingModeToggle1 = new javax.swing.JToggleButton();
         generatedStudentName = new javax.swing.JTextField();
@@ -788,7 +822,7 @@ public class EventSwipeView extends FrameView {
             titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1164,11 +1198,11 @@ public class EventSwipeView extends FrameView {
             }
         });
 
-        saveButton1.setAction(actionMap.get("saveAttendeesToFile")); // NOI18N
-        saveButton1.setText(resourceMap.getString("saveButton1.text")); // NOI18N
-        saveButton1.setFocusable(false);
-        saveButton1.setName("saveButton1"); // NOI18N
-        saveButton1.setRequestFocusEnabled(false);
+        finishButton.setAction(actionMap.get("finishAction")); // NOI18N
+        finishButton.setText(resourceMap.getString("finishButton.text")); // NOI18N
+        finishButton.setFocusable(false);
+        finishButton.setName("finishButton"); // NOI18N
+        finishButton.setRequestFocusEnabled(false);
 
         searchInputLabel.setText(resourceMap.getString("searchInputLabel.text")); // NOI18N
         searchInputLabel.setFocusable(false);
@@ -1335,7 +1369,7 @@ public class EventSwipeView extends FrameView {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainOnlinePanelLayout.createSequentialGroup()
                         .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 519, Short.MAX_VALUE)
-                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(finishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         mainOnlinePanelLayout.setVerticalGroup(
@@ -1361,7 +1395,7 @@ public class EventSwipeView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton1)
-                    .addComponent(saveButton1))
+                    .addComponent(finishButton))
                 .addContainerGap())
         );
 
@@ -2200,6 +2234,7 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
     private javax.swing.JSpinner entrySlotsSpinner1;
     private javax.swing.JFormattedTextField eventTitleInput;
     private javax.swing.JLabel eventTitleInputLabel;
+    private javax.swing.JButton finishButton;
     private javax.swing.JLabel generatedStudentLabel;
     private javax.swing.JTextField generatedStudentName;
     private javax.swing.JTextField generatedTitle1;
@@ -2234,7 +2269,6 @@ private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_i
     private javax.swing.JPanel preConfigPanel;
     private javax.swing.ButtonGroup requireBookingButtonGroup;
     private javax.swing.JLabel requireBookingLabel;
-    private javax.swing.JButton saveButton1;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton searchButton;
     private javax.swing.JButton searchEventsButton1;

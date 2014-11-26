@@ -430,6 +430,29 @@ public class EventSwipeApp extends SingleFrameApplication {
         return data.getEvents().get(slot);
     }
 
+    public void finish(Boolean markAbsent) throws MalformedURLException, IOException {
+        if (data.isOnlineMode()) {
+            if (!data.getSavedFlag()) {
+                try {
+                    this.bookUnsavedRecords();
+                } catch (Exception e) {
+                    this.saveAttendeesToFile();
+                }
+            }
+            if (markAbsent && data.getSavedFlag()) {
+                for (Event event : data.getEvents()) {
+                    api.markAllUnspecifiedAbsent(event.getId(), false);
+                }
+            }
+        }
+        else if (!data.getSavedFlag()) {
+            this.saveAttendeesToFile();
+        }
+        if (data.getSavedFlag()) {
+            System.exit(0);
+        }
+    }
+
     /**
      * Main method launching the application.
      */

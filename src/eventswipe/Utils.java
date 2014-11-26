@@ -52,21 +52,21 @@ public class Utils {
     }
 
     public static void pressAlt() {
-        try {
+        /*try {
             Robot r = new Robot();
             r.keyPress(KeyEvent.VK_ALT);
         } catch (AWTException ex) {
             System.err.println(ex.getMessage());
-        }
+        }*/
     }
 
     public static void releaseAlt() {
-        try {
+        /*try {
             Robot r = new Robot();
             r.keyRelease(KeyEvent.VK_ALT);
         } catch (AWTException ex) {
             System.err.println(ex.getMessage());
-        }
+        }*/
     }
 
     public static String readLine(File file, String encoding) {

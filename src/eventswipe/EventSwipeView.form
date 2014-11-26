@@ -539,7 +539,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="titlePanel" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="titlePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="loginPanel" min="-2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1247,7 +1247,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="backButton1" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace pref="519" max="32767" attributes="0"/>
-                          <Component id="saveButton1" min="-2" pref="91" max="-2" attributes="0"/>
+                          <Component id="finishButton" min="-2" pref="91" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -1281,7 +1281,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="backButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="saveButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="finishButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -1346,14 +1346,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButton1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="saveButton1">
+        <Component class="javax.swing.JButton" name="finishButton">
           <Properties>
             <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-              <action class="eventswipe.EventSwipeApp" id="saveAttendeesToFile" methodName="saveAttendeesToFile"/>
+              <action class="eventswipe.EventSwipeView" id="finishAction" methodName="finishAction"/>
             </Property>
-            <Property name="text" type="java.lang.String" resourceKey="saveButton1.text"/>
+            <Property name="text" type="java.lang.String" resourceKey="finishButton.text"/>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="saveButton1" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="finishButton" noResource="true"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
         </Component>
