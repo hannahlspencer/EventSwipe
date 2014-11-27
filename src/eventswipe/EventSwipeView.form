@@ -24,7 +24,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="toggleMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+T"/>
+                  <KeyStroke key="Ctrl+R"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="toggleMenuItem.text"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -34,10 +34,26 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="connectionMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+T"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="connectionMenuItem.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="connectionMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectionMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
               <Properties>
                 <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
                   <action class="eventswipe.EventSwipeApp" id="saveAttendeesToFile" methodName="saveAttendeesToFile"/>
+                </Property>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="saveMenuItem.text"/>
                 <Property name="name" type="java.lang.String" value="saveMenuItem" noResource="true"/>
@@ -1223,34 +1239,41 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="bookingStatusScrollPane1" alignment="0" pref="700" max="32767" attributes="1"/>
-                      <Component id="bookingStatusPanel" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="generatedStudentLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="searchInputLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="searchInput" pref="297" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="searchButton" min="-2" pref="85" max="-2" attributes="1"/>
-                              </Group>
-                              <Component id="generatedStudentName" pref="388" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="checkingModeToggle1" min="-2" pref="150" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="onlineModeToggle" min="-2" pref="37" max="-2" attributes="1"/>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="backButton1" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace pref="519" max="32767" attributes="0"/>
                           <Component id="finishButton" min="-2" pref="91" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="bookingStatusScrollPane1" alignment="0" pref="700" max="32767" attributes="1"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="bookingStatusPanel" alignment="0" pref="657" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="generatedStudentLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="searchInputLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="searchInput" pref="297" max="32767" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="searchButton" min="-2" pref="85" max="-2" attributes="1"/>
+                                      </Group>
+                                      <Component id="generatedStudentName" pref="388" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="checkingModeToggle1" min="-2" pref="150" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="refreshAttendeesButton" min="0" pref="0" max="32767" attributes="1"/>
+                              <Component id="onlineModeToggle" alignment="0" min="-2" pref="37" max="-2" attributes="1"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1274,9 +1297,17 @@
                       <Component id="onlineModeToggle" min="-2" pref="48" max="-2" attributes="1"/>
                       <Component id="checkingModeToggle1" alignment="0" pref="49" max="32767" attributes="1"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="bookingStatusPanel" min="-2" pref="61" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bookingStatusPanel" min="-2" pref="61" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="refreshAttendeesButton" min="-2" pref="46" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="bookingStatusScrollPane1" min="-2" pref="182" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1294,7 +1325,7 @@
             <Property name="name" type="java.lang.String" value="searchInput" noResource="true"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;save&quot;);&#xa;searchInput.getActionMap().put(&quot;save&quot;, save);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleBooking&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;&quot;enterStudentNumber&quot;);&#xa;searchInput.getActionMap().put(&quot;enterStudentNumber&quot;,checkBooking);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;save&quot;);&#xa;searchInput.getActionMap().put(&quot;save&quot;, save);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_R,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleBooking&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleConnection&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleConnection&quot;, toggleConnection);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;&quot;enterStudentNumber&quot;);&#xa;searchInput.getActionMap().put(&quot;enterStudentNumber&quot;,checkBooking);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="searchButton">
@@ -1422,20 +1453,31 @@
                       <Component id="entrySlotLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="entrySlotDisplayTextField1" min="-2" pref="70" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="thisMachineLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="attendeeCountLabel1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="attendeeCountLabel1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="thisMachineLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="localAttendeeCountTextField" pref="65" max="32767" attributes="1"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="attendeeCountLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="localAttendeeCountTextField" min="-2" pref="57" max="-2" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="attendeeCountLabel2" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="totalAttendeeCountDisplay" min="-2" pref="106" max="-2" attributes="1"/>
+                      <Component id="totalAttendeeCountDisplay" min="-2" pref="69" max="-2" attributes="1"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1451,21 +1493,24 @@
                                   <Component id="statusDisplayTextField1" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                                   <Component id="entrySlotDisplayTextField1" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                                   <Component id="localAttendeeCountTextField" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="thisMachineLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="entrySlotLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="attendeeCountLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="attendeeCountLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="thisMachineLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="totalAttendeeCountDisplay" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="3" attributes="0">
+                                      <Component id="attendeeCountLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="totalLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="totalAttendeeCountDisplay" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                              <Component id="totalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="attendeeCountLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="6" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1552,6 +1597,16 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="refreshAttendeesButton">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" resourceKey="refreshAttendeesButton.icon"/>
+            <Property name="text" type="java.lang.String" resourceKey="refreshAttendeesButton.text"/>
+            <Property name="name" type="java.lang.String" value="refreshAttendeesButton" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshAttendeesButtonActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="finishPanel">

@@ -45,6 +45,7 @@ public class EventSwipeData {
         setSlots(0);
         setEventTitle("");
         clearList(allFileBookedList);
+        events.clear();
     }
 
     public void incrementAttendeesCount() {

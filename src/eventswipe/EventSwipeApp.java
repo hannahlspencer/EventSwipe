@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
 import java.util.logging.Level;
@@ -236,7 +237,13 @@ public class EventSwipeApp extends SingleFrameApplication {
     public void recordAttendance(Booking booking) throws MalformedURLException, IOException {
         Event event = data.getEvents().get(booking.getEntrySlot() - 1);
         if (data.isOnlineMode()) {
-            api.markStatus(STATUS.ATTENDED, booking.getBookingId().toString(), event.getId());
+            Date now = new Date();
+            if (now.after(event.getRegStart())) {
+                api.markStatus(STATUS.ATTENDED, booking.getBookingId().toString(), event.getId());
+            }
+            else {
+                throw new EarlyRegistrationException();
+            }
         }
         else {
             event.getUnsavedList().add(booking.getStuNumber());
@@ -391,12 +398,17 @@ public class EventSwipeApp extends SingleFrameApplication {
         return event;
     }
 
-    public void goToOnlineMode() {
-        setOnlineModeFlag(true);
-        try {
-            bookUnsavedRecords();
-        } catch (EventFullException ef) {
-            throw ef;
+    public void goToOnlineMode() throws IOException {
+        if (Utils.isInternetReachable()) {
+            setOnlineModeFlag(true);
+            try {
+                bookUnsavedRecords();
+            } catch (EventFullException ef) {
+                throw ef;
+            }
+        }
+        else {
+            throw new IOException();
         }
     }
 

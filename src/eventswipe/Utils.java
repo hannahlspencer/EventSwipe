@@ -1,9 +1,6 @@
 package eventswipe;
 
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -12,10 +9,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +49,25 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    public static Date strToDate(String str, String format) {
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat(format, Locale.ENGLISH).parse(str);
+            return date;
+        } catch (ParseException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            return date;
+        }
+    }
+
+    public static Date subtractMins(Date date, int mins) {
+        mins = mins * -1;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, mins);
+        return cal.getTime();
     }
 
     public static void pressAlt() {
@@ -161,4 +180,5 @@ public class Utils {
     private static final String UTF8_TEST_STRING = "ï»";
     private static final String UNICODE_LE_TEST_STRING = "ÿþ";
     private static final String UNICODE_BE_TEST_STRING = "þÿ";
+
 }

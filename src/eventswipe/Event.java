@@ -1,6 +1,7 @@
 package eventswipe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Event {
@@ -9,16 +10,16 @@ public class Event {
 
     public Event(String title, String date, String id) {
         this.title = title;
-        this.startDate = date;
+        this.startDateString = date;
         this.id = id;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getStartDateString() {
+        return startDateString;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStartDateString(String startDate) {
+        this.startDateString = startDate;
     }
 
     public String getTitle() {
@@ -43,6 +44,22 @@ public class Event {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getRegStart() {
+        return regStart;
+    }
+
+    public void setRegStart(Date regStart) {
+        this.regStart = regStart;
     }
 
     public List<Booking> getBookingList() {
@@ -109,10 +126,13 @@ public class Event {
         this.dropIn = dropIn;
     }
 
-    private String startDate;
+    private String startDateString;
     private String title;
     private String id;
     private String venue;
+
+    private Date startDate;
+    private Date regStart;
 
     private List<Booking> bookingList;
     private List<Student> waitingList;
