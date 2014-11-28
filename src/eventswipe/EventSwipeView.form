@@ -552,7 +552,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="titlePanel" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="titlePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="loginPanel" min="-2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1307,7 +1307,7 @@
             <Property name="name" type="java.lang.String" value="searchInput" noResource="true"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;save&quot;);&#xa;searchInput.getActionMap().put(&quot;save&quot;, save);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_R,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleBooking&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleConnection&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleConnection&quot;, toggleConnection);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;&quot;enterStudentNumber&quot;);&#xa;searchInput.getActionMap().put(&quot;enterStudentNumber&quot;,checkBooking);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;save&quot;);&#xa;searchInput.getActionMap().put(&quot;save&quot;, save);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_R,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleBooking&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleBooking&quot;, toggleBooking);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,&#xa;java.awt.event.InputEvent.CTRL_DOWN_MASK), &quot;toggleConnection&quot;);&#xa;searchInput.getActionMap().put(&quot;toggleConnection&quot;, toggleConnection);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),&#xa;&quot;enterStudentNumber&quot;);&#xa;searchInput.getActionMap().put(&quot;enterStudentNumber&quot;,checkBooking);&#xa;&#xa;searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0),&#xa;&quot;refreshAttendees&quot;);&#xa;searchInput.getActionMap().put(&quot;refreshAttendees&quot;,refreshAttendees);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="searchButton">

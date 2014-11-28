@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -87,6 +86,11 @@ public class EventSwipeView extends FrameView {
     javax.swing.Action toggleConnection = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
             onlineModeToggle.doClick();
+        }
+    };
+    javax.swing.Action refreshAttendees = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            refreshAttendeesButton.doClick();
         }
     };
 
@@ -839,7 +843,7 @@ public class EventSwipeView extends FrameView {
             titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1452,6 +1456,10 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
         "enterStudentNumber");
     searchInput.getActionMap().put("enterStudentNumber",checkBooking);
+
+    searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0),
+        "refreshAttendees");
+    searchInput.getActionMap().put("refreshAttendees",refreshAttendees);
 
     finishPanel.setMinimumSize(new java.awt.Dimension(720, 350));
     finishPanel.setName("finishPanel"); // NOI18N
