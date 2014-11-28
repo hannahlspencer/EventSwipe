@@ -18,10 +18,10 @@ The ID can be entered from a keyboard or any other external input device, such a
 
 *Updated November 2014*
 
-*Option to mark all unspecified student as absent when you have finished taking attendance
-*Detects early registration
-*Refresh attendees button updates display without needing to scan a card
-*Keyboard shortcut (Ctrl+t) toggles online mode (Ctrl+r now toggles booking mode)
+* Option to mark all unspecified student as absent when you have finished taking attendance
+* Detects early registration
+* Refresh attendees button updates display without needing to scan a card
+* Keyboard shortcut (Ctrl+t) toggles online mode (Ctrl+r now toggles booking mode)
 
 ###Condor
 
