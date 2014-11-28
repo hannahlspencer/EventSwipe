@@ -22,6 +22,7 @@ The ID can be entered from a keyboard or any other external input device, such a
 * Detects early registration
 * Refresh attendees button updates display without needing to scan a card
 * Keyboard shortcut (Ctrl+t) toggles online mode (Ctrl+r now toggles booking mode)
+* Network requests won't timeout
 
 ###Condor
 
@@ -111,7 +112,7 @@ You won't need to save anything; simply close EventSwipe. However if something w
 
 ###Egret
 
-*Expected release: February 2014*
+*Expected release: February 2015*
 
 Features
 
