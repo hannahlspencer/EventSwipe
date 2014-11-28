@@ -1,6 +1,6 @@
 # EventSwipe
 
-*Current version: Condor*
+*Current version: Dunlin*
 
 EventSwipe is a Java application for recording attendance at events.
 
@@ -13,6 +13,15 @@ The ID can be entered from a keyboard or any other external input device, such a
 ---
 
 ##Updates
+
+###Dunlin
+
+*Updated November 2014*
+
+*Option to mark all unspecified student as absent when you have finished taking attendance
+*Detects early registration
+*Refresh attendees button updates display without needing to scan a card
+*Keyboard shortcut (Ctrl+t) toggles online mode (Ctrl+r now toggles booking mode)
 
 ###Condor
 
@@ -100,15 +109,24 @@ You won't need to save anything; simply close EventSwipe. However if something w
 
 ##Future features
 
-###Dunlin
+###Egret
 
-*Expected release: September 2014*
+*Expected release: February 2014*
 
-Dunlin features
+Features
+
+* Booking list auto-refreshing
+* Asyncronous API calls and batch processing to make eventswipe faster
+* Log all exceptions (stack traces & Sys.err.prints)
+* Better error feedback to users
+
+###Falcon
+
+*Expected release: September 2015*
+
+Features
 
 * Better UX feedback (loading bars etc.)
-* An option to mark all absent attendees as 'absent' on CareerHub
 * Ability to handle multiple booking file types (like .csv)
 * A simple counting mode when recording the IDs isn't important
-* Incorporation of event and slot opening times (indications of attendees being early/late for example)
-* A duplicate entry slot booking report feature to find people booked onto concurrent slots
+* Duplicate slot booking report
