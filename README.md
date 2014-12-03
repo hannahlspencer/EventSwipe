@@ -100,11 +100,13 @@ You can also record an ID which was not on the booking list by switching EventSw
 
 ####Offline mode
 
-When you have finished recording entry to your event, hit 'save', choose a file name and location and EventSwipe will save the list of recorded IDs (along with the entry slot they were booked for, if applicable) as a text file separated by line breaks.
+When you have finished recording entry to your event, hit 'finish', choose a file name and location and EventSwipe will save the list of recorded IDs (along with the entry slot they were booked for, if applicable) as a text file separated by line breaks.
 
 ####Online mode
 
-You won't need to save anything; simply close EventSwipe. However if something went wrong during your attendance recording then EventSwipe might have saved some of the attendance records offline. In this case you will get a prompt when you try to close EventSwipe indicating that there are unsaved records. Follow the offline mode saving instructions in this scenario.
+Hit 'Finish' and you'll be taken to the finish screen where you can choose whether or not to mark and notify the absentees. 
+
+If something went wrong during your attendance recording or you let in early arrivals then EventSwipe might have saved some of the attendance records offline. In this case you will get a prompt when you try to close EventSwipe indicating that there are unsaved records. Follow the offline mode saving instructions in this scenario.
 
 ---
 
