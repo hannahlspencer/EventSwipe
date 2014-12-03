@@ -1,6 +1,3 @@
-/*
- * EventSwipeView.java
- */
 package eventswipe;
 
 import java.awt.Color;
@@ -70,7 +67,7 @@ public class EventSwipeView extends FrameView {
 
     javax.swing.Action save = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
-            EventSwipeApp.getApplication().saveAttendeesToFile();
+            app.saveAttendeesToFile();
         }
     };
     javax.swing.Action toggleBooking = new AbstractAction() {
@@ -1755,9 +1752,9 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
             if (students.isEmpty()) {
                 JOptionPane.showMessageDialog(app.getMainFrame(),
-                                                  "No students could be found.",
-                                                  "Search error",
-                                                  JOptionPane.ERROR_MESSAGE);
+                                              "No students could be found.",
+                                              "Search error",
+                                              JOptionPane.ERROR_MESSAGE);
             }
             else if (app.isOnlineMode()) {
                 List<String> studentNames = new ArrayList<String>();
@@ -2022,11 +2019,29 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
         slot = booking.isOnWaitingList() ? "W/L" : slot;
         String bookingStatus = "";
         if (booking.isAlreadyRecorded()) {
+            Utils.successNoise();
             message += " has already been recorded";
             bookingStatus = "Already recorded";
-            Utils.successNoise();
+        }
+        else if (booking.getStatus() == Booking.EARLY_STATUS) {
+            Utils.failureNoise();
+            bookingStatus = "Too early";
+            int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
+                                                      "Student has arrived too early to register. "
+                                                      + "Allow student to enter?",
+                                                      "Student too early",
+                                                      JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                app.addToEarlyList(stuNumber, booking.getEntrySlot());
+                bookingStatus = "Booked";
+                message += " has been recorded";
+            }
+            else {
+                message += " has arrived too early";
+            }
         }
         else if(booking.isOnWaitingList()) {
+            Utils.failureNoise();
             Utils.pressAlt();
             int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
                                                       "Student is on the waiting list. "
@@ -2034,9 +2049,6 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
                                                       "Student on waiting list",
                                                       JOptionPane.YES_NO_OPTION);
             Utils.releaseAlt();
-            Utils.pressAlt();
-            Utils.releaseAlt();
-            Utils.failureNoise();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     app.recordAttendance(app.bookStudent(stuNumber, new Booking(stuNumber)));

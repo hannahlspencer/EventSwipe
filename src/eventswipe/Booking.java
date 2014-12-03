@@ -2,6 +2,8 @@ package eventswipe;
 
 public class Booking {
 
+    public static final Integer EARLY_STATUS = 3;
+
     public Booking(String stuNumber) {
         setStuNumber(stuNumber);
     }

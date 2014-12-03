@@ -242,7 +242,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                 api.markStatus(STATUS.ATTENDED, booking.getBookingId().toString(), event.getId());
             }
             else {
-                throw new EarlyRegistrationException();
+                booking.setStatus(Booking.EARLY_STATUS);
             }
         }
         else {
@@ -436,6 +436,11 @@ public class EventSwipeApp extends SingleFrameApplication {
         return data.getEvents().get(slot);
     }
 
+    public void addToEarlyList(String stuNumber, Integer entrySlot) {
+        this.getEvent(entrySlot - 1).getUnsavedList().add(stuNumber);
+        data.setSavedFlag(false);
+    }
+
     public void saveAndFinish() {
         if (!data.getSavedFlag()) {
             this.saveAttendeesToFile();
@@ -447,11 +452,10 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     public void finish(Boolean markAbsent, Boolean notify) throws MalformedURLException, IOException {
         if (!data.getSavedFlag()) {
-            try {
-                this.bookUnsavedRecords();
-            } catch (Exception e) {
-                this.saveAndFinish();
-            }
+            this.bookUnsavedRecords();
+        }
+        if (!data.getSavedFlag()) {
+            this.saveAndFinish();
         }
         if (markAbsent && data.getSavedFlag()) {
             for (Event event : data.getEvents()) {
@@ -470,24 +474,24 @@ public class EventSwipeApp extends SingleFrameApplication {
         launch(EventSwipeApp.class, args);
     }
 
-    private void bookUnsavedRecords() throws EventFullException {
+    private void bookUnsavedRecords() {
+        data.setSavedFlag(true);
         for (Event event : data.getEvents()) {
             List<String> saveErrors = new ArrayList<String>();
             for (int i = 0; i < event.getUnsavedList().size(); i++) {
                 String stuNum = event.getUnsavedList().get(i);
-                System.out.println(stuNum);
                 try {
                     Booking booking = getBooking(stuNum);
                     booking.setEntrySlot(event.getSlot());
-                    System.out.println("slot: " + booking.getEntrySlot());
-                    System.out.println("booking id: " + booking.getBookingId());
                     recordAttendance(booking);
+                    if (booking.getStatus() == Booking.EARLY_STATUS) {
+                        saveErrors.add(stuNum);
+                    }
                 } catch (EventFullException ef) {
                     for (int j = i; j < event.getUnsavedList().size(); j++) {
                         saveErrors.add(event.getUnsavedList().get(j));
                     }
                     event.setUnsavedList(saveErrors);
-                    throw ef;
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
                     saveErrors.add(stuNum);
@@ -495,10 +499,10 @@ public class EventSwipeApp extends SingleFrameApplication {
             }
             if (saveErrors.isEmpty()) {
                 event.getUnsavedList().clear();
-                data.setSavedFlag(true);
             }
             else {
                 event.setUnsavedList(saveErrors);
+                data.setSavedFlag(false);
             }
         }
     }

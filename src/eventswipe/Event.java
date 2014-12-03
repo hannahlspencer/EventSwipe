@@ -86,6 +86,14 @@ public class Event {
         this.unsavedList = unsavedList;
     }
 
+    public List<String> getEarlyList() {
+        return earlyList;
+    }
+
+    public void setEarlyList(List<String> earlyList) {
+        this.earlyList = earlyList;
+    }
+
     public int getBookingLimit() {
         return bookingLimit;
     }
@@ -137,6 +145,7 @@ public class Event {
     private List<Booking> bookingList;
     private List<Student> waitingList;
     private List<String> unsavedList = new ArrayList<String>();
+    private List<String> earlyList = new ArrayList<String>();
 
     private int bookingLimit;
     private int slot;
