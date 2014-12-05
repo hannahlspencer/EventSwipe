@@ -15,9 +15,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -34,6 +39,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         data = new EventSwipeData();
         logger = new EventSwipeLogger();
         api = new CareerHubAPI();
+        executor = Executors.newFixedThreadPool(1);
         HttpUtils.setCookiePolicy();
         if (Utils.isInternetReachable()) {
             data.setNetFlag(true);
@@ -235,11 +241,23 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public void recordAttendance(Booking booking) throws MalformedURLException, IOException {
-        Event event = data.getEvents().get(booking.getEntrySlot() - 1);
+        final Event event = data.getEvents().get(booking.getEntrySlot() - 1);
+        final String bookingId = booking.getId().toString();
         if (data.isOnlineMode()) {
             Date now = new Date();
             if (now.after(event.getRegStart())) {
-                api.markStatus(STATUS.ATTENDED, booking.getBookingId().toString(), event.getId());
+                Future<?> response = executor.submit(new Runnable() {
+                    public void run() {
+                        try {
+                            api.markStatus(STATUS.ATTENDED, bookingId, event.getId());
+                        } catch (Exception ex) {
+                            Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+                            event.getUnsavedList().add(bookingId);
+                        }
+                    }
+                });
+                data.incrementAttendeesCount();
+                data.getAllRecordedList().add(booking.getStuNumber());
             }
             else {
                 booking.setStatus(Booking.EARLY_STATUS);
@@ -247,10 +265,10 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         else {
             event.getUnsavedList().add(booking.getStuNumber());
+            data.incrementAttendeesCount();
+            data.getAllRecordedList().add(booking.getStuNumber());
             data.setSavedFlag(false);
         }
-        data.incrementAttendeesCount();
-        data.getAllRecordedList().add(booking.getStuNumber());
     }
     
     public String getLocalAttendeeCount() {
@@ -507,6 +525,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    private ExecutorService executor;
     private EventSwipeLogger logger;
     private EventSwipeData data;
     private BookingSystemAPI api;
