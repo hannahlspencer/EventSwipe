@@ -786,7 +786,8 @@ public class EventSwipeView extends FrameView {
         smallLogoLabel.setName("smallLogoLabel"); // NOI18N
 
         versionLabel.setFont(resourceMap.getFont("versionLabel.font")); // NOI18N
-        versionLabel.setText(resourceMap.getString("versionLabel.text")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("eventswipe/resources/EventSwipeApp"); // NOI18N
+        versionLabel.setText(bundle.getString("Application.version")); // NOI18N
         versionLabel.setFocusable(false);
         versionLabel.setName("versionLabel"); // NOI18N
 
@@ -840,7 +841,7 @@ public class EventSwipeView extends FrameView {
             titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())

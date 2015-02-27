@@ -242,7 +242,7 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     public void recordAttendance(Booking booking) throws MalformedURLException, IOException {
         final Event event = data.getEvents().get(booking.getEntrySlot() - 1);
-        final String bookingId = booking.getId().toString();
+        final String bookingId = booking.getBookingId().toString();
         if (data.isOnlineMode()) {
             Date now = new Date();
             if (now.after(event.getRegStart())) {
