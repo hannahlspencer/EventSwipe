@@ -477,7 +477,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         if (markAbsent && data.getSavedFlag()) {
             for (Event event : data.getEvents()) {
-                api.markAllUnspecifiedAbsent(event.getId(), notify);
+               api.markAllUnspecifiedAbsent(event.getId(), notify);
             }
         }
         if (data.getSavedFlag()) {
