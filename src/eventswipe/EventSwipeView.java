@@ -1779,6 +1779,7 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                                                       "Student number error",
                                                       JOptionPane.ERROR_MESSAGE);
                         searchInput.setText("");
+                        searchInput.requestFocusInWindow();
                     }
                     else {
                         searchInput.setText(students.get(i).getStuNumber());
@@ -2166,7 +2167,7 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
                 totalAttendeeCountDisplay.setText(app.getAttendeeCount());
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                showGenericErrorMessage();
+                //showGenericErrorMessage();
             }
         }
     }
