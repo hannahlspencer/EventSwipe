@@ -841,7 +841,7 @@ public class EventSwipeView extends FrameView {
             titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -2167,6 +2167,7 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
                 totalAttendeeCountDisplay.setText(app.getAttendeeCount());
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                totalAttendeeCountDisplay.setText(app.getLocalAttendeeCount());
                 //showGenericErrorMessage();
             }
         }
