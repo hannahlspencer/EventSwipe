@@ -1,7 +1,6 @@
 package eventswipe;
 
 import eventswipe.BookingSystemAPI.STATUS;
-import eventswipe.EventSwipeData.BookingList;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.event.WindowAdapter;
@@ -15,14 +14,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -117,10 +114,6 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     public int getSlots() {
         return data.getSlots();
-    }
-
-    public boolean setFile(BookingList fileFunction, File file) {
-        return data.setFile(fileFunction, file);
     }
 
     public void setEventTitle(String title) {

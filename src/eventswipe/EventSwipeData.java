@@ -1,23 +1,15 @@
 package eventswipe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  * @author wildmanm
  * Final variables and dynamic booking data and validation
  */
 public class EventSwipeData {
-    
-    public static final int MAX_ENTRY_SLOTS = 3, MASTER_SLOT = 0;
-    public static String BOOKING_1_ENCODING, BOOKING_2_ENCODING, 
-                         BOOKING_3_ENCODING, WAITING_LIST_ENCODING = Utils.ANSI;
 
-    public enum BookingList {
-        BOOKING_1, BOOKING_2, BOOKING_3, WAITING_LIST
-    }
+    public static final int MAX_ENTRY_SLOTS = 5;
 
     public EventSwipeData() {
         allFileBookedList = new ArrayList<String>();
@@ -132,73 +124,14 @@ public class EventSwipeData {
         this.eventTitle = eventTitle;
     }
 
-    public boolean setFile(BookingList fileFunction, File file) {
-        if (!file.exists()) {
-            JOptionPane.showMessageDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                          "File '" + file.getName() + "' not found. " +
-                                          "Please ensure correct path has been entered.",
-                                          "File not found",
-                                          JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        switch (fileFunction) {
-            case BOOKING_2:
-                bookingFile2 = file;
-                BOOKING_2_ENCODING = Utils.getEncoding(bookingFile2);
-                fileBookingList2 = makeBookingList(bookingFile2, BOOKING_2_ENCODING);
-                break;
-            case BOOKING_3:
-                bookingFile3 = file;
-                BOOKING_3_ENCODING = Utils.getEncoding(bookingFile3);
-                fileBookingList3 = makeBookingList(bookingFile3, BOOKING_3_ENCODING);
-                break;
-            case WAITING_LIST:
-                waitingListFile = file;
-                WAITING_LIST_ENCODING = Utils.getEncoding(waitingListFile);
-                fileWaitingList = makeBookingList(waitingListFile, WAITING_LIST_ENCODING);
-                break;
-            default:
-                bookingFile1 = file;
-                BOOKING_1_ENCODING = Utils.getEncoding(bookingFile1);
-                fileBookingList1 = makeBookingList(bookingFile1, BOOKING_1_ENCODING);
-                break;
-        }
-        return true;
-    }
-
-    public List<String> getBookingList(BookingList fileFunction) {
-        switch (fileFunction) {
-            case BOOKING_2:
-                return fileBookingList2;
-            case BOOKING_3:
-                return fileBookingList3;
-            case WAITING_LIST:
-                return fileWaitingList;
-            default:
-                return fileBookingList1;
-        }
-    }
-
     private void clearList(List<String> list) {
         if (!list.isEmpty())
             list.clear();
     }
 
-    private ArrayList<String> makeBookingList(File file, String encoding) {
-        return (ArrayList<String>) Utils.readAllLines(file, encoding);
-    }
-
     private List<Event> events = new ArrayList<Event>();
 
-    private File bookingFile1;
-    private File bookingFile2;
-    private File bookingFile3;
-    private File waitingListFile;
     private List<String> allFileBookedList;
-    private List<String> fileBookingList1;
-    private List<String> fileBookingList2;
-    private List<String> fileBookingList3;
-    private List<String> fileWaitingList;
 
     private String eventTitle;
     private int localAttendeeCount = 0;
