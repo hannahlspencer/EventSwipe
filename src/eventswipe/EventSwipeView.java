@@ -1939,6 +1939,7 @@ public class EventSwipeView extends FrameView {
 
         refreshAttendeesButton.setIcon(resourceMap.getIcon("refreshAttendeesButton.icon")); // NOI18N
         refreshAttendeesButton.setText(resourceMap.getString("refreshAttendeesButton.text")); // NOI18N
+        refreshAttendeesButton.setToolTipText(resourceMap.getString("refreshAttendeesButton.toolTipText")); // NOI18N
         refreshAttendeesButton.setFocusable(false);
         refreshAttendeesButton.setName("refreshAttendeesButton"); // NOI18N
         refreshAttendeesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2559,18 +2560,22 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         }
 
         if (booking) {
-            List<String> filePaths = new ArrayList<String>();
+            String[] filePaths = new String[slots];
             switch (slots) {
+                case 5:
+                   filePaths[4] = entrySlotBookingListFilePathInput5.getText();
+                case 4:
+                   filePaths[3] = entrySlotBookingListFilePathInput4.getText();
                 case 3:
-                   filePaths.add(entrySlotBookingListFilePathInput3.getText());
+                   filePaths[2] = entrySlotBookingListFilePathInput3.getText();
                 case 2:
-                   filePaths.add(entrySlotBookingListFilePathInput2.getText());
+                   filePaths[1] = entrySlotBookingListFilePathInput2.getText();
                 case 1:
-                   filePaths.add(entrySlotBookingListFilePathInput1.getText());
+                   filePaths[0] = entrySlotBookingListFilePathInput1.getText();
                 default:
                    break;
             }
-            app.setEvents(filePaths);
+            app.setEvents(Arrays.asList(filePaths));
         }
         else {
             Event event = new Event();
@@ -2585,8 +2590,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
 
         if (configOK) {
             app.createLog();
-            onlineModeToggle.setEnabled(false);
-            totalAttendeeCountDisplay.setEnabled(false);
+            enableOnlineComponents(false);
             switchToPanel(mainOnlinePanel);
         }
     }
@@ -2677,9 +2681,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
             app.setEventTitle(displayTitle.substring(3));
             app.createLog();
             app.setBookingFlag(app.getBookedCount() > 0);
+            enableOnlineComponents(true);
             connectionMenuItem.setEnabled(true);
-            onlineModeToggle.setEnabled(true);
-            totalAttendeeCountDisplay.setEnabled(true);
             String totalAttendees = "0";
             try {
                 totalAttendees = app.getAttendeeCount();
@@ -3009,6 +3012,15 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         }
     }
 
+    private void enableOnlineComponents(Boolean enabled) {
+        app.setOnlineModeFlag(enabled);
+        totalAttendeeCountDisplay.setEnabled(enabled);
+        refreshAttendeesButton.setEnabled(enabled);
+        attendeeCountLabel2.setEnabled(enabled);
+        totalLabel.setEnabled(enabled);
+        onlineModeToggle.setToolTipText(enabled ? onlineModeTooltipText : offlineModeTooltipText);
+    }
+
     private void toggleOnlineMode() {
         if (onlineModeToggle.isSelected()) {
             try {
@@ -3025,15 +3037,15 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
                                           JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                showGenericErrorMessage();
+                JOptionPane.showMessageDialog(app.getMainFrame(),
+                                          "Something went wrong. Please use EventSwipe in offline mode.",
+                                          "Connection error",
+                                          JOptionPane.ERROR_MESSAGE);
             }
-            totalAttendeeCountDisplay.setEnabled(true);
-            onlineModeToggle.setToolTipText(onlineModeTooltipText);
+            enableOnlineComponents(true);
         }
         else {
-            app.setOnlineModeFlag(false);
-            totalAttendeeCountDisplay.setEnabled(false);
-            onlineModeToggle.setToolTipText(offlineModeTooltipText);
+            enableOnlineComponents(false);
         }
     }
 

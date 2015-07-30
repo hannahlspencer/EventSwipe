@@ -2397,6 +2397,7 @@
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" resourceKey="refreshAttendeesButton.icon"/>
                 <Property name="text" type="java.lang.String" resourceKey="refreshAttendeesButton.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="refreshAttendeesButton.toolTipText"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="refreshAttendeesButton" noResource="true"/>
               </Properties>
