@@ -1,6 +1,6 @@
 # EventSwipe
 
-*Current version: Dunlin*
+*Current version: Egret*
 
 EventSwipe is a Java application for recording attendance at events.
 
@@ -13,6 +13,14 @@ The ID can be entered from a keyboard or any other external input device, such a
 ---
 
 ##Updates
+
+###Egret
+
+*Updated July 2015*
+
+* Attendance recording runs as a background task to increase performance
+* Improved error messages
+* Maximum entry slots increased from three to five
 
 ###Dunlin
 
@@ -112,20 +120,20 @@ If something went wrong during your attendance recording or you let in early arr
 
 ##Future features
 
-###Egret
+###Falcon
 
-*Expected release: February 2015*
+*Expected release: February 2016*
 
 Features
 
+* Entry slot time awareness (warnings for early/late attendees)
 * Booking list auto-refreshing
-* Asyncronous API calls and batch processing to make EventSwipe faster
-* Log all exceptions (stack traces & Sys.err.prints)
-* Better error feedback to users
+* Batch processing to make EventSwipe faster
+* Improved logging
 
-###Falcon
+###Gannet
 
-*Expected release: September 2015*
+*Expected release: June 2016*
 
 Features
 
