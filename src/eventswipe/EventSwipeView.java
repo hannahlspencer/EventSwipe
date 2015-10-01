@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,7 +127,11 @@ public class EventSwipeView extends FrameView {
                                     loadEventButtons[i], listEventButtons[i],
                                     titleInputs[i], slotLabels[i], bookingListLabels[i]);
         }
+        waitListView = new WaitingListView(waitingListFilePathInput,
+                                           waitingListBrowseButton,
+                                           waitingListFileLabel);
         updateBookingPanel(false);
+        updateOnlineBookingPanel(true);
     }
 
     javax.swing.Action save = new AbstractAction() {
@@ -1736,11 +1741,11 @@ public class EventSwipeView extends FrameView {
         loadWaitingListLabel.setName("loadWaitingListLabel"); // NOI18N
 
         waitingListButtonGroup.add(noLoadWaitingListRadioButton);
+        noLoadWaitingListRadioButton.setSelected(true);
         noLoadWaitingListRadioButton.setText(resourceMap.getString("noLoadWaitingListRadioButton.text")); // NOI18N
         noLoadWaitingListRadioButton.setName("noLoadWaitingListRadioButton"); // NOI18N
 
         waitingListButtonGroup.add(yesLoadWaitingListRadioButton);
-        yesLoadWaitingListRadioButton.setSelected(true);
         yesLoadWaitingListRadioButton.setText(resourceMap.getString("yesLoadWaitingListRadioButton.text")); // NOI18N
         yesLoadWaitingListRadioButton.setName("yesLoadWaitingListRadioButton"); // NOI18N
 
@@ -2231,35 +2236,11 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     }//GEN-LAST:event_entrySlotsSpinnerOnlineStateChanged
 
 private void inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusLost
-    JFormattedTextField input = (JFormattedTextField) evt.getSource();
-    boolean isFileInput = (input == waitingListFilePathInput), isIdInput = false;
-    if (input == eventTitleInput && input.getText().equals(""))
-        input.setText(titleInputDefault);
-    else {
-        Slot slotView = this.getSlotView(input);
-        isFileInput = (input == slotView.fileInput);
-        isIdInput = (input == slotView.idInput);
-    }
-    if (isFileInput && input.getText().equals(""))
-        input.setText(fileInputDefault);
-    else if (isIdInput && input.getText().equals(""))
-        input.setText(idInputDefault);
+    inputFocusChanged(evt, false);
 }//GEN-LAST:event_inputFocusLost
 
 private void inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputFocusGained
-    JFormattedTextField input = (JFormattedTextField) evt.getSource();
-    boolean isFileInput = (input == waitingListFilePathInput), isIdInput = false;
-    if (input == eventTitleInput && input.getText().equals(titleInputDefault))
-        input.setText("");
-    else {
-        Slot slotView = this.getSlotView(input);
-        isFileInput = (input == slotView.fileInput);
-        isIdInput = (input == slotView.idInput);
-    }
-    if (isFileInput && input.getText().equals(fileInputDefault))
-        input.setText("");
-    else if (isIdInput && input.getText().equals(idInputDefault))
-        input.setText("");
+    inputFocusChanged(evt, true);
 }//GEN-LAST:event_inputFocusGained
 
 private void yesWaitingListRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesWaitingListRadioButtonActionPerformed
@@ -2278,7 +2259,8 @@ private void browseFileAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event
     if (returnVal == JFileChooser.APPROVE_OPTION) {
         file = fc.getSelectedFile();
         JButton source = (JButton) evt.getSource();
-        JFormattedTextField pathInput = this.getSlotView(source, "browse").fileInput;
+        JFormattedTextField pathInput = (JFormattedTextField) this.getSlotView(source, Component.BROWSE)
+                                                                  .allComponents.get(Component.FILE);
         pathInput.setText(file.getPath());
     }
 }//GEN-LAST:event_browseFileAction
@@ -2301,10 +2283,11 @@ private void yesBookingRadioButtonActionPerformed(java.awt.event.ActionEvent evt
 
 private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadEventButtonActionPerformed
     JButton source = (JButton) evt.getSource();
-    Slot slotView = this.getSlotView(source, "load");
-    JTextField titleInput = slotView.titleInput;
+    Slot slotView = this.getSlotView(source, Component.LOAD);
+    JFormattedTextField idInput = (JFormattedTextField) slotView.allComponents.get(Component.ID);
+    JTextField titleInput = (JTextField) slotView.allComponents.get(Component.TITLE);
     String id = "";
-    id = slotView.idInput.getText();
+    id = idInput.getText();
     if (id.isEmpty() || id.equals(idInputDefault)) {
         JOptionPane.showMessageDialog(app.getMainFrame(),
                                       "You have not entered an entry slot ID!",
@@ -2350,9 +2333,11 @@ private void searchEventsButtonActionPerformed(java.awt.event.ActionEvent evt) {
     JOptionPane.showMessageDialog(null, eventListScroller, "Select event", JOptionPane.PLAIN_MESSAGE);
     int i = eventList.getSelectedIndex();
     if (i != -1) {
-        Slot slotView = this.getSlotView((JButton) evt.getSource(), "search");
-        slotView.idInput.setText(events.get(i).getId());
-        slotView.titleInput.setText(events.get(i).getTitle());
+        Slot slotView = this.getSlotView((JButton) evt.getSource(), Component.SEARCH);
+        JFormattedTextField idInput = (JFormattedTextField) slotView.allComponents.get(Component.ID);
+        JTextField titleInput = (JTextField) slotView.allComponents.get(Component.TITLE);
+        idInput.setText(events.get(i).getId());
+        titleInput.setText(events.get(i).getTitle());
     }
 }//GEN-LAST:event_searchEventsButtonActionPerformed
 
@@ -2474,7 +2459,9 @@ private void loginInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
 private void idInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idInputKeyPressed
     KeyEvent ke = (KeyEvent) evt;
     if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-        this.getSlotView((JFormattedTextField) evt.getSource(), "id").loadButton.doClick();
+        JButton loadButton = (JButton) this.getSlotView((JFormattedTextField) evt.getSource(), Component.ID)
+                                           .allComponents.get(Component.LOAD);
+        loadButton.doClick();
     }
 }//GEN-LAST:event_idInputKeyPressed
 
@@ -2527,7 +2514,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         if (booking) {
             String[] filePaths = new String[slots];
             for (int i = slots - 1; i >= 0; i--) {
-                filePaths[i] = slotViews[i].fileInput.getText();
+                JFormattedTextField fileInput = (JFormattedTextField) slotViews[i].allComponents.get(Component.FILE);
+                filePaths[i] = fileInput.getText();
             }
             app.setEvents(Arrays.asList(filePaths));
         }
@@ -2559,7 +2547,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         String displayTitle = "";
 
         for (int i = 0; i < slots; i++) {
-            String id = slotViews[i].idInput.getText();
+            JFormattedTextField idInput = (JFormattedTextField) slotViews[i].allComponents.get(Component.ID);
+            String id = idInput.getText();
             if (!(id.equals(idInputDefault) || id.equals(""))) {
                 try {
                     Event slot = app.loadEvent(id, i + 1, useWaitingList);
@@ -2611,7 +2600,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
                         }
                     }
                     String title = slot.getTitle();
-                    slotViews[i].titleInput.setText(title);
+                    JTextField titlePath = (JTextField) slotViews[i].allComponents.get(Component.TITLE);
+                    titlePath.setText(title);
                     displayTitle += " - " + title;
                     configOK = true;
                 } catch (Exception ex) {
@@ -2877,8 +2867,9 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
             slotViews[i].enable(enabled && i < slots);
         }
 
-        waitingListFileLabel.setEnabled(enabled &&
-                             yesWaitingListRadioButton.isSelected());
+        waitListView.enable(enabled &&
+                            yesWaitingListRadioButton.isSelected());
+
         noWaitingListRadioButton.setEnabled(enabled);
         yesWaitingListRadioButton.setEnabled(enabled);
         waitingListLabel.setEnabled(enabled);
@@ -2960,6 +2951,27 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         }
     }
 
+    private void inputFocusChanged(java.awt.event.FocusEvent evt, boolean gained) {
+        JFormattedTextField input = (JFormattedTextField) evt.getSource();
+        String cleanTitle = gained ? titleInputDefault : "";
+        String cleanId = gained ? idInputDefault : "";
+        String cleanFile = gained ? fileInputDefault : "";
+        boolean isFileInput = (input == waitingListFilePathInput), isIdInput = false;
+        if (input == eventTitleInput && input.getText().equals(cleanTitle))
+            input.setText(gained ? "" : titleInputDefault);
+        else if (!isFileInput) {
+            Slot slotView = this.getSlotView(input);
+            isFileInput = (input == slotView.allComponents.get(Component.FILE));
+            isIdInput = (input == slotView.allComponents.get(Component.ID));
+        }
+        if (isFileInput && input.getText().equals(cleanFile)) {
+            input.setText(gained ? "" : fileInputDefault);
+        }
+        else if (isIdInput && input.getText().equals(cleanId)) {
+            input.setText(gained ? "" : idInputDefault);
+        }
+    }
+
     private void browseToUrl(String url) {
         if(!Desktop.isDesktopSupported()) {
             System.err.println("Desktop is not supported");
@@ -3003,16 +3015,10 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
                                       JOptionPane.ERROR_MESSAGE);
     }
 
-    private <T extends JComponent> Slot getSlotView(T component, String type) {
-        String[] types = {"file", "id", "browse", "load", "search", 
-                          "title", "label", "bookingListLabel"};
-        List<String> typeList = Arrays.asList(types);
-        int componentIndex = typeList.indexOf(type);
-        if (componentIndex > -1) {
-            for (Slot s : slotViews) {
-                if (s.allComponents.get(componentIndex).equals(component)) {
-                    return s;
-                }
+    private <T extends JComponent> Slot getSlotView(T component, Component type) {
+        for (Slot s : slotViews) {
+            if (s.allComponents.get(type).equals(component)) {
+                return s;
             }
         }
         //TODO error throwing
@@ -3021,7 +3027,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
 
     private <T extends JComponent> Slot getSlotView(T component) {
         for (Slot s : slotViews) {
-            if (s.allComponents.contains(component)) {
+            if (s.allComponents.containsValue(component)) {
                 return s;
             }
         }
@@ -3188,6 +3194,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private String offlineModeTooltipText;
 
     private class Slot {
+
+        Slot() {}
         Slot(JFormattedTextField f,
              JFormattedTextField i,
                          JButton b,
@@ -3196,36 +3204,46 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
                       JTextField t,
                         JLabel lab,
                         JLabel bLab) {
-            fileInput = f;
-            idInput = i;
-            browseButton = b;
-            loadButton = l;
-            listButton = s;
-            titleInput = t;
-            label = lab;
-            bookingListLabel = bLab;
-            allComponents = Arrays.asList(f, i, b, l, s, lab, bLab);
+
+            allComponents.put(Component.FILE, f);
+            allComponents.put(Component.ID, i);
+            allComponents.put(Component.BROWSE, b);
+            allComponents.put(Component.LOAD, l);
+            allComponents.put(Component.SEARCH, s);
+            allComponents.put(Component.TITLE, t);
+            allComponents.put(Component.LABEL, lab);
+            allComponents.put(Component.BOOKINGLIST, bLab);
         }
-        JFormattedTextField fileInput;
-        JFormattedTextField idInput;
-        JButton browseButton;
-        JButton loadButton;
-        JButton listButton;
-        JTextField titleInput;
-        JLabel label;
-        JLabel bookingListLabel;
-        
-        List<? extends JComponent> allComponents;
+
+        EnumMap<Component,JComponent> allComponents =
+                new EnumMap(Component.class);
 
         void enable(Boolean e) {
-            for (JComponent c : allComponents) {
-                c.setEnabled(e);
+            for (JComponent c : allComponents.values()) {
+                if(c != allComponents.get(Component.TITLE))
+                    c.setEnabled(e);
             }
         }
         
     }
 
+    private class WaitingListView extends Slot {
+        WaitingListView(JFormattedTextField f,
+                                    JButton b,
+                                   JLabel bLab) {
+            allComponents.put(Component.FILE, f);
+            allComponents.put(Component.BROWSE, b);
+            allComponents.put(Component.BOOKINGLIST, bLab);
+        }
+    }
+
+    public enum Component {
+        FILE, ID, BROWSE, LOAD, SEARCH,
+        TITLE, LABEL, BOOKINGLIST
+    }
+
     private Slot[] slotViews = new Slot[EventSwipeData.MAX_ENTRY_SLOTS];
+    private WaitingListView waitListView;
 
     //End of manually declared variables
 
