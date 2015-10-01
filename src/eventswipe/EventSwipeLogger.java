@@ -10,6 +10,7 @@ import java.io.FileWriter;
 public class EventSwipeLogger {
     
     public void createLog(String title) {
+        title = title.replaceAll("\\W", "");
         sessionTitle = title + Utils.getDate("dd-MM-yyyy HHmmss");
         if(!logDir.exists()) {
             logDir.mkdirs();
