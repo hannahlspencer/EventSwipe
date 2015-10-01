@@ -68,8 +68,6 @@ public class Utils {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MINUTE, mins);
-        System.out.println("Start date: " + date);
-        System.out.println("Reg date: " + cal.getTime());
         return cal.getTime();
     }
 
