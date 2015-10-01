@@ -1942,7 +1942,6 @@ public class EventSwipeView extends FrameView {
         });
 
         onlineModeToggle.setIcon(resourceMap.getIcon("onlineModeToggler.icon")); // NOI18N
-        onlineModeToggle.setSelected(true);
         onlineModeToggle.setText(resourceMap.getString("onlineModeToggler.text")); // NOI18N
         onlineModeToggle.setToolTipText(resourceMap.getString("onlineModeToggler.toolTipText")); // NOI18N
         onlineModeToggle.setFocusable(false);
@@ -2676,7 +2675,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
-                    app.recordAttendance(app.bookStudent(stuNumber, new Booking(stuNumber)));
+                    app.bookStudent(stuNumber, new Booking(stuNumber));
                     bookingStatus = "Recorded";
                     message += " has been recorded";
                 } catch (EventFullException ef) {
@@ -2718,7 +2717,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
             Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
-                    app.recordAttendance(app.bookStudent(stuNumber, new Booking(stuNumber)));
+                    app.bookStudent(stuNumber, new Booking(stuNumber));
                     bookingStatus = "Recorded";
                     message += " has been recorded";
                 } catch (NoStudentFoundException nsf) {
@@ -2762,12 +2761,12 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         if(statusMessage.equals("Booked")) {
             color = Color.GREEN;
             enabled = true;
-            localAttendeeCountTextField.setText(app.getLocalAttendeeCount());        
+            localAttendeeCountTextField.setText(app.incrementLocalAttendeeCount());
         }
         else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
             color = Color.WHITE;
             enabled = false;
-            localAttendeeCountTextField.setText(app.getLocalAttendeeCount());
+            localAttendeeCountTextField.setText(app.incrementLocalAttendeeCount());
         }
         else {
             enabled = false;
@@ -2776,7 +2775,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         statusDisplayTextField1.setBackground(color);
         entrySlotLabel1.setEnabled(enabled);
         entrySlotDisplayTextField1.setEnabled(enabled);
-        int delay = 250; //milliseconds
+        int delay = 500; //milliseconds
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 statusDisplayTextField1.setBackground(null);

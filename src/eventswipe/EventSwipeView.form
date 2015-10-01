@@ -2225,7 +2225,6 @@
         <Component class="javax.swing.JToggleButton" name="onlineModeToggle">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" resourceKey="onlineModeToggler.icon"/>
-            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" resourceKey="onlineModeToggler.text"/>
             <Property name="toolTipText" type="java.lang.String" resourceKey="onlineModeToggler.toolTipText"/>
             <Property name="focusable" type="boolean" value="false"/>

@@ -40,8 +40,9 @@ public class EventSwipeData {
         events.clear();
     }
 
-    public void incrementAttendeesCount() {
+    public int incrementAttendeesCount() {
         setLocalAttendeeCount(getLocalAttendeeCount() + 1);
+        return getLocalAttendeeCount();
     }
 
     public int getLocalAttendeeCount() {
