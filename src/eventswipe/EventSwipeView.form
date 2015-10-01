@@ -676,7 +676,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="entrySlotsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="entrySlotsSpinner" min="-2" pref="56" max="-2" attributes="0"/>
+                          <Component id="entrySlotsSpinnerOffline" min="-2" pref="56" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -687,7 +687,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="entrySlotsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="entrySlotsSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="entrySlotsSpinnerOffline" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -695,12 +695,12 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JSpinner" name="entrySlotsSpinner">
+                <Component class="javax.swing.JSpinner" name="entrySlotsSpinnerOffline">
                   <Properties>
-                    <Property name="name" type="java.lang.String" value="entrySlotsSpinner" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="entrySlotsSpinnerOffline" noResource="true"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="entrySlotsSpinnerStateChanged"/>
+                    <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="entrySlotsSpinnerOfflineStateChanged"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(1, 1, EventSwipeData.MAX_ENTRY_SLOTS, 1))"/>
@@ -753,7 +753,6 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="waitingListButtonGroup"/>
                     </Property>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" resourceKey="noWaitingListRadioButton.text"/>
                     <Property name="name" type="java.lang.String" value="noWaitingListRadioButton" noResource="true"/>
                   </Properties>
@@ -1309,7 +1308,7 @@
                               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                               <Component id="entrySlotsLabel1" min="-2" pref="216" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="entrySlotsSpinner1" min="-2" pref="56" max="-2" attributes="0"/>
+                              <Component id="entrySlotsSpinnerOnline" min="-2" pref="56" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -1337,7 +1336,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="entrySlotsSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="entrySlotsSpinnerOnline" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="entrySlotsLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="slot1DetailsPanel" min="-2" max="-2" attributes="0"/>
@@ -1366,12 +1365,12 @@
                 <Property name="name" type="java.lang.String" value="entrySlotsLabel1" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="entrySlotsSpinner1">
+            <Component class="javax.swing.JSpinner" name="entrySlotsSpinnerOnline">
               <Properties>
-                <Property name="name" type="java.lang.String" value="entrySlotsSpinner1" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="entrySlotsSpinnerOnline" noResource="true"/>
               </Properties>
               <Events>
-                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="entrySlotsSpinner1StateChanged"/>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="entrySlotsSpinnerOnlineStateChanged"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(1, 1, EventSwipeData.MAX_ENTRY_SLOTS, 1))"/>
@@ -2019,6 +2018,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="waitingListButtonGroup"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" resourceKey="noLoadWaitingListRadioButton.text"/>
                     <Property name="name" type="java.lang.String" value="noLoadWaitingListRadioButton" noResource="true"/>
                   </Properties>
