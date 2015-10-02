@@ -138,6 +138,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         Booking newBooking = new Booking(stuNumber);
         bookStudent(stuNumber, newBooking);
+        newBooking.setEntrySlot(0);
         return newBooking;
     }
 
