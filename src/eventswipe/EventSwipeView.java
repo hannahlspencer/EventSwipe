@@ -2378,6 +2378,8 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 }
         }
         else {
+            searchInput.setText("");
+            searchInput.requestFocusInWindow();
             List<Student> students = new ArrayList<Student>();
             try {
                 input = URLEncoder.encode(input, app.getCharset());
@@ -2414,8 +2416,6 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                                                       "Attendee has no student number.",
                                                       "Student number error",
                                                       JOptionPane.ERROR_MESSAGE);
-                        searchInput.setText("");
-                        searchInput.requestFocusInWindow();
                     }
                     else {
                         searchInput.setText(students.get(i).getStuNumber());
