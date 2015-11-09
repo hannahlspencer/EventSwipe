@@ -93,6 +93,14 @@ public class EventSwipeData {
         this.slots = slots;
     }
 
+    public void setSingleSlot(boolean b) {
+        this.singleSlotFlag = true;
+    }
+
+    public boolean isSingleSlot() {
+        return singleSlotFlag;
+    }
+
     public boolean isWaitingListFlag() {
         return waitingListFlag;
     }
@@ -142,5 +150,6 @@ public class EventSwipeData {
     private boolean waitingListFlag;
     private boolean bookingFlag;
     private boolean savedFlag = true;
+    private boolean singleSlotFlag = false;
 
 }

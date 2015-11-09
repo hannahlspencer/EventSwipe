@@ -2639,7 +2639,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private void updateBookingStatus(Booking booking) {
         String stuNumber = booking.getStuNumber();
         String message = "Student " + stuNumber;
-        String slot = booking.getEntrySlot() == 0 ? "N/A" : booking.getEntrySlot().toString();
+        String slot = app.isSingleSlot() ? "N/A" : booking.getEntrySlot().toString();
         slot = booking.isOnWaitingList() ? "W/L" : slot;
         String bookingStatus = "";
         if (booking.isAlreadyRecorded()) {

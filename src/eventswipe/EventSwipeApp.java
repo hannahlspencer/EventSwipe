@@ -127,6 +127,10 @@ public class EventSwipeApp extends SingleFrameApplication {
         return data.isOnlineMode();
     }
 
+    public boolean isSingleSlot() {
+        return data.isSingleSlot();
+    }
+
     private Booking getBooking(String stuNumber) throws MalformedURLException, IOException {
         for (Event event : data.getEvents()) {
             for (Booking booking : event.getBookingList()) {
@@ -426,6 +430,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             }
         }
         data.addEvent(event);
+        data.setSingleSlot(slot == 1);
         return event;
     }
 
