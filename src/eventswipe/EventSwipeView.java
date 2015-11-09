@@ -2773,8 +2773,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
             color = statusMessage.equals("Not booked") ? Color.RED : Color.ORANGE;
         }
         statusDisplayTextField1.setBackground(color);
-        entrySlotLabel1.setEnabled(enabled);
-        entrySlotDisplayTextField1.setEnabled(enabled);
+        entrySlotLabel1.setEnabled(enabled && !app.isSingleSlot());
+        entrySlotDisplayTextField1.setEnabled(enabled && !app.isSingleSlot());
         int delay = 500; //milliseconds
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
