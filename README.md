@@ -4,7 +4,7 @@
 
 EventSwipe is a Java application for recording attendance at events.
 
-It can be used as a standalone desktop application or connected to the careers CRM system, CareerHub.
+It can be used as a standalone desktop application or connected to the careers CRM system, [CareerHub](http://careerhub.info/).
 
 It works by reading some kind of ID string (a student number, for example), indicating the booking status of that person and either updating CareerHub or recording their details locally to be processed later.
 
