@@ -133,6 +133,19 @@ public class EventSwipeData {
         this.eventTitle = eventTitle;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public int incrementCount() {
+        count++;
+        return count;
+    }
+
+    public void setCount(int c) {
+        count = c;
+    }
+
     private void clearList(List<String> list) {
         if (!list.isEmpty())
             list.clear();
@@ -151,5 +164,7 @@ public class EventSwipeData {
     private boolean bookingFlag;
     private boolean savedFlag = true;
     private boolean singleSlotFlag = false;
+    
+    private int count = 0;
 
 }

@@ -503,6 +503,45 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    public void finishCounting() {
+        String body = "Attendees recorded - "
+                    + Utils.getDate("dd/MM/yyyy HH:mm:ss")
+                    + System.getProperty("line.separator")
+                    + System.getProperty("line.separator")
+                    + data.getCount().toString();
+        FileDialog fDialog = new FileDialog(this.getMainFrame(),
+                        "Save attendee count", FileDialog.SAVE);
+        fDialog.setVisible(true);
+        String path = fDialog.getDirectory() + fDialog.getFile();
+        if (!path.equals("nullnull")) {
+            if (!path.endsWith(".txt")) {
+                path += ".txt";
+            }
+            File saveFile = new File(path);
+            try {
+                saveFile.createNewFile();
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+            writeToFile(saveFile, body);
+            Desktop dk = Desktop.getDesktop();
+            try {
+                dk.open(saveFile);
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+        System.exit(0);
+    }
+
+    public int incrementCount() {
+        return data.incrementCount();
+    }
+
+    public void resetCounter() {
+        data.setCount(0);
+    }
+
     /**
      * Main method launching the application.
      */

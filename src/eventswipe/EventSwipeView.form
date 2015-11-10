@@ -933,23 +933,102 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="24" max="32767" attributes="0"/>
-                  <Component id="titleLoginPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="titlePanel" min="-2" max="-2" attributes="1"/>
+                      <Component id="titleLoginPanel" alignment="0" pref="710" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="titleLoginPanel" min="-2" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="titlePanel" min="-2" pref="120" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="titleLoginPanel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
+        <Container class="javax.swing.JPanel" name="titlePanel">
+          <Properties>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="name" type="java.lang.String" value="titlePanel" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="smallLogoLabel" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="mainTitle" min="-2" pref="253" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="mainTitle" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="smallLogoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="smallLogoLabel">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="smallLogoLabel.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="smallLogoLabel.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="smallLogoLabel" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="versionLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="versionLabel.font"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="eventswipe/resources/EventSwipeApp.properties" key="Application.version" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="versionLabel" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="mainTitle">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="mainTitle.font"/>
+                <Property name="text" type="java.lang.String" resourceKey="mainTitle.text"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="mainTitle" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
         <Container class="javax.swing.JPanel" name="titleLoginPanel">
           <Properties>
             <Property name="focusable" type="boolean" value="false"/>
@@ -959,57 +1038,63 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="loginFormPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="loginOfflineSeparator" min="-2" pref="8" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="offlinePanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="offlineCounterSeparator" min="-2" pref="11" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="titlePanel" alignment="0" min="-2" max="-2" attributes="1"/>
-                          <Component id="loginPanel" alignment="0" min="-2" max="-2" attributes="1"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="startCounterModePanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="titlePanel" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="loginPanel" min="-2" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="loginFormPanel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="startCounterModePanel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="offlineCounterSeparator" alignment="0" max="32767" attributes="1"/>
+                          <Component id="offlinePanel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="loginOfflineSeparator" alignment="0" max="32767" attributes="1"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="loginPanel">
+            <Component class="javax.swing.JSeparator" name="loginOfflineSeparator">
               <Properties>
-                <Property name="focusable" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="loginPanel" noResource="true"/>
+                <Property name="orientation" type="int" value="1"/>
+                <Property name="name" type="java.lang.String" value="loginOfflineSeparator" noResource="true"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JPanel" name="loginFormPanel">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="loginFormPanel" noResource="true"/>
               </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="logInButton" alignment="0" max="32767" attributes="1"/>
                               <Component id="logInLabel" alignment="0" min="-2" max="-2" attributes="1"/>
                               <Component id="usernameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="passwordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="usernameInput" alignment="0" max="32767" attributes="1"/>
-                              <Component id="passwordInput" alignment="0" pref="293" max="32767" attributes="1"/>
-                              <Component id="logInButton" alignment="0" max="32767" attributes="1"/>
+                              <Component id="usernameInput" alignment="0" pref="204" max="32767" attributes="1"/>
+                              <Component id="passwordInput" alignment="0" max="32767" attributes="1"/>
                           </Group>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="loginOfflineSeparator" min="-2" pref="10" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane1" pref="296" max="32767" attributes="1"/>
-                              <Component id="useOfflineLabel" alignment="0" min="-2" max="-2" attributes="1"/>
-                              <Component id="startOfflineButton" alignment="0" pref="296" max="32767" attributes="1"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <EmptySpace pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1017,55 +1102,54 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="loginOfflineSeparator" alignment="0" pref="169" max="32767" attributes="1"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="logInLabel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="usernameLabel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="usernameInput" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="passwordInput" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="useOfflineLabel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="logInButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="startOfflineButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                          <Component id="logInLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="usernameLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="usernameInput" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="passwordInput" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="21" max="32767" attributes="0"/>
+                          <Component id="logInButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="logInLabel">
+                <Component class="javax.swing.JButton" name="logInButton">
                   <Properties>
-                    <Property name="font" type="java.awt.Font" resourceKey="logInLabel.font"/>
-                    <Property name="text" type="java.lang.String" resourceKey="logInLabel.text"/>
-                    <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="logInLabel" noResource="true"/>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="eventswipe.EventSwipeView" id="logIn" methodName="logIn"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="logInButton.text"/>
+                    <Property name="name" type="java.lang.String" value="logInButton" noResource="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="useOfflineLabel">
+                <Component class="javax.swing.JLabel" name="passwordLabel">
                   <Properties>
-                    <Property name="font" type="java.awt.Font" resourceKey="useOfflineLabel.font"/>
-                    <Property name="text" type="java.lang.String" resourceKey="useOfflineLabel.text"/>
+                    <Property name="text" type="java.lang.String" resourceKey="passwordLabel.text"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="useOfflineLabel" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="passwordLabel" noResource="true"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="usernameLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="usernameLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="usernameLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="usernameInput">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="usernameInput.text"/>
+                    <Property name="name" type="java.lang.String" value="usernameInput" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="loginInputKeyPressed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="passwordInput">
                   <Properties>
@@ -1075,6 +1159,61 @@
                   <Events>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="loginInputKeyPressed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="logInLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="logInLabel.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="logInLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="logInLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="offlinePanel">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="offlinePanel" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jScrollPane1" pref="212" max="32767" attributes="1"/>
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="useOfflineLabel" pref="222" max="32767" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="startOfflineButton" pref="222" max="32767" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="useOfflineLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="109" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="startOfflineButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="useOfflineLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="useOfflineLabel.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="useOfflineLabel.text"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="name" type="java.lang.String" value="useOfflineLabel" noResource="true"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="startOfflineButton">
                   <Properties>
@@ -1119,117 +1258,96 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="passwordLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" resourceKey="passwordLabel.text"/>
-                    <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="passwordLabel" noResource="true"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="logInButton">
-                  <Properties>
-                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-                      <action class="eventswipe.EventSwipeView" id="logIn" methodName="logIn"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" resourceKey="logInButton.text"/>
-                    <Property name="name" type="java.lang.String" value="logInButton" noResource="true"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="usernameLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" resourceKey="usernameLabel.text"/>
-                    <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="usernameLabel" noResource="true"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="usernameInput">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" resourceKey="usernameInput.text"/>
-                    <Property name="name" type="java.lang.String" value="usernameInput" noResource="true"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="loginInputKeyPressed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JSeparator" name="loginOfflineSeparator">
-                  <Properties>
-                    <Property name="orientation" type="int" value="1"/>
-                    <Property name="name" type="java.lang.String" value="loginOfflineSeparator" noResource="true"/>
-                  </Properties>
-                </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="titlePanel">
+            <Component class="javax.swing.JSeparator" name="offlineCounterSeparator">
               <Properties>
-                <Property name="focusable" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="titlePanel" noResource="true"/>
+                <Property name="orientation" type="int" value="1"/>
+                <Property name="name" type="java.lang.String" value="offlineCounterSeparator" noResource="true"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JPanel" name="startCounterModePanel">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="startCounterModePanel" noResource="true"/>
               </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="smallLogoLabel" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="mainTitle" min="-2" pref="253" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
+                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jScrollPane2" alignment="0" pref="189" max="32767" attributes="1"/>
+                              <Component id="startCounterModeButton" alignment="1" pref="189" max="32767" attributes="1"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="mainTitle" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="smallLogoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
+                          <EmptySpace pref="37" max="32767" attributes="0"/>
+                          <Component id="startCounterModeButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="smallLogoLabel">
+                <Component class="javax.swing.JButton" name="startCounterModeButton">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" resourceKey="smallLogoLabel.icon"/>
-                    <Property name="text" type="java.lang.String" resourceKey="smallLogoLabel.text"/>
-                    <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="smallLogoLabel" noResource="true"/>
+                    <Property name="text" type="java.lang.String" resourceKey="startCounterModeButton.text"/>
+                    <Property name="name" type="java.lang.String" value="startCounterModeButton" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startCounterModeButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="logInLabel.font"/>
+                    <Property name="text" type="java.lang.String" resourceKey="jLabel1.text"/>
+                    <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="versionLabel">
+                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
                   <Properties>
-                    <Property name="font" type="java.awt.Font" resourceKey="versionLabel.font"/>
-                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="eventswipe/resources/EventSwipeApp.properties" key="Application.version" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="null"/>
                     </Property>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="versionLabel" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="jScrollPane2" noResource="true"/>
                   </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="mainTitle">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" resourceKey="mainTitle.font"/>
-                    <Property name="text" type="java.lang.String" resourceKey="mainTitle.text"/>
-                    <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="name" type="java.lang.String" value="mainTitle" noResource="true"/>
-                  </Properties>
-                </Component>
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="useOfflineDescription1">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" resourceKey="useOfflineDescription1.background"/>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="font" type="java.awt.Font" resourceKey="useOfflineDescription1.font"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" resourceKey="useOfflineDescription1.text"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
+                        <Property name="autoscrolls" type="boolean" value="false"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
+                        </Property>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="name" type="java.lang.String" value="useOfflineDescription1" noResource="true"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -2509,6 +2627,207 @@
             <Property name="text" type="java.lang.String" resourceKey="notifyAbsentOption.text"/>
             <Property name="name" type="java.lang.String" value="notifyAbsentOption" noResource="true"/>
           </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="counterPanel">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[720, 350]"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="counterPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="counterPanelTitle" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="535" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="counterBackButton" min="-2" pref="94" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="199" max="-2" attributes="0"/>
+                  <Component id="resetCounterButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="202" max="32767" attributes="0"/>
+                  <Component id="finishCountingButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="-2" pref="186" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="countButton" alignment="0" pref="352" max="32767" attributes="1"/>
+                      <Component id="counterDisplayPanel" alignment="0" max="32767" attributes="1"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="counterPanelTitle" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                  <Component id="counterDisplayPanel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="countButton" min="-2" pref="56" max="-2" attributes="0"/>
+                  <EmptySpace pref="107" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="finishCountingButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="counterBackButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="resetCounterButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="finishCountingButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="eventswipe.EventSwipeView" id="finishCounting" methodName="finishCounting"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="finishCountingButton.text"/>
+            <Property name="name" type="java.lang.String" value="finishCountingButton" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="counterBackButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="counterBackButton.text"/>
+            <Property name="name" type="java.lang.String" value="counterBackButton" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="counterBackButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="counterPanelTitle">
+          <Properties>
+            <Property name="font" type="java.awt.Font" resourceKey="counterPanelTitle.font"/>
+            <Property name="text" type="java.lang.String" resourceKey="counterPanelTitle.text"/>
+            <Property name="name" type="java.lang.String" value="counterPanelTitle" noResource="true"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="counterDisplayPanel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="counterDisplayPanel" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="counterTenThousands" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="counterThousands" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="counterHundreds" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="counterTens" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="counterUnits" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="counterTenThousands" alignment="0" pref="93" max="32767" attributes="1"/>
+                          <Component id="counterThousands" alignment="0" pref="93" max="32767" attributes="1"/>
+                          <Component id="counterHundreds" alignment="0" pref="93" max="32767" attributes="1"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="counterTens" alignment="3" max="32767" attributes="1"/>
+                              <Component id="counterUnits" alignment="3" max="32767" attributes="1"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JFormattedTextField" name="counterThousands">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" resourceKey="counterThousands.foreground"/>
+                <Property name="text" type="java.lang.String" resourceKey="counterThousands.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="counterUnits.font"/>
+                <Property name="name" type="java.lang.String" value="counterThousands" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="counterTens">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" resourceKey="counterTens.foreground"/>
+                <Property name="text" type="java.lang.String" resourceKey="counterTens.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="counterUnits.font"/>
+                <Property name="name" type="java.lang.String" value="counterTens" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="counterUnits">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" resourceKey="counterUnits.foreground"/>
+                <Property name="text" type="java.lang.String" resourceKey="counterUnits.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="counterUnits.font"/>
+                <Property name="name" type="java.lang.String" value="counterUnits" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="counterHundreds">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" resourceKey="counterHundreds.foreground"/>
+                <Property name="text" type="java.lang.String" resourceKey="counterHundreds.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="counterUnits.font"/>
+                <Property name="name" type="java.lang.String" value="counterHundreds" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="counterTenThousands">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" resourceKey="counterTenThousands.foreground"/>
+                <Property name="text" type="java.lang.String" resourceKey="counterTenThousands.text"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="font" type="java.awt.Font" resourceKey="counterUnits.font"/>
+                <Property name="name" type="java.lang.String" value="counterTenThousands" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JButton" name="countButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="eventswipe.EventSwipeView" id="count" methodName="count"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" resourceKey="countButton.font"/>
+            <Property name="text" type="java.lang.String" resourceKey="countButton.text"/>
+            <Property name="name" type="java.lang.String" value="countButton" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="resetCounterButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="resetCounterButton.text"/>
+            <Property name="name" type="java.lang.String" value="resetCounterButton" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetCounterButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

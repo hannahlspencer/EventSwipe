@@ -130,6 +130,7 @@ public class EventSwipeView extends FrameView {
         waitListView = new WaitingListView(waitingListFilePathInput,
                                            waitingListBrowseButton,
                                            waitingListFileLabel);
+        this.buildCounterMap();
         updateBookingPanel(false);
         updateOnlineBookingPanel(true);
     }
@@ -171,6 +172,11 @@ public class EventSwipeView extends FrameView {
     }
 
     @Action
+    public void finishCounting() {
+        app.finishCounting();
+    }
+
+    @Action
     public void finishAction() {
         try {
             app.finish(markAbsentOption.isSelected(), notifyAbsentOption.isSelected());
@@ -183,7 +189,7 @@ public class EventSwipeView extends FrameView {
         }
         try {
             app.finish(false, false);
-        } catch (Exception ex) {} //app can't throw excpetion with app.finish(false)
+        } catch (Exception ex) {} //app can't throw excpetion with app.finish(false, false)
     }
 
     @Action
@@ -236,6 +242,11 @@ public class EventSwipeView extends FrameView {
                 Arrays.fill(password,'0');
             }
         }
+    }
+
+    @Action
+    public void count() {
+        this.displayCount((Integer)app.incrementCount());
     }
 
     /** This method is called from within the constructor to
@@ -301,23 +312,30 @@ public class EventSwipeView extends FrameView {
         requireBookingButtonGroup = new javax.swing.ButtonGroup();
         waitingListButtonGroup = new javax.swing.ButtonGroup();
         preConfigPanel = new javax.swing.JPanel();
-        titleLoginPanel = new javax.swing.JPanel();
-        loginPanel = new javax.swing.JPanel();
-        logInLabel = new javax.swing.JLabel();
-        useOfflineLabel = new javax.swing.JLabel();
-        passwordInput = new javax.swing.JPasswordField();
-        startOfflineButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        useOfflineDescription = new javax.swing.JTextArea();
-        passwordLabel = new javax.swing.JLabel();
-        logInButton = new javax.swing.JButton();
-        usernameLabel = new javax.swing.JLabel();
-        usernameInput = new javax.swing.JTextField();
-        loginOfflineSeparator = new javax.swing.JSeparator();
         titlePanel = new javax.swing.JPanel();
         smallLogoLabel = new javax.swing.JLabel();
         versionLabel = new javax.swing.JLabel();
         mainTitle = new javax.swing.JLabel();
+        titleLoginPanel = new javax.swing.JPanel();
+        loginOfflineSeparator = new javax.swing.JSeparator();
+        loginFormPanel = new javax.swing.JPanel();
+        logInButton = new javax.swing.JButton();
+        passwordLabel = new javax.swing.JLabel();
+        usernameLabel = new javax.swing.JLabel();
+        usernameInput = new javax.swing.JTextField();
+        passwordInput = new javax.swing.JPasswordField();
+        logInLabel = new javax.swing.JLabel();
+        offlinePanel = new javax.swing.JPanel();
+        useOfflineLabel = new javax.swing.JLabel();
+        startOfflineButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        useOfflineDescription = new javax.swing.JTextArea();
+        offlineCounterSeparator = new javax.swing.JSeparator();
+        startCounterModePanel = new javax.swing.JPanel();
+        startCounterModeButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        useOfflineDescription1 = new javax.swing.JTextArea();
         onlineConfigPanel = new javax.swing.JPanel();
         bookingDetailsPanel1 = new javax.swing.JPanel();
         entrySlotsLabel1 = new javax.swing.JLabel();
@@ -397,6 +415,18 @@ public class EventSwipeView extends FrameView {
         finishPanelTitle = new javax.swing.JLabel();
         markAbsentOption = new javax.swing.JCheckBox();
         notifyAbsentOption = new javax.swing.JCheckBox();
+        counterPanel = new javax.swing.JPanel();
+        finishCountingButton = new javax.swing.JButton();
+        counterBackButton = new javax.swing.JButton();
+        counterPanelTitle = new javax.swing.JLabel();
+        counterDisplayPanel = new javax.swing.JPanel();
+        counterThousands = new javax.swing.JFormattedTextField();
+        counterTens = new javax.swing.JFormattedTextField();
+        counterUnits = new javax.swing.JFormattedTextField();
+        counterHundreds = new javax.swing.JFormattedTextField();
+        counterTenThousands = new javax.swing.JFormattedTextField();
+        countButton = new javax.swing.JButton();
+        resetCounterButton = new javax.swing.JButton();
 
         menuBar.setName("menuBar"); // NOI18N
 
@@ -1046,130 +1076,6 @@ public class EventSwipeView extends FrameView {
         preConfigPanel.setMinimumSize(new java.awt.Dimension(720, 350));
         preConfigPanel.setName("preConfigPanel"); // NOI18N
 
-        titleLoginPanel.setFocusable(false);
-        titleLoginPanel.setName("titleLoginPanel"); // NOI18N
-
-        loginPanel.setFocusable(false);
-        loginPanel.setName("loginPanel"); // NOI18N
-
-        logInLabel.setFont(resourceMap.getFont("logInLabel.font")); // NOI18N
-        logInLabel.setText(resourceMap.getString("logInLabel.text")); // NOI18N
-        logInLabel.setFocusable(false);
-        logInLabel.setName("logInLabel"); // NOI18N
-
-        useOfflineLabel.setFont(resourceMap.getFont("useOfflineLabel.font")); // NOI18N
-        useOfflineLabel.setText(resourceMap.getString("useOfflineLabel.text")); // NOI18N
-        useOfflineLabel.setFocusable(false);
-        useOfflineLabel.setName("useOfflineLabel"); // NOI18N
-
-        passwordInput.setText(resourceMap.getString("passwordInput.text")); // NOI18N
-        passwordInput.setName("passwordInput"); // NOI18N
-        passwordInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                loginInputKeyPressed(evt);
-            }
-        });
-
-        startOfflineButton.setText(resourceMap.getString("startOfflineButton.text")); // NOI18N
-        startOfflineButton.setName("startOfflineButton"); // NOI18N
-        startOfflineButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startOfflineButtonActionPerformed(evt);
-            }
-        });
-
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setFocusable(false);
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
-
-        useOfflineDescription.setBackground(resourceMap.getColor("useOfflineDescription.background")); // NOI18N
-        useOfflineDescription.setColumns(20);
-        useOfflineDescription.setEditable(false);
-        useOfflineDescription.setFont(resourceMap.getFont("useOfflineDescription.font")); // NOI18N
-        useOfflineDescription.setLineWrap(true);
-        useOfflineDescription.setRows(5);
-        useOfflineDescription.setText(resourceMap.getString("useOfflineDescription.text")); // NOI18N
-        useOfflineDescription.setWrapStyleWord(true);
-        useOfflineDescription.setAutoscrolls(false);
-        useOfflineDescription.setBorder(null);
-        useOfflineDescription.setFocusable(false);
-        useOfflineDescription.setName("useOfflineDescription"); // NOI18N
-        jScrollPane1.setViewportView(useOfflineDescription);
-
-        passwordLabel.setText(resourceMap.getString("passwordLabel.text")); // NOI18N
-        passwordLabel.setFocusable(false);
-        passwordLabel.setName("passwordLabel"); // NOI18N
-
-        logInButton.setAction(actionMap.get("logIn")); // NOI18N
-        logInButton.setText(resourceMap.getString("logInButton.text")); // NOI18N
-        logInButton.setName("logInButton"); // NOI18N
-
-        usernameLabel.setText(resourceMap.getString("usernameLabel.text")); // NOI18N
-        usernameLabel.setFocusable(false);
-        usernameLabel.setName("usernameLabel"); // NOI18N
-
-        usernameInput.setText(resourceMap.getString("usernameInput.text")); // NOI18N
-        usernameInput.setName("usernameInput"); // NOI18N
-        usernameInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                loginInputKeyPressed(evt);
-            }
-        });
-
-        loginOfflineSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        loginOfflineSeparator.setName("loginOfflineSeparator"); // NOI18N
-
-        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
-        loginPanel.setLayout(loginPanelLayout);
-        loginPanelLayout.setHorizontalGroup(
-            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loginPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(logInLabel)
-                    .addComponent(usernameLabel)
-                    .addComponent(passwordLabel)
-                    .addComponent(usernameInput)
-                    .addComponent(passwordInput, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                    .addComponent(logInButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(loginOfflineSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-                    .addComponent(useOfflineLabel)
-                    .addComponent(startOfflineButton, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
-                .addGap(23, 23, 23))
-        );
-        loginPanelLayout.setVerticalGroup(
-            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loginPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginOfflineSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addGroup(loginPanelLayout.createSequentialGroup()
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(loginPanelLayout.createSequentialGroup()
-                                .addComponent(logInLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(usernameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(passwordLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(loginPanelLayout.createSequentialGroup()
-                                .addComponent(useOfflineLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(logInButton)
-                            .addComponent(startOfflineButton))))
-                .addContainerGap())
-        );
-
         titlePanel.setFocusable(false);
         titlePanel.setName("titlePanel"); // NOI18N
 
@@ -1219,41 +1125,245 @@ public class EventSwipeView extends FrameView {
                 .addGap(14, 14, 14))
         );
 
+        titleLoginPanel.setFocusable(false);
+        titleLoginPanel.setName("titleLoginPanel"); // NOI18N
+
+        loginOfflineSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        loginOfflineSeparator.setName("loginOfflineSeparator"); // NOI18N
+
+        loginFormPanel.setName("loginFormPanel"); // NOI18N
+
+        logInButton.setAction(actionMap.get("logIn")); // NOI18N
+        logInButton.setText(resourceMap.getString("logInButton.text")); // NOI18N
+        logInButton.setName("logInButton"); // NOI18N
+
+        passwordLabel.setText(resourceMap.getString("passwordLabel.text")); // NOI18N
+        passwordLabel.setFocusable(false);
+        passwordLabel.setName("passwordLabel"); // NOI18N
+
+        usernameLabel.setText(resourceMap.getString("usernameLabel.text")); // NOI18N
+        usernameLabel.setFocusable(false);
+        usernameLabel.setName("usernameLabel"); // NOI18N
+
+        usernameInput.setText(resourceMap.getString("usernameInput.text")); // NOI18N
+        usernameInput.setName("usernameInput"); // NOI18N
+        usernameInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginInputKeyPressed(evt);
+            }
+        });
+
+        passwordInput.setText(resourceMap.getString("passwordInput.text")); // NOI18N
+        passwordInput.setName("passwordInput"); // NOI18N
+        passwordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginInputKeyPressed(evt);
+            }
+        });
+
+        logInLabel.setFont(resourceMap.getFont("logInLabel.font")); // NOI18N
+        logInLabel.setText(resourceMap.getString("logInLabel.text")); // NOI18N
+        logInLabel.setFocusable(false);
+        logInLabel.setName("logInLabel"); // NOI18N
+
+        javax.swing.GroupLayout loginFormPanelLayout = new javax.swing.GroupLayout(loginFormPanel);
+        loginFormPanel.setLayout(loginFormPanelLayout);
+        loginFormPanelLayout.setHorizontalGroup(
+            loginFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginFormPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(loginFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(logInButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(logInLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(usernameLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(passwordLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(usernameInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addComponent(passwordInput, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        loginFormPanelLayout.setVerticalGroup(
+            loginFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginFormPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logInLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(usernameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passwordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(logInButton)
+                .addContainerGap())
+        );
+
+        offlinePanel.setName("offlinePanel"); // NOI18N
+
+        useOfflineLabel.setFont(resourceMap.getFont("useOfflineLabel.font")); // NOI18N
+        useOfflineLabel.setText(resourceMap.getString("useOfflineLabel.text")); // NOI18N
+        useOfflineLabel.setFocusable(false);
+        useOfflineLabel.setName("useOfflineLabel"); // NOI18N
+
+        startOfflineButton.setText(resourceMap.getString("startOfflineButton.text")); // NOI18N
+        startOfflineButton.setName("startOfflineButton"); // NOI18N
+        startOfflineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startOfflineButtonActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setFocusable(false);
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        useOfflineDescription.setBackground(resourceMap.getColor("useOfflineDescription.background")); // NOI18N
+        useOfflineDescription.setColumns(20);
+        useOfflineDescription.setEditable(false);
+        useOfflineDescription.setFont(resourceMap.getFont("useOfflineDescription.font")); // NOI18N
+        useOfflineDescription.setLineWrap(true);
+        useOfflineDescription.setRows(5);
+        useOfflineDescription.setText(resourceMap.getString("useOfflineDescription.text")); // NOI18N
+        useOfflineDescription.setWrapStyleWord(true);
+        useOfflineDescription.setAutoscrolls(false);
+        useOfflineDescription.setBorder(null);
+        useOfflineDescription.setFocusable(false);
+        useOfflineDescription.setName("useOfflineDescription"); // NOI18N
+        jScrollPane1.setViewportView(useOfflineDescription);
+
+        javax.swing.GroupLayout offlinePanelLayout = new javax.swing.GroupLayout(offlinePanel);
+        offlinePanel.setLayout(offlinePanelLayout);
+        offlinePanelLayout.setHorizontalGroup(
+            offlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(offlinePanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
+            .addGroup(offlinePanelLayout.createSequentialGroup()
+                .addComponent(useOfflineLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(offlinePanelLayout.createSequentialGroup()
+                .addComponent(startOfflineButton, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        offlinePanelLayout.setVerticalGroup(
+            offlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(offlinePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(useOfflineLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startOfflineButton)
+                .addContainerGap())
+        );
+
+        offlineCounterSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        offlineCounterSeparator.setName("offlineCounterSeparator"); // NOI18N
+
+        startCounterModePanel.setName("startCounterModePanel"); // NOI18N
+
+        startCounterModeButton.setText(resourceMap.getString("startCounterModeButton.text")); // NOI18N
+        startCounterModeButton.setName("startCounterModeButton"); // NOI18N
+        startCounterModeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startCounterModeButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(resourceMap.getFont("logInLabel.font")); // NOI18N
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setFocusable(false);
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        useOfflineDescription1.setBackground(resourceMap.getColor("useOfflineDescription1.background")); // NOI18N
+        useOfflineDescription1.setColumns(20);
+        useOfflineDescription1.setEditable(false);
+        useOfflineDescription1.setFont(resourceMap.getFont("useOfflineDescription1.font")); // NOI18N
+        useOfflineDescription1.setLineWrap(true);
+        useOfflineDescription1.setText(resourceMap.getString("useOfflineDescription1.text")); // NOI18N
+        useOfflineDescription1.setWrapStyleWord(true);
+        useOfflineDescription1.setAutoscrolls(false);
+        useOfflineDescription1.setBorder(null);
+        useOfflineDescription1.setFocusable(false);
+        useOfflineDescription1.setName("useOfflineDescription1"); // NOI18N
+        jScrollPane2.setViewportView(useOfflineDescription1);
+
+        javax.swing.GroupLayout startCounterModePanelLayout = new javax.swing.GroupLayout(startCounterModePanel);
+        startCounterModePanel.setLayout(startCounterModePanelLayout);
+        startCounterModePanelLayout.setHorizontalGroup(
+            startCounterModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startCounterModePanelLayout.createSequentialGroup()
+                .addGroup(startCounterModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(startCounterModeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        startCounterModePanelLayout.setVerticalGroup(
+            startCounterModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(startCounterModePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(startCounterModeButton)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout titleLoginPanelLayout = new javax.swing.GroupLayout(titleLoginPanel);
         titleLoginPanel.setLayout(titleLoginPanelLayout);
         titleLoginPanelLayout.setHorizontalGroup(
             titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLoginPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(6, 6, 6)
+                .addComponent(loginFormPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loginOfflineSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(offlinePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(offlineCounterSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startCounterModePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         titleLoginPanelLayout.setVerticalGroup(
             titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(titleLoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(loginFormPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(startCounterModePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(offlineCounterSeparator, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(offlinePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loginOfflineSeparator, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout preConfigPanelLayout = new javax.swing.GroupLayout(preConfigPanel);
         preConfigPanel.setLayout(preConfigPanelLayout);
         preConfigPanelLayout.setHorizontalGroup(
             preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, preConfigPanelLayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+            .addGroup(preConfigPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titleLoginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE))
+                .addContainerGap())
         );
         preConfigPanelLayout.setVerticalGroup(
             preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(preConfigPanelLayout.createSequentialGroup()
-                .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         onlineConfigPanel.setMinimumSize(new java.awt.Dimension(720, 400));
@@ -2213,6 +2323,151 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
             .addContainerGap())
     );
 
+    counterPanel.setMinimumSize(new java.awt.Dimension(720, 350));
+    counterPanel.setName("counterPanel"); // NOI18N
+
+    finishCountingButton.setAction(actionMap.get("finishCounting")); // NOI18N
+    finishCountingButton.setText(resourceMap.getString("finishCountingButton.text")); // NOI18N
+    finishCountingButton.setName("finishCountingButton"); // NOI18N
+
+    counterBackButton.setText(resourceMap.getString("counterBackButton.text")); // NOI18N
+    counterBackButton.setName("counterBackButton"); // NOI18N
+    counterBackButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            counterBackButtonActionPerformed(evt);
+        }
+    });
+
+    counterPanelTitle.setFont(resourceMap.getFont("counterPanelTitle.font")); // NOI18N
+    counterPanelTitle.setText(resourceMap.getString("counterPanelTitle.text")); // NOI18N
+    counterPanelTitle.setName("counterPanelTitle"); // NOI18N
+
+    counterDisplayPanel.setName("counterDisplayPanel"); // NOI18N
+
+    counterThousands.setEditable(false);
+    counterThousands.setForeground(resourceMap.getColor("counterThousands.foreground")); // NOI18N
+    counterThousands.setText(resourceMap.getString("counterThousands.text")); // NOI18N
+    counterThousands.setEnabled(false);
+    counterThousands.setFocusable(false);
+    counterThousands.setFont(resourceMap.getFont("counterUnits.font")); // NOI18N
+    counterThousands.setName("counterThousands"); // NOI18N
+
+    counterTens.setEditable(false);
+    counterTens.setForeground(resourceMap.getColor("counterTens.foreground")); // NOI18N
+    counterTens.setText(resourceMap.getString("counterTens.text")); // NOI18N
+    counterTens.setEnabled(false);
+    counterTens.setFocusable(false);
+    counterTens.setFont(resourceMap.getFont("counterUnits.font")); // NOI18N
+    counterTens.setName("counterTens"); // NOI18N
+
+    counterUnits.setEditable(false);
+    counterUnits.setForeground(resourceMap.getColor("counterUnits.foreground")); // NOI18N
+    counterUnits.setText(resourceMap.getString("counterUnits.text")); // NOI18N
+    counterUnits.setEnabled(false);
+    counterUnits.setFocusable(false);
+    counterUnits.setFont(resourceMap.getFont("counterUnits.font")); // NOI18N
+    counterUnits.setName("counterUnits"); // NOI18N
+
+    counterHundreds.setEditable(false);
+    counterHundreds.setForeground(resourceMap.getColor("counterHundreds.foreground")); // NOI18N
+    counterHundreds.setText(resourceMap.getString("counterHundreds.text")); // NOI18N
+    counterHundreds.setEnabled(false);
+    counterHundreds.setFocusable(false);
+    counterHundreds.setFont(resourceMap.getFont("counterUnits.font")); // NOI18N
+    counterHundreds.setName("counterHundreds"); // NOI18N
+
+    counterTenThousands.setEditable(false);
+    counterTenThousands.setForeground(resourceMap.getColor("counterTenThousands.foreground")); // NOI18N
+    counterTenThousands.setText(resourceMap.getString("counterTenThousands.text")); // NOI18N
+    counterTenThousands.setEnabled(false);
+    counterTenThousands.setFocusable(false);
+    counterTenThousands.setFont(resourceMap.getFont("counterUnits.font")); // NOI18N
+    counterTenThousands.setName("counterTenThousands"); // NOI18N
+
+    javax.swing.GroupLayout counterDisplayPanelLayout = new javax.swing.GroupLayout(counterDisplayPanel);
+    counterDisplayPanel.setLayout(counterDisplayPanelLayout);
+    counterDisplayPanelLayout.setHorizontalGroup(
+        counterDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(counterDisplayPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(counterTenThousands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(counterThousands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(counterHundreds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(counterTens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(counterUnits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
+    );
+    counterDisplayPanelLayout.setVerticalGroup(
+        counterDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(counterDisplayPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(counterDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(counterTenThousands, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                .addComponent(counterThousands, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                .addComponent(counterHundreds, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, counterDisplayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(counterTens)
+                    .addComponent(counterUnits)))
+            .addContainerGap())
+    );
+
+    countButton.setAction(actionMap.get("count")); // NOI18N
+    countButton.setFont(resourceMap.getFont("countButton.font")); // NOI18N
+    countButton.setText(resourceMap.getString("countButton.text")); // NOI18N
+    countButton.setName("countButton"); // NOI18N
+
+    resetCounterButton.setText(resourceMap.getString("resetCounterButton.text")); // NOI18N
+    resetCounterButton.setName("resetCounterButton"); // NOI18N
+    resetCounterButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            resetCounterButtonActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout counterPanelLayout = new javax.swing.GroupLayout(counterPanel);
+    counterPanel.setLayout(counterPanelLayout);
+    counterPanelLayout.setHorizontalGroup(
+        counterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(counterPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(counterPanelTitle)
+            .addContainerGap(535, Short.MAX_VALUE))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, counterPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(counterBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(199, 199, 199)
+            .addComponent(resetCounterButton)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
+            .addComponent(finishCountingButton)
+            .addContainerGap())
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, counterPanelLayout.createSequentialGroup()
+            .addGap(186, 186, 186)
+            .addGroup(counterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(countButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                .addComponent(counterDisplayPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(185, 185, 185))
+    );
+    counterPanelLayout.setVerticalGroup(
+        counterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(counterPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(counterPanelTitle)
+            .addGap(74, 74, 74)
+            .addComponent(counterDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(countButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+            .addGroup(counterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(finishCountingButton)
+                .addComponent(counterBackButton)
+                .addComponent(resetCounterButton))
+            .addContainerGap())
+    );
+
     setComponent(preConfigPanel);
     setMenuBar(menuBar);
     addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -2489,6 +2744,20 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
 private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_formPropertyChange
     // TODO add your handling code here:
 }//GEN-LAST:event_formPropertyChange
+
+private void counterBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_counterBackButtonActionPerformed
+    this.switchToPanel(preConfigPanel);
+}//GEN-LAST:event_counterBackButtonActionPerformed
+
+private void startCounterModeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startCounterModeButtonActionPerformed
+    this.switchToPanel(counterPanel);
+    countButton.requestFocus();
+}//GEN-LAST:event_startCounterModeButtonActionPerformed
+
+private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCounterButtonActionPerformed
+    this.resetCount();
+    countButton.requestFocus();
+}//GEN-LAST:event_resetCounterButtonActionPerformed
     
     private void checkConfiguration() {
         app.clearData();
@@ -3053,6 +3322,16 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JButton configBackButton;
     private javax.swing.JPanel configPanel;
     private javax.swing.JMenuItem connectionMenuItem;
+    private javax.swing.JButton countButton;
+    private javax.swing.JButton counterBackButton;
+    private javax.swing.JPanel counterDisplayPanel;
+    private javax.swing.JFormattedTextField counterHundreds;
+    private javax.swing.JPanel counterPanel;
+    private javax.swing.JLabel counterPanelTitle;
+    private javax.swing.JFormattedTextField counterTenThousands;
+    private javax.swing.JFormattedTextField counterTens;
+    private javax.swing.JFormattedTextField counterThousands;
+    private javax.swing.JFormattedTextField counterUnits;
     private javax.swing.JPanel entrySlot1Panel;
     private javax.swing.JPanel entrySlot2Panel;
     private javax.swing.JPanel entrySlot3Panel;
@@ -3090,6 +3369,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JButton finishBackButton;
     private javax.swing.JButton finishButton;
     private javax.swing.JButton finishCloseButton;
+    private javax.swing.JButton finishCountingButton;
     private javax.swing.JPanel finishPanel;
     private javax.swing.JLabel finishPanelTitle;
     private javax.swing.JTextField generatedTitle1;
@@ -3102,7 +3382,9 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JLabel generatedTitleLabel3;
     private javax.swing.JLabel generatedTitleLabel4;
     private javax.swing.JLabel generatedTitleLabel5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton loadEventButton1;
     private javax.swing.JButton loadEventButton2;
     private javax.swing.JButton loadEventButton3;
@@ -3112,8 +3394,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JFormattedTextField localAttendeeCountTextField;
     private javax.swing.JButton logInButton;
     private javax.swing.JLabel logInLabel;
+    private javax.swing.JPanel loginFormPanel;
     private javax.swing.JSeparator loginOfflineSeparator;
-    private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainOnlinePanel;
     private javax.swing.JLabel mainTitle;
     private javax.swing.JCheckBox markAbsentOption;
@@ -3122,6 +3404,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JRadioButton noLoadWaitingListRadioButton;
     private javax.swing.JRadioButton noWaitingListRadioButton;
     private javax.swing.JCheckBox notifyAbsentOption;
+    private javax.swing.JSeparator offlineCounterSeparator;
+    private javax.swing.JPanel offlinePanel;
     private javax.swing.JButton okConfigButton;
     private javax.swing.JButton okConfigButton1;
     private javax.swing.JButton onlineConfigBackButton;
@@ -3134,6 +3418,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.ButtonGroup requireBookingButtonGroup;
     private javax.swing.JLabel requireBookingLabel;
     private javax.swing.JPanel requireBookingPanel;
+    private javax.swing.JButton resetCounterButton;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton searchButton;
     private javax.swing.JButton searchEventsButton1;
@@ -3155,6 +3440,8 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JLabel slot5Label;
     private javax.swing.JPanel slotsPanel;
     private javax.swing.JLabel smallLogoLabel;
+    private javax.swing.JButton startCounterModeButton;
+    private javax.swing.JPanel startCounterModePanel;
     private javax.swing.JButton startOfflineButton;
     private javax.swing.JFormattedTextField statusDisplayTextField1;
     private javax.swing.JLabel statusLabel1;
@@ -3166,6 +3453,7 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private javax.swing.JFormattedTextField totalAttendeeCountDisplay;
     private javax.swing.JLabel totalLabel;
     private javax.swing.JTextArea useOfflineDescription;
+    private javax.swing.JTextArea useOfflineDescription1;
     private javax.swing.JLabel useOfflineLabel;
     private javax.swing.JTextField usernameInput;
     private javax.swing.JLabel usernameLabel;
@@ -3191,6 +3479,51 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
     private String checkingListsText;
     private String onlineModeTooltipText;
     private String offlineModeTooltipText;
+
+    private void buildCounterMap() {
+        countComponents.put(CountComponent.UNITS, counterUnits);
+        countComponents.put(CountComponent.TENS, counterTens);
+        countComponents.put(CountComponent.HUNDREDS, counterHundreds);
+        countComponents.put(CountComponent.THOUSANDS, counterThousands);
+        countComponents.put(CountComponent.TEN_THOUSANDS, counterTenThousands);
+    }
+
+    private void displayCount(Integer count) {
+        String countStr = count.toString();
+        int i = 0;
+        switch (countStr.length()) {
+            case 5:
+                counterTenThousands.setEnabled(true);
+                counterTenThousands.setText(countStr.substring(i++, i));
+            case 4:
+                counterThousands.setEnabled(true);
+                counterThousands.setText(countStr.substring(i++, i));
+            case 3:
+                counterHundreds.setEnabled(true);
+                counterHundreds.setText(countStr.substring(i++, i));
+            case 2:
+                counterTens.setEnabled(true);
+                counterTens.setText(countStr.substring(i++, i));
+            case 1:
+                counterUnits.setEnabled(true);
+                counterUnits.setText(countStr.substring(i));
+                break;
+            default:
+                this.resetCount();
+        }
+    }
+
+    private void resetCount() {
+        app.resetCounter();
+        this.resetCountDisplay();
+    }
+
+    private void resetCountDisplay() {
+        for (JFormattedTextField c : countComponents.values()) {
+            c.setEnabled(false);
+            c.setText("0");
+        }
+    }
 
     private class Slot {
 
@@ -3236,6 +3569,10 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
         }
     }
 
+    public enum CountComponent {
+        UNITS, TENS, HUNDREDS, THOUSANDS, TEN_THOUSANDS
+    }
+
     public enum Component {
         FILE, ID, BROWSE, LOAD, SEARCH,
         TITLE, LABEL, BOOKINGLIST
@@ -3243,6 +3580,9 @@ private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST
 
     private Slot[] slotViews = new Slot[EventSwipeData.MAX_ENTRY_SLOTS];
     private WaitingListView waitListView;
+
+    private EnumMap<CountComponent,JFormattedTextField> countComponents =
+            new EnumMap(CountComponent.class);
 
     //End of manually declared variables
 
