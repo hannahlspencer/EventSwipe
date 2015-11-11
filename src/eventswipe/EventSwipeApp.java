@@ -236,7 +236,8 @@ public class EventSwipeApp extends SingleFrameApplication {
                             data.setSavedFlag(false);
                         }
                     } catch (Exception ex) {
-                        Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(EventSwipeApp.class.getName())
+                              .log(Level.SEVERE, "Student not booked", ex);
                         freeEvent.getUnsavedList().add(stuNumberFin);
                         data.setSavedFlag(false);
                     }
@@ -275,11 +276,9 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         else {
             event.getUnsavedList().add(booking.getStuNumber());
-            //data.incrementAttendeesCount();
             data.getAllRecordedList().add(booking.getStuNumber());
             data.setSavedFlag(false);
         }
-        //data.incrementAttendeesCount();
         data.getAllRecordedList().add(booking.getStuNumber());
     }
 
@@ -486,19 +485,18 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    public boolean isSaved() {
+        return data.getSavedFlag();
+    }
+
     public void finish(Boolean markAbsent, Boolean notify) throws MalformedURLException, IOException {
-        if (!data.getSavedFlag()) {
-            this.bookUnsavedRecords();
-        }
         if (!data.getSavedFlag()) {
             this.saveAndFinish();
         }
-        if (markAbsent && data.getSavedFlag()) {
+        else if(markAbsent && data.getSavedFlag()) {
             for (Event event : data.getEvents()) {
                api.markAllUnspecifiedAbsent(event.getId(), notify);
             }
-        }
-        if (data.getSavedFlag()) {
             System.exit(0);
         }
     }

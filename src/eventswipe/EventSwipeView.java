@@ -164,7 +164,30 @@ public class EventSwipeView extends FrameView {
     @Action
     public void initialFinishAction() {
         if (app.isOnlineMode()) {
-            this.switchToPanel(finishPanel);
+            if (app.isSaved()) {
+               this.switchToPanel(finishPanel); 
+            }
+            else {
+                Object[] options = {"Save and exit", "Exit without saving"};
+                int reply = JOptionPane.showOptionDialog(
+                                app.getMainFrame(),
+                                "There are unrecorded students. " +
+                                System.getProperty("line.separator") +
+                                "Please save these and then mark absentees manually.",
+                                "Unsaved records",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
+                                options[0]
+                             );
+                if (reply == JOptionPane.YES_OPTION) {
+                    app.saveAndFinish();
+                }
+                else if (reply == JOptionPane.NO_OPTION) {
+                    System.exit(0);
+                }
+            }
         }
         else {
             app.saveAndFinish();
@@ -182,10 +205,12 @@ public class EventSwipeView extends FrameView {
             app.finish(markAbsentOption.isSelected(), notifyAbsentOption.isSelected());
         } catch (Exception ex) {
             Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(app.getMainFrame(),
-                                          "Error marking absentees. You'll have to do this manually.",
-                                          "Marking absentee error",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                app.getMainFrame(),
+                "Error marking absentees. You'll have to do this manually.",
+                "Marking absentee error",
+                JOptionPane.ERROR_MESSAGE
+            );
         }
         try {
             app.finish(false, false);
@@ -1360,10 +1385,10 @@ public class EventSwipeView extends FrameView {
             preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(preConfigPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         onlineConfigPanel.setMinimumSize(new java.awt.Dimension(720, 400));
