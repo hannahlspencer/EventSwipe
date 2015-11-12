@@ -319,8 +319,9 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     @Action
     public void saveAttendeesToFile() {
-        String header = data.getEventTitle();
-	header += " - " + Utils.getDate("dd/MM/yyyy HH:mm:ss") + System.getProperty("line.separator");
+        String header = "Event attendees";
+	header += " - " + Utils.getDate("dd/MM/yyyy HH:mm:ss")
+                        + System.getProperty("line.separator");
         FileDialog fDialog = new FileDialog(this.getMainFrame(), 
                         "Save attendees list", FileDialog.SAVE);
         fDialog.setVisible(true);
