@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -255,24 +256,24 @@ public class EventSwipeApp extends SingleFrameApplication {
         final Event event = data.getEvents().get(booking.getEntrySlot() - 1);
         final Booking bookingFin = booking;
         if (data.isOnlineMode()) {
-            //Date now = new Date();
-            //if (now.after(event.getRegStart())) {
-            Future<?> response = executor.submit(new Runnable() {
-                public void run() {
-                    String bookingId = bookingFin.getBookingId().toString();
-                    try {
-                        api.markStatus(STATUS.ATTENDED, bookingId, event.getId());
-                    } catch (Exception ex) {
-                        Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
-                        event.getUnsavedList().add(bookingFin.getStuNumber());
-                        data.setSavedFlag(false);
+            Date now = new Date();
+            if (now.after(event.getRegStart())) {
+                Future<?> response = executor.submit(new Runnable() {
+                    public void run() {
+                        String bookingId = bookingFin.getBookingId().toString();
+                        try {
+                            api.markStatus(STATUS.ATTENDED, bookingId, event.getId());
+                        } catch (Exception ex) {
+                            Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+                            event.getUnsavedList().add(bookingFin.getStuNumber());
+                            data.setSavedFlag(false);
+                        }
                     }
+                });
                 }
-            });
-            //}
-            //else {
-            //    booking.setStatus(Booking.EARLY_STATUS);
-            //}
+            else {
+                booking.setStatus(Booking.EARLY_STATUS);
+            }
         }
         else {
             event.getUnsavedList().add(booking.getStuNumber());
