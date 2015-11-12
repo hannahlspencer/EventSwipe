@@ -210,6 +210,7 @@ public class EventSwipeView extends FrameView {
     @Action
     public void finishAction() {
         try {
+            System.out.println("About to try and finish");
             app.finish(markAbsentOption.isSelected(), notifyAbsentOption.isSelected());
         } catch (Exception ex) {
             Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);

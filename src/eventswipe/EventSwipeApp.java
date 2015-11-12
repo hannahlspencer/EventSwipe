@@ -506,8 +506,8 @@ public class EventSwipeApp extends SingleFrameApplication {
             for (Event event : data.getEvents()) {
                api.markAllUnspecifiedAbsent(event.getId(), notify);
             }
-            System.exit(0);
         }
+        System.exit(0);
     }
 
     public void finishCounting() {
