@@ -1,4 +1,4 @@
-package eventswipe;
+package eventswipe.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

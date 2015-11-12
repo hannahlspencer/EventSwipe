@@ -1,6 +1,15 @@
 package eventswipe;
 
-import eventswipe.BookingSystemAPI.STATUS;
+import eventswipe.APIs.BookingSystemAPI;
+import eventswipe.APIs.BookingSystemAPI.STATUS;
+import eventswipe.APIs.CareerHubAPI;
+import eventswipe.exceptions.EventFullException;
+import eventswipe.utils.Utils;
+import eventswipe.utils.EventSwipeLogger;
+import eventswipe.utils.HttpUtils;
+import eventswipe.models.Event;
+import eventswipe.models.Booking;
+import eventswipe.models.Student;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.event.WindowAdapter;
@@ -62,13 +71,11 @@ public class EventSwipeApp extends SingleFrameApplication {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (e.getID() == WindowEvent.WINDOW_CLOSING && !data.getSavedFlag()) {
-                    Utils.pressAlt();
                     int exit = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
                                                      "You have recorded unsaved records. " +
                                                      "Are you sure you want to exit?",
                                                      "Exit warning",
                                                      JOptionPane.YES_NO_OPTION);
-                    Utils.releaseAlt();
                     if (exit == JOptionPane.YES_OPTION) {
                         data.setSavedFlag(true);
                     }

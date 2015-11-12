@@ -1,5 +1,8 @@
-package eventswipe;
+package eventswipe.APIs;
 
+import eventswipe.models.Event;
+import eventswipe.models.Booking;
+import eventswipe.models.Student;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;

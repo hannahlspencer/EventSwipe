@@ -1,4 +1,4 @@
-package eventswipe;
+package eventswipe.utils;
 
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -69,24 +68,6 @@ public class Utils {
         cal.setTime(date);
         cal.add(Calendar.MINUTE, mins);
         return cal.getTime();
-    }
-
-    public static void pressAlt() {
-        /*try {
-            Robot r = new Robot();
-            r.keyPress(KeyEvent.VK_ALT);
-        } catch (AWTException ex) {
-            System.err.println(ex.getMessage());
-        }*/
-    }
-
-    public static void releaseAlt() {
-        /*try {
-            Robot r = new Robot();
-            r.keyRelease(KeyEvent.VK_ALT);
-        } catch (AWTException ex) {
-            System.err.println(ex.getMessage());
-        }*/
     }
 
     public static String readLine(File file, String encoding) {
@@ -158,11 +139,6 @@ public class Utils {
         if (sound != null) {
             sound.run();
         }
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
     public static void successNoise() {
@@ -170,11 +146,6 @@ public class Utils {
         if (sound != null) {
             sound.run();
         }
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
     private static final String UTF8_BOM = "\uFEFF";

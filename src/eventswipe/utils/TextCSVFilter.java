@@ -1,4 +1,4 @@
-package eventswipe;
+package eventswipe.utils;
 
 import java.io.File;
 import javax.swing.filechooser.*;

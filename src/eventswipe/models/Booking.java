@@ -1,4 +1,4 @@
-package eventswipe;
+package eventswipe.models;
 
 public class Booking {
 

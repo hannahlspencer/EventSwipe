@@ -1,8 +1,8 @@
-package eventswipe;
+package eventswipe.exceptions;
 
-public class EventFullException extends RuntimeException {
+public class NoStudentFoundException extends RuntimeException {
 
-    public EventFullException(String stuNum) {
+    public NoStudentFoundException(String stuNum) {
         this.stuNum = stuNum;
     }
 

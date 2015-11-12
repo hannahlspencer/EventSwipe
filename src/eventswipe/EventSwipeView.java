@@ -1,5 +1,13 @@
 package eventswipe;
 
+import eventswipe.exceptions.EventFullException;
+import eventswipe.exceptions.NoStudentFoundException;
+import eventswipe.exceptions.EarlyRegistrationException;
+import eventswipe.utils.TextCSVFilter;
+import eventswipe.utils.Utils;
+import eventswipe.models.Event;
+import eventswipe.models.Booking;
+import eventswipe.models.Student;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -2960,13 +2968,11 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
         }
         else if(booking.isOnWaitingList()) {
             Utils.failureNoise();
-            Utils.pressAlt();
             int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
                                                       "Student is on the waiting list. "
                                                       + "Allow student to enter?",
                                                       "Student on waiting list",
                                                       JOptionPane.YES_NO_OPTION);
-            Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     app.bookStudent(stuNumber, new Booking(stuNumber));
@@ -3002,13 +3008,11 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
         }
         else { //not booked
             Utils.failureNoise();
-            Utils.pressAlt();
             int reply = JOptionPane.showConfirmDialog(app.getMainFrame(),
                                                       "Student is not booked. " +
                                                       "Allow student to enter?",
                                                       "Student not booked",
                                                       JOptionPane.YES_NO_OPTION);
-            Utils.releaseAlt();
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     app.bookStudent(stuNumber, new Booking(stuNumber));

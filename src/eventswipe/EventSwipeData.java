@@ -1,5 +1,6 @@
 package eventswipe;
 
+import eventswipe.models.Event;
 import java.util.ArrayList;
 import java.util.List;
 
