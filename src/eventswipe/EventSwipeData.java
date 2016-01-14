@@ -95,7 +95,7 @@ public class EventSwipeData {
     }
 
     public void setSingleSlot(boolean b) {
-        this.singleSlotFlag = true;
+        this.singleSlotFlag = b;
     }
 
     public boolean isSingleSlot() {
