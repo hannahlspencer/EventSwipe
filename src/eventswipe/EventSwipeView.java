@@ -531,6 +531,7 @@ public class EventSwipeView extends FrameView {
         bookingDetailsPanel.setName("bookingDetailsPanel"); // NOI18N
         bookingDetailsPanel.setRequestFocusEnabled(false);
 
+        entrySlot1Panel.setEnabled(false);
         entrySlot1Panel.setName("entrySlot1Panel"); // NOI18N
         entrySlot1Panel.setPreferredSize(new java.awt.Dimension(475, 40));
 
@@ -1093,7 +1094,7 @@ public class EventSwipeView extends FrameView {
                 .addContainerGap()
                 .addComponent(titleLabel)
                 .addGap(1, 1, 1)
-                .addComponent(eventTitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(eventTitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(requireBookingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2647,7 +2648,7 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     searchInput.setEnabled(false);
     String input = searchInput.getText();
     if (!input.isEmpty()) {
-        if (Utils.isNumeric(input)) {
+        if (app.isValidId(input)) {
             Booking booking = new Booking("");
                 try {
                     booking = app.processSearchInput(input);
@@ -2668,46 +2669,48 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         else {
             searchInput.setText("");
             searchInput.requestFocusInWindow();
-            List<Student> students = new ArrayList<Student>();
-            try {
-                input = URLEncoder.encode(input, app.getCharset());
-                students = app.getStudents(input);
-            } catch (Exception ex) {
-                Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                searchInput.setEnabled(true);
-                showGenericErrorMessage();
-            }
-            if (students.isEmpty()) {
-                JOptionPane.showMessageDialog(app.getMainFrame(),
-                                              "No students could be found.",
-                                              "Search error",
-                                              JOptionPane.ERROR_MESSAGE);
-            }
-            else if (app.isOnlineMode()) {
-                List<String> studentNames = new ArrayList<String>();
-                for (Student student : students){
-                    studentNames.add(student.getFirstName()+" "+student.getLastName());
+            if (app.isOnlineMode()) {
+                List<Student> students = new ArrayList<Student>();
+                try {
+                    input = URLEncoder.encode(input, app.getCharset());
+                    students = app.getStudents(input);
+                } catch (Exception ex) {
+                    Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    searchInput.setEnabled(true);
+                    showGenericErrorMessage();
                 }
-                JList studentList = new JList(studentNames.toArray());
-                studentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                studentList.setLayoutOrientation(JList.VERTICAL_WRAP);
-                studentList.setVisibleRowCount(-1);
-                JScrollPane studentListScroller = new JScrollPane(studentList);
-                studentListScroller.setPreferredSize(new Dimension(500, 80));
-                JOptionPane.showMessageDialog(null, studentListScroller, "Select student",
-                                              JOptionPane.PLAIN_MESSAGE);
-                int i = studentList.getSelectedIndex();
-                if (i != -1) {
-                    String stuNum = students.get(i).getStuNumber();
-                    if (stuNum.equals(app.getEmptyStuNumString())) {
-                        JOptionPane.showMessageDialog(app.getMainFrame(),
-                                                      "Attendee has no student number.",
-                                                      "Student number error",
-                                                      JOptionPane.ERROR_MESSAGE);
+                if (students.isEmpty()) {
+                    JOptionPane.showMessageDialog(app.getMainFrame(),
+                                                  "No students could be found.",
+                                                  "Search error",
+                                                  JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    List<String> studentNames = new ArrayList<String>();
+                    for (Student student : students){
+                        studentNames.add(student.getFirstName()+" "+student.getLastName());
                     }
-                    else {
-                        searchInput.setText(students.get(i).getStuNumber());
-                        searchButton.doClick();
+                    JList studentList = new JList(studentNames.toArray());
+                    studentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    studentList.setLayoutOrientation(JList.VERTICAL_WRAP);
+                    studentList.setVisibleRowCount(-1);
+                    JScrollPane studentListScroller = new JScrollPane(studentList);
+                    studentListScroller.setPreferredSize(new Dimension(500, 80));
+                    JOptionPane.showMessageDialog(null, studentListScroller, "Select student",
+                                                  JOptionPane.PLAIN_MESSAGE);
+                    int i = studentList.getSelectedIndex();
+                    if (i != -1) {
+                        String stuNum = students.get(i).getStuNumber();
+                        if (stuNum.equals(app.getEmptyStuNumString())) {
+                            JOptionPane.showMessageDialog(app.getMainFrame(),
+                                                          "Attendee has no student number.",
+                                                          "Student number error",
+                                                          JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            searchInput.setText(students.get(i).getStuNumber());
+                            searchButton.doClick();
+                        }
                     }
                 }
             }
@@ -3272,19 +3275,13 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
     private void browseToUrl(String url) {
         if(!Desktop.isDesktopSupported()) {
             System.err.println("Desktop is not supported");
-            JOptionPane.showMessageDialog(app.getMainFrame(),
-                                          "Can't open browser. Edit event manually.",
-                                          "Browser error",
-                                          JOptionPane.ERROR_MESSAGE);
+            showBrowserError();
         }
         else {
             Desktop desktop = Desktop.getDesktop();
             if(!desktop.isSupported(Desktop.Action.BROWSE)) {
                 System.err.println("Desktop doesn't support the browse action");
-                JOptionPane.showMessageDialog(app.getMainFrame(),
-                                              "Can't open browser. Edit event manually.",
-                                              "Browser error",
-                                              JOptionPane.ERROR_MESSAGE);
+                showBrowserError();
             }
             else {
                 URI uri = null;
@@ -3293,10 +3290,7 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
                     desktop.browse(uri);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(app.getMainFrame(),
-                                              "Can't open browser. Edit event manually.",
-                                              "Browser error",
-                                              JOptionPane.ERROR_MESSAGE);
+                    showBrowserError();
                 }
             }
         }
@@ -3309,6 +3303,13 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
         JOptionPane.showMessageDialog(app.getMainFrame(),
                                       "Something has gone wrong! Close EventSwipe and log in again.",
                                       "Unexpected error",
+                                      JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showBrowserError() {
+        JOptionPane.showMessageDialog(app.getMainFrame(),
+                                      "Can't open browser. Edit event manually.",
+                                      "Browser error",
                                       JOptionPane.ERROR_MESSAGE);
     }
 
@@ -3565,7 +3566,6 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
                       JTextField t,
                         JLabel lab,
                         JLabel bLab) {
-
             allComponents.put(Component.FILE, f);
             allComponents.put(Component.ID, i);
             allComponents.put(Component.BROWSE, b);

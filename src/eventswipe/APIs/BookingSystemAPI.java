@@ -32,6 +32,7 @@ public abstract class BookingSystemAPI {
     public abstract String getEmptyStuNumString();
     public abstract int getATTENDED_STATUS();
     public abstract int getEVENT_FULL_STATUS();
+    public abstract boolean isValidId(String id);
 
     public enum STATUS {
         UNSPECIFIED, ATTENDED, ABSENT, NOT_BOOKED, EVENT_FULL
