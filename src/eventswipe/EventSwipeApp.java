@@ -99,6 +99,10 @@ public class EventSwipeApp extends SingleFrameApplication {
         return Application.getInstance(EventSwipeApp.class);
     }
 
+    public EventSwipeData getData() {
+        return data;
+    }
+
     public void setBookingFlag(boolean selected) {
         data.setBookingFlag(selected);
     }
@@ -500,6 +504,14 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     public boolean isSaved() {
         return data.getSavedFlag();
+    }
+
+    public void setLoggedInFlag(boolean b) {
+        data.setLoggedInFlag(b);
+    }
+
+    public boolean isLoggedIn() {
+        return data.isLoggedInFlag();
     }
 
     public void finish(Boolean markAbsent, Boolean notify) throws MalformedURLException, IOException {

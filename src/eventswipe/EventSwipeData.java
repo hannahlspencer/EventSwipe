@@ -126,6 +126,14 @@ public class EventSwipeData {
         this.savedFlag = savedFlag;
     }
 
+    public boolean isLoggedInFlag() {
+        return loggedInFlag;
+    }
+
+    public void setLoggedInFlag(boolean success) {
+        this.loggedInFlag = success;
+    }
+
     public String getEventTitle() {
         return eventTitle;
     }
@@ -158,13 +166,14 @@ public class EventSwipeData {
 
     private String eventTitle;
     private int localAttendeeCount = 0;
-    private int slots;
+    private int slots = 0;
     private boolean netFlag;
     private boolean onlineMode;
     private boolean waitingListFlag;
     private boolean bookingFlag;
     private boolean savedFlag = true;
     private boolean singleSlotFlag = false;
+    private boolean loggedInFlag = false;
     
     private int count = 0;
 
