@@ -166,7 +166,7 @@ public class EventSwipeData {
 
     private String eventTitle;
     private int localAttendeeCount = 0;
-    private int slots = 0;
+    private int slots;
     private boolean netFlag;
     private boolean onlineMode;
     private boolean waitingListFlag;
