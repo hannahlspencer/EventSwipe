@@ -63,7 +63,10 @@ public class Utils {
     }
 
     public static Date subtractMins(Date date, int mins) {
-        mins = mins * -1;
+        return Utils.addMins(date, mins * -1);
+    }
+
+    public static Date addMins(Date date, int mins) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MINUTE, mins);
