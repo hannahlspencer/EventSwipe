@@ -338,6 +338,22 @@ public class EventSwipeView extends FrameView {
         thisMachineLabel = new javax.swing.JLabel();
         totalAttendeeCountDisplay = new javax.swing.JFormattedTextField();
         refreshAttendeesButton = new javax.swing.JButton();
+        historyLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        eventStatusPanel = new javax.swing.JPanel();
+        eventStatusLabel = new javax.swing.JLabel();
+        eventStatusBookedLabel = new javax.swing.JLabel();
+        eventStatusAttendedLabel = new javax.swing.JLabel();
+        eventStatusSavedLabel = new javax.swing.JLabel();
+        eventStatusUnsavedLabel = new javax.swing.JLabel();
+        eventStatusNotAttendedLabel = new javax.swing.JLabel();
+        eventStatusNotAttendedLabel1 = new javax.swing.JLabel();
+        eventStatusBookedNumber = new javax.swing.JTextField();
+        eventStatusAttendedNumber = new javax.swing.JTextField();
+        eventStatusSavedNumber = new javax.swing.JTextField();
+        eventStatusUnsavedNumber = new javax.swing.JTextField();
+        eventStatusNotAttendedNumber = new javax.swing.JTextField();
+        eventStatusPlacesNumber = new javax.swing.JTextField();
         finishPanel = new javax.swing.JPanel();
         finishCloseButton = new javax.swing.JButton();
         finishBackButton = new javax.swing.JButton();
@@ -1921,6 +1937,7 @@ public class EventSwipeView extends FrameView {
         mainOnlinePanel.setMinimumSize(new java.awt.Dimension(720, 350));
         mainOnlinePanel.setName("mainOnlinePanel"); // NOI18N
 
+        searchInput.setFont(resourceMap.getFont("searchInput.font")); // NOI18N
         searchInput.setName("searchInput"); // NOI18N
 
         searchButton.setText(resourceMap.getString("searchButton.text")); // NOI18N
@@ -1964,9 +1981,10 @@ public class EventSwipeView extends FrameView {
         finishButton.setName("finishButton"); // NOI18N
         finishButton.setRequestFocusEnabled(false);
 
-        searchInputLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        searchInputLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         searchInputLabel.setLabelFor(searchInput);
         searchInputLabel.setText(resourceMap.getString("searchInputLabel.text")); // NOI18N
+        searchInputLabel.setAlignmentY(0.0F);
         searchInputLabel.setFocusable(false);
         searchInputLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         searchInputLabel.setName("searchInputLabel"); // NOI18N
@@ -2115,46 +2133,189 @@ public class EventSwipeView extends FrameView {
                 .addContainerGap(6, Short.MAX_VALUE))
         );
 
+        historyLabel.setText(resourceMap.getString("historyLabel.text")); // NOI18N
+        historyLabel.setName("historyLabel"); // NOI18N
+
+        jSeparator1.setName("jSeparator1"); // NOI18N
+
+        eventStatusPanel.setName("eventStatusPanel"); // NOI18N
+
+        eventStatusLabel.setFont(resourceMap.getFont("eventStatusLabel.font")); // NOI18N
+        eventStatusLabel.setText(resourceMap.getString("eventStatusLabel.text")); // NOI18N
+        eventStatusLabel.setName("eventStatusLabel"); // NOI18N
+
+        eventStatusBookedLabel.setText(resourceMap.getString("eventStatusBookedLabel.text")); // NOI18N
+        eventStatusBookedLabel.setName("eventStatusBookedLabel"); // NOI18N
+
+        eventStatusAttendedLabel.setText(resourceMap.getString("eventStatusAttendedLabel.text")); // NOI18N
+        eventStatusAttendedLabel.setName("eventStatusAttendedLabel"); // NOI18N
+
+        eventStatusSavedLabel.setText(resourceMap.getString("eventStatusSavedLabel.text")); // NOI18N
+        eventStatusSavedLabel.setName("eventStatusSavedLabel"); // NOI18N
+
+        eventStatusUnsavedLabel.setText(resourceMap.getString("eventStatusUnsavedLabel.text")); // NOI18N
+        eventStatusUnsavedLabel.setName("eventStatusUnsavedLabel"); // NOI18N
+
+        eventStatusNotAttendedLabel.setText(resourceMap.getString("eventStatusNotAttendedLabel.text")); // NOI18N
+        eventStatusNotAttendedLabel.setName("eventStatusNotAttendedLabel"); // NOI18N
+
+        eventStatusNotAttendedLabel1.setText(resourceMap.getString("eventStatusNotAttendedLabel1.text")); // NOI18N
+        eventStatusNotAttendedLabel1.setName("eventStatusNotAttendedLabel1"); // NOI18N
+
+        eventStatusBookedNumber.setEditable(false);
+        eventStatusBookedNumber.setText(resourceMap.getString("eventStatusBookedNumber.text")); // NOI18N
+        eventStatusBookedNumber.setFocusable(false);
+        eventStatusBookedNumber.setName("eventStatusBookedNumber"); // NOI18N
+        eventStatusBookedNumber.setRequestFocusEnabled(false);
+
+        eventStatusAttendedNumber.setEditable(false);
+        eventStatusAttendedNumber.setText(resourceMap.getString("eventStatusAttendedNumber.text")); // NOI18N
+        eventStatusAttendedNumber.setFocusable(false);
+        eventStatusAttendedNumber.setName("eventStatusAttendedNumber"); // NOI18N
+        eventStatusAttendedNumber.setRequestFocusEnabled(false);
+
+        eventStatusSavedNumber.setEditable(false);
+        eventStatusSavedNumber.setFont(resourceMap.getFont("eventStatusSavedNumber.font")); // NOI18N
+        eventStatusSavedNumber.setForeground(resourceMap.getColor("eventStatusSavedNumber.foreground")); // NOI18N
+        eventStatusSavedNumber.setText(resourceMap.getString("eventStatusSavedNumber.text")); // NOI18N
+        eventStatusSavedNumber.setFocusable(false);
+        eventStatusSavedNumber.setName("eventStatusSavedNumber"); // NOI18N
+        eventStatusSavedNumber.setRequestFocusEnabled(false);
+
+        eventStatusUnsavedNumber.setEditable(false);
+        eventStatusUnsavedNumber.setFont(resourceMap.getFont("eventStatusUnsavedNumber.font")); // NOI18N
+        eventStatusUnsavedNumber.setForeground(resourceMap.getColor("eventStatusUnsavedNumber.foreground")); // NOI18N
+        eventStatusUnsavedNumber.setText(resourceMap.getString("eventStatusUnsavedNumber.text")); // NOI18N
+        eventStatusUnsavedNumber.setFocusable(false);
+        eventStatusUnsavedNumber.setName("eventStatusUnsavedNumber"); // NOI18N
+        eventStatusUnsavedNumber.setRequestFocusEnabled(false);
+
+        eventStatusNotAttendedNumber.setEditable(false);
+        eventStatusNotAttendedNumber.setText(resourceMap.getString("eventStatusNotAttendedNumber.text")); // NOI18N
+        eventStatusNotAttendedNumber.setFocusable(false);
+        eventStatusNotAttendedNumber.setName("eventStatusNotAttendedNumber"); // NOI18N
+        eventStatusNotAttendedNumber.setRequestFocusEnabled(false);
+
+        eventStatusPlacesNumber.setEditable(false);
+        eventStatusPlacesNumber.setText(resourceMap.getString("eventStatusPlacesNumber.text")); // NOI18N
+        eventStatusPlacesNumber.setFocusable(false);
+        eventStatusPlacesNumber.setName("eventStatusPlacesNumber"); // NOI18N
+        eventStatusPlacesNumber.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout eventStatusPanelLayout = new javax.swing.GroupLayout(eventStatusPanel);
+        eventStatusPanel.setLayout(eventStatusPanelLayout);
+        eventStatusPanelLayout.setHorizontalGroup(
+            eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(eventStatusPanelLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(eventStatusBookedLabel)
+                    .addComponent(eventStatusAttendedLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(eventStatusPanelLayout.createSequentialGroup()
+                        .addComponent(eventStatusBookedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(eventStatusPanelLayout.createSequentialGroup()
+                        .addComponent(eventStatusAttendedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addGap(65, 65, 65)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(eventStatusUnsavedLabel)
+                    .addComponent(eventStatusSavedLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eventStatusUnsavedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eventStatusSavedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(eventStatusNotAttendedLabel)
+                    .addComponent(eventStatusNotAttendedLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(eventStatusNotAttendedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eventStatusPlacesNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(eventStatusLabel)
+        );
+        eventStatusPanelLayout.setVerticalGroup(
+            eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(eventStatusPanelLayout.createSequentialGroup()
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(eventStatusPanelLayout.createSequentialGroup()
+                        .addComponent(eventStatusLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eventStatusBookedLabel)
+                            .addComponent(eventStatusBookedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(eventStatusSavedLabel)
+                        .addComponent(eventStatusSavedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eventStatusNotAttendedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eventStatusNotAttendedLabel)))
+                .addGap(18, 18, 18)
+                .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(eventStatusUnsavedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eventStatusUnsavedLabel))
+                    .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(eventStatusAttendedNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eventStatusAttendedLabel))
+                    .addGroup(eventStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(eventStatusPlacesNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eventStatusNotAttendedLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout mainOnlinePanelLayout = new javax.swing.GroupLayout(mainOnlinePanel);
         mainOnlinePanel.setLayout(mainOnlinePanelLayout);
         mainOnlinePanelLayout.setHorizontalGroup(
             mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainOnlinePanelLayout.createSequentialGroup()
+            .addGroup(mainOnlinePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainOnlinePanelLayout.createSequentialGroup()
-                        .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 534, Short.MAX_VALUE)
-                        .addComponent(finishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainOnlinePanelLayout.createSequentialGroup()
-                        .addComponent(searchInputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+                    .addComponent(eventStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+                    .addGroup(mainOnlinePanelLayout.createSequentialGroup()
+                        .addComponent(searchInputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(checkingModeToggle1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(onlineModeToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bookingStatusPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bookingStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainOnlinePanelLayout.createSequentialGroup()
+                        .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 534, Short.MAX_VALUE)
+                        .addComponent(finishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(historyLabel))
                 .addContainerGap())
         );
         mainOnlinePanelLayout.setVerticalGroup(
             mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainOnlinePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(onlineModeToggle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchInputLabel)
-                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                        .addComponent(checkingModeToggle1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
+                .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(searchInputLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(checkingModeToggle1, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                        .addComponent(onlineModeToggle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bookingStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(historyLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(eventStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(backButton1)
@@ -2669,6 +2830,7 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
     String currentCount = totalAttendeeCountDisplay.getText();
     try {
         totalAttendeeCountDisplay.setText(app.getAttendeeCount());
+        updateEventStatus();
     } catch (Exception ex) {
         Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
         totalAttendeeCountDisplay.setText(currentCount);
@@ -2812,14 +2974,14 @@ private void checkConfiguration() {
                     if (slot.isDropIn()) {
                         Object[] options = {"Go to event", "Cancel"};
                         int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
-                                                              slot.getTitle() + " does not have booking enabled. " +
-                                                              "You must enable booking (without a booking limit) before continuing.",
-                                                              "Event booking error",
-                                                              JOptionPane.YES_NO_OPTION,
-                                                              JOptionPane.QUESTION_MESSAGE,
-                                                              null,
-                                                              options,
-                                                              options[0]);
+                              slot.getTitle() + " does not have booking enabled. " +
+                              "You must enable booking (without a booking limit) before continuing.",
+                              "Event booking error",
+                              JOptionPane.YES_NO_OPTION,
+                              JOptionPane.QUESTION_MESSAGE,
+                              null,
+                              options,
+                              options[0]);
                         if (reply == JOptionPane.YES_OPTION) {
                             browseToUrl(app.getAdminEventURL(slot.getId()));
                         }
@@ -2843,13 +3005,13 @@ private void checkConfiguration() {
                                       "It is recommended you remove the booking limit on CareerHub.";
                         }
                         int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
-                                                              message,
-                                                              "Booking limit warning",
-                                                              JOptionPane.YES_NO_OPTION,
-                                                              JOptionPane.QUESTION_MESSAGE,
-                                                              null,
-                                                              options,
-                                                              options[0]);
+                              message,
+                              "Booking limit warning",
+                              JOptionPane.YES_NO_OPTION,
+                              JOptionPane.QUESTION_MESSAGE,
+                              null,
+                              options,
+                              options[0]);
                         if (reply == JOptionPane.YES_OPTION) {
                             browseToUrl(app.getAdminEventURL(slot.getId()));
                         }
@@ -2890,6 +3052,22 @@ private void checkConfiguration() {
                                           "Event configuration error",
                                           JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void updateEventStatus() {
+        eventStatusBookedNumber.setText(app.getData().getBookingCount().toString());
+        
+        int remoteAttendance = app.getData().getAttendeeCount();
+        attendeesDisplay = remoteAttendance > attendeesDisplay ?
+                           remoteAttendance : attendeesDisplay;
+        eventStatusAttendedNumber.setText(attendeesDisplay.toString());
+
+        eventStatusSavedNumber.setText(app.getData().getSavedCount().toString());
+        eventStatusUnsavedNumber.setText(app.getData().getUnsavedCount().toString());
+        eventStatusNotAttendedNumber.setText(app.getData().getNotAttendedCount().toString());
+
+        Integer places = app.getData().getCurrentNumberOfPlaces();
+        eventStatusPlacesNumber.setText(places == -1 ? "Unlimited" : places.toString());
     }
 
     private void updateBookingStatus(Booking booking) {
@@ -2996,6 +3174,7 @@ private void checkConfiguration() {
         displayBookingStatus(bookingStatus, slot);
         displayBookingMessage(message);
         app.log(message);
+        updateEventStatus();
     }
 
     private void displayBookingMessage(String message) {
@@ -3014,11 +3193,13 @@ private void checkConfiguration() {
             color = Color.GREEN;
             enabled = true;
             localAttendeeCountTextField.setText(app.incrementLocalAttendeeCount());
+            attendeesDisplay++;
         }
         else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
             color = Color.WHITE;
             enabled = false;
             localAttendeeCountTextField.setText(app.incrementLocalAttendeeCount());
+            attendeesDisplay++;
         }
         else {
             enabled = false;
@@ -3104,6 +3285,7 @@ private void checkConfiguration() {
             checkingModeToggle1.setText(booking ? checkingListsText :
                                                   recordingAllText);
             toggleMenuItem.setEnabled(booking);
+            updateEventStatus();
         }
         panel.revalidate();
         mainFrame.repaint();
@@ -3391,6 +3573,20 @@ private void checkConfiguration() {
     private javax.swing.JLabel entrySlotsLabel1;
     private javax.swing.JSpinner entrySlotsSpinnerOffline;
     private javax.swing.JSpinner entrySlotsSpinnerOnline;
+    private javax.swing.JLabel eventStatusAttendedLabel;
+    private javax.swing.JTextField eventStatusAttendedNumber;
+    private javax.swing.JLabel eventStatusBookedLabel;
+    private javax.swing.JTextField eventStatusBookedNumber;
+    private javax.swing.JLabel eventStatusLabel;
+    private javax.swing.JLabel eventStatusNotAttendedLabel;
+    private javax.swing.JLabel eventStatusNotAttendedLabel1;
+    private javax.swing.JTextField eventStatusNotAttendedNumber;
+    private javax.swing.JPanel eventStatusPanel;
+    private javax.swing.JTextField eventStatusPlacesNumber;
+    private javax.swing.JLabel eventStatusSavedLabel;
+    private javax.swing.JTextField eventStatusSavedNumber;
+    private javax.swing.JLabel eventStatusUnsavedLabel;
+    private javax.swing.JTextField eventStatusUnsavedNumber;
     private javax.swing.JFormattedTextField eventTitleInput;
     private javax.swing.JLabel eventTitleInputLabel;
     private javax.swing.JPanel eventTitlePanel;
@@ -3410,9 +3606,11 @@ private void checkConfiguration() {
     private javax.swing.JLabel generatedTitleLabel3;
     private javax.swing.JLabel generatedTitleLabel4;
     private javax.swing.JLabel generatedTitleLabel5;
+    private javax.swing.JLabel historyLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton loadEventButton1;
     private javax.swing.JButton loadEventButton2;
     private javax.swing.JButton loadEventButton3;
@@ -3508,6 +3706,7 @@ private void checkConfiguration() {
     private String checkingListsText;
     private String onlineModeTooltipText;
     private String offlineModeTooltipText;
+    private Integer attendeesDisplay = 0;
 
     private void buildCounterMap() {
         countComponents.put(CountComponent.UNITS, counterUnits);
