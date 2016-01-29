@@ -1981,9 +1981,10 @@ public class EventSwipeView extends FrameView {
         finishButton.setName("finishButton"); // NOI18N
         finishButton.setRequestFocusEnabled(false);
 
-        searchInputLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        searchInputLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         searchInputLabel.setLabelFor(searchInput);
         searchInputLabel.setText(resourceMap.getString("searchInputLabel.text")); // NOI18N
+        searchInputLabel.setAlignmentY(0.0F);
         searchInputLabel.setFocusable(false);
         searchInputLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         searchInputLabel.setName("searchInputLabel"); // NOI18N
@@ -2174,12 +2175,16 @@ public class EventSwipeView extends FrameView {
         eventStatusAttendedNumber.setRequestFocusEnabled(false);
 
         eventStatusSavedNumber.setEditable(false);
+        eventStatusSavedNumber.setFont(resourceMap.getFont("eventStatusSavedNumber.font")); // NOI18N
+        eventStatusSavedNumber.setForeground(resourceMap.getColor("eventStatusSavedNumber.foreground")); // NOI18N
         eventStatusSavedNumber.setText(resourceMap.getString("eventStatusSavedNumber.text")); // NOI18N
         eventStatusSavedNumber.setFocusable(false);
         eventStatusSavedNumber.setName("eventStatusSavedNumber"); // NOI18N
         eventStatusSavedNumber.setRequestFocusEnabled(false);
 
         eventStatusUnsavedNumber.setEditable(false);
+        eventStatusUnsavedNumber.setFont(resourceMap.getFont("eventStatusUnsavedNumber.font")); // NOI18N
+        eventStatusUnsavedNumber.setForeground(resourceMap.getColor("eventStatusUnsavedNumber.foreground")); // NOI18N
         eventStatusUnsavedNumber.setText(resourceMap.getString("eventStatusUnsavedNumber.text")); // NOI18N
         eventStatusUnsavedNumber.setFocusable(false);
         eventStatusUnsavedNumber.setName("eventStatusUnsavedNumber"); // NOI18N
@@ -2272,9 +2277,9 @@ public class EventSwipeView extends FrameView {
                     .addComponent(eventStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
                     .addGroup(mainOnlinePanelLayout.createSequentialGroup()
-                        .addComponent(searchInputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchInputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2293,13 +2298,14 @@ public class EventSwipeView extends FrameView {
             mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainOnlinePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(onlineModeToggle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchInputLabel)
-                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                        .addComponent(checkingModeToggle1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
+                .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(searchInputLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(mainOnlinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(checkingModeToggle1, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                        .addComponent(onlineModeToggle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bookingStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2307,7 +2313,7 @@ public class EventSwipeView extends FrameView {
                 .addGap(1, 1, 1)
                 .addComponent(historyLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addComponent(bookingStatusScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eventStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2824,6 +2830,7 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
     String currentCount = totalAttendeeCountDisplay.getText();
     try {
         totalAttendeeCountDisplay.setText(app.getAttendeeCount());
+        updateEventStatus();
     } catch (Exception ex) {
         Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
         totalAttendeeCountDisplay.setText(currentCount);
@@ -2967,14 +2974,14 @@ private void checkConfiguration() {
                     if (slot.isDropIn()) {
                         Object[] options = {"Go to event", "Cancel"};
                         int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
-                                                              slot.getTitle() + " does not have booking enabled. " +
-                                                              "You must enable booking (without a booking limit) before continuing.",
-                                                              "Event booking error",
-                                                              JOptionPane.YES_NO_OPTION,
-                                                              JOptionPane.QUESTION_MESSAGE,
-                                                              null,
-                                                              options,
-                                                              options[0]);
+                              slot.getTitle() + " does not have booking enabled. " +
+                              "You must enable booking (without a booking limit) before continuing.",
+                              "Event booking error",
+                              JOptionPane.YES_NO_OPTION,
+                              JOptionPane.QUESTION_MESSAGE,
+                              null,
+                              options,
+                              options[0]);
                         if (reply == JOptionPane.YES_OPTION) {
                             browseToUrl(app.getAdminEventURL(slot.getId()));
                         }
@@ -2998,13 +3005,13 @@ private void checkConfiguration() {
                                       "It is recommended you remove the booking limit on CareerHub.";
                         }
                         int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
-                                                              message,
-                                                              "Booking limit warning",
-                                                              JOptionPane.YES_NO_OPTION,
-                                                              JOptionPane.QUESTION_MESSAGE,
-                                                              null,
-                                                              options,
-                                                              options[0]);
+                              message,
+                              "Booking limit warning",
+                              JOptionPane.YES_NO_OPTION,
+                              JOptionPane.QUESTION_MESSAGE,
+                              null,
+                              options,
+                              options[0]);
                         if (reply == JOptionPane.YES_OPTION) {
                             browseToUrl(app.getAdminEventURL(slot.getId()));
                         }
@@ -3045,6 +3052,22 @@ private void checkConfiguration() {
                                           "Event configuration error",
                                           JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void updateEventStatus() {
+        eventStatusBookedNumber.setText(app.getData().getBookingCount().toString());
+        
+        int remoteAttendance = app.getData().getAttendeeCount();
+        attendeesDisplay = remoteAttendance > attendeesDisplay ?
+                           remoteAttendance : attendeesDisplay;
+        eventStatusAttendedNumber.setText(attendeesDisplay.toString());
+
+        eventStatusSavedNumber.setText(app.getData().getSavedCount().toString());
+        eventStatusUnsavedNumber.setText(app.getData().getUnsavedCount().toString());
+        eventStatusNotAttendedNumber.setText(app.getData().getNotAttendedCount().toString());
+
+        Integer places = app.getData().getCurrentNumberOfPlaces();
+        eventStatusPlacesNumber.setText(places == -1 ? "Unlimited" : places.toString());
     }
 
     private void updateBookingStatus(Booking booking) {
@@ -3151,6 +3174,7 @@ private void checkConfiguration() {
         displayBookingStatus(bookingStatus, slot);
         displayBookingMessage(message);
         app.log(message);
+        updateEventStatus();
     }
 
     private void displayBookingMessage(String message) {
@@ -3169,11 +3193,13 @@ private void checkConfiguration() {
             color = Color.GREEN;
             enabled = true;
             localAttendeeCountTextField.setText(app.incrementLocalAttendeeCount());
+            attendeesDisplay++;
         }
         else if(statusMessage.equals("Recorded") || statusMessage.equals("")) {
             color = Color.WHITE;
             enabled = false;
             localAttendeeCountTextField.setText(app.incrementLocalAttendeeCount());
+            attendeesDisplay++;
         }
         else {
             enabled = false;
@@ -3259,6 +3285,7 @@ private void checkConfiguration() {
             checkingModeToggle1.setText(booking ? checkingListsText :
                                                   recordingAllText);
             toggleMenuItem.setEnabled(booking);
+            updateEventStatus();
         }
         panel.revalidate();
         mainFrame.repaint();
@@ -3679,6 +3706,7 @@ private void checkConfiguration() {
     private String checkingListsText;
     private String onlineModeTooltipText;
     private String offlineModeTooltipText;
+    private Integer attendeesDisplay = 0;
 
     private void buildCounterMap() {
         countComponents.put(CountComponent.UNITS, counterUnits);

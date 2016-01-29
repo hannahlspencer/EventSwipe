@@ -142,6 +142,50 @@ public class EventSwipeData {
         this.eventTitle = eventTitle;
     }
 
+    public Integer getBookingCount() {
+        int c = 0;
+        for (Event e : events) {
+            c += e.getBookingList().size();
+        }
+        return c;
+    }
+
+    public Integer getAttendeeCount() {
+        return this.getAllRecordedList().size();
+    }
+
+    public Integer getSavedCount() {
+        int c = 0;
+        for (Event e : events) {
+            c += e.getAttendeeCount();
+        }
+        return c;
+    }
+
+    public Integer getUnsavedCount() {
+        int c = 0;
+        for (Event e : events) {
+            c += e.getUnsavedList().size();
+        }
+        return c;
+    }
+
+    public Integer getNotAttendedCount() {
+        int diff = this.getBookingCount() - this.getAttendeeCount();
+        return diff < 0 ? 0 : diff;
+    }
+
+    public Integer getCurrentNumberOfPlaces() {
+        int limit = 0;
+        for (Event e : events) {
+            if (e.isUnlimited() || e.isDropIn()) {
+                return -1;
+            }
+            limit += e.getBookingLimit();
+        }
+        return limit - this.getAttendeeCount();
+    }
+
     public Integer getCount() {
         return count;
     }

@@ -10,6 +10,8 @@ import eventswipe.utils.HttpUtils;
 import eventswipe.models.Event;
 import eventswipe.models.Booking;
 import eventswipe.models.Student;
+import eventswipe.utils.Request;
+import eventswipe.utils.Response;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.event.WindowAdapter;
@@ -45,7 +47,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         data = new EventSwipeData();
         logger = new EventSwipeLogger();
         api = new CareerHubAPI("https://careers.lse.ac.uk/");
-        executor = Executors.newFixedThreadPool(1);
+        executor = Executors.newFixedThreadPool(EventSwipeData.MAX_ENTRY_SLOTS);
         HttpUtils.setCookiePolicy();
         if (Utils.isInternetReachable()) {
             data.setNetFlag(true);
@@ -194,8 +196,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                                 }
                             } catch (NullPointerException np) {
                                 System.err.println("Waiting list student " +
-                                                   student.getId() +
-                                                   " has no student number");
+                                   student.getId() + " has no student number");
                             }
                         }
                     }
@@ -435,7 +436,11 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public Event loadEvent(String eventKey, int slot, Boolean useWaitingList) throws MalformedURLException, IOException {
-        Event event = this.getEvent(eventKey);
+        Future<Response> response = executor.submit(new Request() {
+            //TODO: get event asyncly
+        });
+        
+        Event event = api.getEvent(eventKey);
         event.setSlot(slot);
         event.setBookingList(api.getBookingList(eventKey));
         if(useWaitingList) {
@@ -609,5 +614,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     private EventSwipeLogger logger;
     private EventSwipeData data;
     private BookingSystemAPI api;
+
+    private int loadEventsLock = 0;
 
 }
