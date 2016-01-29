@@ -146,7 +146,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public boolean isValidId(String id) {
-        return api.isValidId(id);
+        return api.isValidStuNum(id);
     }
 
     private Booking getBooking(String stuNumber) throws MalformedURLException, IOException {
@@ -241,7 +241,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                             freeEvent = data.getEvents().get(freeSlot - 1);
                             String eventId = freeEvent.getId();
                             String studId = "";
-                            studId = api.getStudentData(stuNumberFin).getId().toString();
+                            studId = api.getStudent(stuNumberFin).getId().toString();
                             Integer newId = 0;
                             newId = api.bookStudent(studId, eventId).getBookingId();
                             bookingFin.setEntrySlot(freeSlot);
