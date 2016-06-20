@@ -114,7 +114,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public boolean getBookingFlag() {
-        return data.isBookingFlag();
+        return data.isCheckingBookingLists();
     }
 
     public boolean getWaitingListFlag() {
@@ -173,7 +173,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         if (data.getAllRecordedList().contains(stuNumber)) {
             alreadyRecorded = true;
         }
-        else if(data.isBookingFlag()) {
+        else if(data.isCheckingBookingLists()) {
             booked = false;
             for (Event event : data.getEvents()) {
                 for (Booking booking : event.getBookingList()) {

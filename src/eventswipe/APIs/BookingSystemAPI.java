@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 /**
+ * Abstract class containing the methods for interacting with an event booking system.
  *
  * @author Matt Wildman http://bitbucket.com/mattwildman
  */
@@ -23,7 +24,7 @@ public abstract class BookingSystemAPI {
      *
      * @param username Booking system username
      * @param password Booking system password
-     * @return         true/false depending on log in success
+     * @return         True/false depending on log in success
      * @throws MalformedURLException
      * @throws IOException
      */
