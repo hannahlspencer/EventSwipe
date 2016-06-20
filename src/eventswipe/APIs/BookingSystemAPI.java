@@ -4,8 +4,10 @@ import eventswipe.models.Event;
 import eventswipe.models.Booking;
 import eventswipe.models.Student;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Abstract class containing the methods for interacting with an event booking system.
@@ -29,6 +31,16 @@ public abstract class BookingSystemAPI {
      * @throws IOException
      */
     public abstract boolean logIn(String username, char[] password) throws MalformedURLException, IOException;
+
+    /**
+     * Gets an API token from the booking system to access protected data.
+     *
+     * @param scope The scope you want access to (eg. "Public.Events")
+     * @return      The token to use in API calls
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    public abstract String getAPIToken(String scope) throws MalformedURLException, IOException;
     
     /**
      * Gets the list of bookings for an event.
@@ -233,6 +245,21 @@ public abstract class BookingSystemAPI {
      * @return       True/false depending on whether the student number is valid
      */
     public abstract boolean isValidStuNum(String stuNum);
+
+     /**
+     * Returns the Properties object for the specific booking system installation.
+     *
+     * @return  Booking system Properties object
+     * @see    Properties
+     */
+    public Properties getApiProperties() throws IOException {
+        Properties p = new Properties();
+        InputStream in;
+        in = getClass().getResourceAsStream("BookingSystemAPI.properties");
+        p.load(in);
+        in.close();
+        return p;
+    }
 
     /**
      * All possible booking statuses in the booking system.

@@ -46,7 +46,13 @@ public class EventSwipeApp extends SingleFrameApplication {
     @Override public void startup() {
         data = new EventSwipeData();
         logger = new EventSwipeLogger();
-        api = new CareerHubAPI("https://careers.lse.ac.uk/");
+        try {
+            api = CareerHubAPI.getInstance();
+        } catch (IOException ex) {
+            Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+            //TODO: handle error
+            System.exit(0);
+        }
         executor = Executors.newFixedThreadPool(EventSwipeData.MAX_ENTRY_SLOTS);
         HttpUtils.setCookiePolicy();
         if (Utils.isInternetReachable()) {
