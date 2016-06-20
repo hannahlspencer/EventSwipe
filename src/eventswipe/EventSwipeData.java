@@ -16,10 +16,17 @@ public class EventSwipeData {
      */
     public static final int MAX_ENTRY_SLOTS = 5;
 
-    /**
-     * Default constructor for EventSwipeData
-     */
-    public EventSwipeData() {
+   /**
+     * Singleton constructor for EventSwipeData
+    */
+    public static EventSwipeData getInstance() {
+        if (instance == null) {
+            instance = new EventSwipeData();
+        }
+        return instance;
+    }
+
+    private EventSwipeData() {
         allFileBookedList = new ArrayList<String>();
     }
 
@@ -375,5 +382,7 @@ public class EventSwipeData {
     private boolean loggedInFlag = false;
     
     private int count = 0;
+
+    private static EventSwipeData instance = null;
 
 }

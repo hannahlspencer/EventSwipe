@@ -9,6 +9,18 @@ import java.io.FileWriter;
  */
 public class EventSwipeLogger {
     
+   /**
+     * Singleton constructor for EventSwipeData
+    */
+    public static EventSwipeLogger getInstance() {
+        if (instance == null) {
+            instance = new EventSwipeLogger();
+        }
+        return instance;
+    }
+    
+    protected EventSwipeLogger() {}
+
     public void createLog(String title) {
         title = title.replaceAll("\\W", "");
         sessionTitle = title + Utils.getDate("dd-MM-yyyy HHmmss");
@@ -42,5 +54,7 @@ public class EventSwipeLogger {
 
     private File logDir = new File(LOG_DIR);
     private File logFile;
+
+    private static EventSwipeLogger instance = null;
 
 }

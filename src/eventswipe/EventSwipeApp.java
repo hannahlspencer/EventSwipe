@@ -44,8 +44,8 @@ public class EventSwipeApp extends SingleFrameApplication {
      * At startup create and show the main frame of the application.
      */
     @Override public void startup() {
-        data = new EventSwipeData();
-        logger = new EventSwipeLogger();
+        data = EventSwipeData.getInstance();
+        logger = EventSwipeLogger.getInstance();
         try {
             api = CareerHubAPI.getInstance();
         } catch (IOException ex) {
