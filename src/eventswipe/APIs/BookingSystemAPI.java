@@ -4,7 +4,6 @@ import eventswipe.models.Event;
 import eventswipe.models.Booking;
 import eventswipe.models.Student;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Properties;
@@ -185,6 +184,16 @@ public abstract class BookingSystemAPI {
      * @see Event
      */
     public abstract List<Event> getEvents(String searchTerm) throws MalformedURLException, IOException;
+
+    /**
+     * Returns a List of events taking place in the next day.
+     *
+     * @return           A List of Event objects
+     * @throws MalformedURLException
+     * @throws IOException
+     * @see Event
+     */
+    public abstract List<Event> getEventsList() throws MalformedURLException, IOException;
     
     /**
      * Returns the Event corresponding to the identifier in the booking system.
@@ -195,15 +204,6 @@ public abstract class BookingSystemAPI {
      * @see Event
      */
     public abstract Event getEvent(String eventKey) throws IOException;
-    
-    /**
-     * Returns the title of the event corresponding to the identifier in the booking system.
-     *
-     * @param eventKey The unique identifier for the event in the booking system
-     * @return         The corresponding event title
-     * @throws IOException
-     */
-    public abstract String getEventTitle(String eventKey) throws IOException;
     
     /**
      * Returns the booking system admin URL for the event corresponding to the identifier
@@ -250,14 +250,12 @@ public abstract class BookingSystemAPI {
      * Returns the Properties object for the specific booking system installation.
      *
      * @return  Booking system Properties object
+     * @throws  IOException
      * @see    Properties
      */
     public Properties getApiProperties() throws IOException {
         Properties p = new Properties();
-        InputStream in;
-        in = getClass().getResourceAsStream("BookingSystemAPI.properties");
-        p.load(in);
-        in.close();
+        p.load(getClass().getResourceAsStream("BookingSystemAPI.properties"));
         return p;
     }
 

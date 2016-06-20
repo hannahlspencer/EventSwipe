@@ -7,7 +7,6 @@ import eventswipe.utils.HttpUtils;
 import eventswipe.models.Event;
 import eventswipe.models.Booking;
 import eventswipe.models.Student;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -58,11 +57,10 @@ public class CareerHubAPI extends BookingSystemAPI {
         CANCEL_URL =           ADMIN_URL + "events/bookings/cancel/";
         WAITING_LIST_BASE =    ADMIN_URL + "eventwaitinglist.aspx?id=";
         STUDENT_SEARCH_BASE =  ADMIN_URL + "suggest/JobSeeker";
-        EVENT_SEARCH_URL =     ADMIN_URL + "SearchEvents.aspx";
         EVENT_ADMIN_URL_BASE = ADMIN_URL + "event.aspx?id=";
-
-        EVENT_API_URL =  HOST + "api/public/v1/events/";
-        EVENT_URL_BASE = HOST + "/students/config/viewas/setrole/68?returnUrl=%2Fstudents%2Fevents%2Fdetail%2F";
+        EVENT_API_SEARCH_URL = HOST + "api/public/v1/events/";
+        EVENT_API_URL =        HOST + "api/integrations/v1/events/";
+        EVENT_API_LIST_URL =   EVENT_API_URL + "?filterIds=82&filterIds=83";
     }
 
     public boolean logIn(String username, char[] password) throws MalformedURLException, IOException {
@@ -283,12 +281,31 @@ public class CareerHubAPI extends BookingSystemAPI {
         return students;
     }
 
+    public List<Event> getEventsList() throws MalformedURLException, IOException {
+        List<Event> events = new ArrayList<Event>();
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integrations.Events"));
+        String response = HttpUtils.getDataFromURL(EVENT_API_LIST_URL, requestHeaders);
+        JSONArray jsonEvents = new JSONArray(response);
+        for (int i=0; i < jsonEvents.length(); i++) {
+            JSONObject jsonEvent = jsonEvents.getJSONObject(i);
+            String title = jsonEvent.getString("name");
+            String startDate = jsonEvent.getString("start");
+            String id = JSONObject.numberToString(jsonEvent.getInt("entityId"));
+            Event event = new Event(title, startDate, id);
+            event.setVenue(jsonEvent.getString("venue"));
+            events.add(event);
+        }
+        return events;
+    }
+
     public List<Event> getEvents(String searchTerm) throws MalformedURLException, IOException {
         List<Event> events = new ArrayList<Event>();
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
         requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
-        String response = HttpUtils.getDataFromURL(EVENT_API_URL + "?text=" + searchTerm, requestHeaders);
+        String response = HttpUtils.getDataFromURL(EVENT_API_SEARCH_URL + "?text=" + searchTerm, requestHeaders);
         JSONArray jsonEvents = new JSONArray(response);
         for (int i=0; i < jsonEvents.length(); i++) {
             JSONObject jsonEvent = jsonEvents.getJSONObject(i);
@@ -305,71 +322,48 @@ public class CareerHubAPI extends BookingSystemAPI {
     public Event getEvent(String eventKey) throws IOException {
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
+        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integrations.Events"));
         String response = "";
         Event event = new Event();
-        try {
-            response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
-            JSONObject jsonEvent = new JSONObject(response);
-            String title = jsonEvent.getString("title");
-            String startDate = jsonEvent.getString("start");
-            String venue = jsonEvent.getString("venue");
-            event = new Event(title, startDate, eventKey);
-            startDate = this.prepareActiveDateStr(startDate);
-            event.setStartDate(Utils.strToDate(startDate, ACTIVE_DATE_FORMAT));
-            event.setVenue(venue);
-        } catch (FileNotFoundException fnf) {
-            event = this.getInactiveEvent(eventKey);
-        }
+        response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
+        JSONObject jsonEvent = new JSONObject(response);
+        String title = jsonEvent.getString("name");
+        String startDate = jsonEvent.getString("start");
+        String venue = jsonEvent.getString("venue");
+        event = new Event(title, startDate, eventKey);
+        startDate = this.prepareActiveDateStr(startDate);
+        event.setStartDate(Utils.strToDate(startDate, ACTIVE_DATE_FORMAT));
+        event.setVenue(venue);
         event.setRegStart(Utils.subtractMins(event.getStartDate(), 60));
-        Document adminDoc = Jsoup.connect(getAdminEventURL(eventKey)).timeout(0).get();
-        Elements useBookingChecks = adminDoc.select("#ctl00_ctl00_mainContent_mainContent_form_ctl00_useBookingGroup_selected[checked]");
-        if (useBookingChecks.isEmpty()) {
-            event.setDropIn(true);
-            event.setBookingLimit(0);
-        }
-        else {
-            String limitText = "0";
-            Element limitElem = adminDoc.select("#ctl00_ctl00_mainContent_mainContent_form_ctl00_bookingLimit_ctl03").first();
-            limitText = limitElem.val();
-            int limit = 0;
-            if (limitText.equals("0")) {
+        event.setBookingLimit(0);
+        Integer bookingType = jsonEvent.getInt("bookingType");
+        if (bookingType == 1) { //CH booking
+            JSONObject settings = jsonEvent.getJSONObject("bookingSettings");
+            if (settings.isNull("bookingLimit")) {
                 event.setUnlimited(true);
             }
             else {
-                limit = Integer.parseInt(limitText);
+                event.setUnlimited(false);
+                event.setBookingLimit(settings.getInt("bookingLimit"));
             }
-            event.setBookingLimit(limit);
         }
-        event.setAttendeeCount(this.getAttendeeCount(eventKey));
+        else {
+            event.setDropIn(true);
+        }
+        JSONObject attendance = jsonEvent.getJSONObject("attendance");
+        event.setAttendeeCount(attendance.getInt("attended"));
         return event;
     }
 
     public String getEventTitle(String eventKey) throws IOException {
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
+        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integration.Events"));
         String title = "";
-        try {
-            String response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
-            JSONObject jsonEvent = new JSONObject(response);
-            title = jsonEvent.getString("title");
-        } catch (FileNotFoundException fnf) {
-            title = this.getInactiveEvent(eventKey).getTitle();
-        }
+        String response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
+        JSONObject jsonEvent = new JSONObject(response);
+        title = jsonEvent.getString("name");
         return title;
-    }
-
-    private Event getInactiveEvent(String eventKey) throws IOException {
-        Document doc = Jsoup.connect(EVENT_URL_BASE + eventKey).get();
-        String title = doc.select("#ng-app > div.under-nav > div > h2").first().text();
-        String venue = doc.select("#ng-app > div.under-nav > div > p:nth-child(3) > em").first().text();
-        String startDate = doc.select("#ng-app > div.under-nav > div > p:nth-child(2) > em").first().text();
-        startDate = this.prepareInactiveDateStr(startDate);
-        Event event = new Event(title, startDate, eventKey);
-        event.setStartDate(Utils.strToDate(startDate, INACTIVE_DATE_FORMAT));
-        event.setVenue(venue);
-        return event;
     }
 
     public String getAdminEventURL(String eventKey) {
@@ -400,10 +394,6 @@ public class CareerHubAPI extends BookingSystemAPI {
         return Utils.isNumeric(id);
     }
 
-    private String prepareInactiveDateStr(String str) {
-        return str.replaceAll("\\sto.+$", "");
-    }
-
     private String prepareActiveDateStr(String str) {
         return str.replaceAll(":(\\d\\d)$", "$1");
     }
@@ -424,16 +414,15 @@ public class CareerHubAPI extends BookingSystemAPI {
     public final String CANCEL_URL;
     public final String WAITING_LIST_BASE;
     public final String STUDENT_SEARCH_BASE;
-    public final String EVENT_SEARCH_URL;
     public final String EVENT_API_URL;
+    public final String EVENT_API_LIST_URL;
+    public final String EVENT_API_SEARCH_URL;
     public final String EVENT_ADMIN_URL_BASE;
-    public final String EVENT_URL_BASE;
 
     private final int ATTENDED_STATUS = 1;
     private final int UNSPECIFIED_STATUS = 0;
     private final int EVENT_FULL_STATUS = -1;
 
-    private final String INACTIVE_DATE_FORMAT = "EEE d MMM yyyy, hh:mm a";
     private final String ACTIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     private final String charset = "UTF-8";

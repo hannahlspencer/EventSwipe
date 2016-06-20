@@ -392,7 +392,7 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public List<Event> getEvents(String term) throws MalformedURLException, IOException {
-        return api.getEvents(term);
+        return api.getEventsList();
     }
 
     public String getAdminEventURL(String eventKey) throws IOException {
