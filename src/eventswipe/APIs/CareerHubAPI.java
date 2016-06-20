@@ -1,0 +1,444 @@
+package eventswipe.APIs;
+
+import eventswipe.exceptions.NoStudentFoundException;
+import eventswipe.exceptions.EarlyRegistrationException;
+import eventswipe.utils.Utils;
+import eventswipe.utils.HttpUtils;
+import eventswipe.models.Event;
+import eventswipe.models.Booking;
+import eventswipe.models.Student;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookieStore;
+import java.net.HttpCookie;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class CareerHubAPI extends BookingSystemAPI {
+
+    public static BookingSystemAPI getInstance() throws IOException {
+        if (instance == null) {
+            instance = new CareerHubAPI();
+        }
+        return instance;
+    }
+    
+    protected CareerHubAPI() throws IOException {
+        Properties p = this.getApiProperties();
+        
+        HOST = p.getProperty("host");
+        API_ID = p.getProperty("id");
+        SECRET = p.getProperty("secret");
+        STU_NUM_PATTERN = p.getProperty("stuNumPattern");
+
+        ADMIN_URL = HOST + "admin/";
+
+        LOGIN_URL =            ADMIN_URL + "login/";
+        QUERY_URL =            ADMIN_URL + "events/bookings/query/";
+        BOOKING_URL =          ADMIN_URL + "events/bookings/create/";
+        MARK_ATTENDED_URL =    ADMIN_URL + "events/bookings/markattended/";
+        MARK_UNSPECIFIED_URL = ADMIN_URL + "events/bookings/markunspecified/";
+        MARK_ABSENT_URL =      ADMIN_URL + "events/bookings/markabsent/";
+        CANCEL_URL =           ADMIN_URL + "events/bookings/cancel/";
+        WAITING_LIST_BASE =    ADMIN_URL + "eventwaitinglist.aspx?id=";
+        STUDENT_SEARCH_BASE =  ADMIN_URL + "suggest/JobSeeker";
+        EVENT_SEARCH_URL =     ADMIN_URL + "SearchEvents.aspx";
+        EVENT_ADMIN_URL_BASE = ADMIN_URL + "event.aspx?id=";
+
+        EVENT_API_URL =  HOST + "api/public/v1/events/";
+        EVENT_URL_BASE = HOST + "/students/config/viewas/setrole/68?returnUrl=%2Fstudents%2Fevents%2Fdetail%2F";
+    }
+
+    public boolean logIn(String username, char[] password) throws MalformedURLException, IOException {
+        String dateStr = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date());
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded;charset=" + getCharset());
+        requestHeaders.put("Cookie", "CareerHubCookieCheck=" + dateStr);
+        String loginData = "returnUrl=" +
+                          "&username=" + username +
+                          "&password=" + String.valueOf(password) +
+                          "&isPersistent=true";
+        HttpUtils.sendDataToURL(LOGIN_URL, "POST", loginData, getCharset(), requestHeaders);
+        CookieManager manager = (CookieManager)CookieHandler.getDefault();
+        CookieStore cookieJar =  manager.getCookieStore();
+        List <HttpCookie> cookies = cookieJar.getCookies();
+        for(HttpCookie cookie : cookies) {
+            if(cookie.getName().equals(auth_cookie_name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getAPIToken(String scope) throws MalformedURLException, IOException {
+        String token = "";
+        String apiURL = HOST + "oauth/token";
+        String postdata = "grant_type=client_credentials" +
+                          "&client_id=" + URLEncoder.encode(API_ID, charset) +
+                          "&client_secret=" + URLEncoder.encode(SECRET, charset) +
+                          "&scope=" + scope;
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        String response = HttpUtils.sendDataToURL(apiURL, "POST", postdata, charset, requestHeaders);
+        JSONObject apiData = new JSONObject(response);
+        token = apiData.getString("access_token");
+        return token;
+    }
+
+    public List<Booking> getBookingList(String eventKey) throws MalformedURLException, IOException {
+        List<Booking> bookings = new ArrayList<Booking>();
+        JSONObject bookingData = new JSONObject(HttpUtils.getDataFromURL(QUERY_URL + eventKey));
+        JSONArray jsonBookings = bookingData.getJSONArray("bookings");
+        for (int i=0; i < jsonBookings.length(); i++) {
+            JSONObject jsonBooking = jsonBookings.getJSONObject(i);
+            Booking booking = null;
+            try {
+                booking = new Booking(jsonBooking.getString("externalId"));
+                booking.setFirstName(jsonBooking.getString("firstName"));
+                booking.setLastName(jsonBooking.getString("lastName"));
+                booking.setId(jsonBooking.getInt("jobSeekerId"));
+                booking.setBookingId(jsonBooking.getInt("id"));
+                booking.setStatus(jsonBooking.getInt("status"));
+                bookings.add(booking);
+            } catch (org.json.JSONException je) {
+                System.err.println("Empty student number error. Id: " +
+                                   jsonBooking.getInt("jobSeekerId"));
+            }
+        }
+        return bookings;
+    }
+
+    public List<String> getUnspecified(String eventKey) throws MalformedURLException, IOException {
+        List<String> unspecifiedNumbers = new ArrayList<String>();
+        JSONObject bookingData = new JSONObject(HttpUtils.getDataFromURL(QUERY_URL + eventKey));
+        JSONArray jsonBookings = bookingData.getJSONArray("bookings");
+        for (int i=0; i < jsonBookings.length(); i++) {
+            JSONObject jsonBooking = jsonBookings.getJSONObject(i);
+            int status = jsonBooking.getInt("status");
+            if (status == UNSPECIFIED_STATUS) {
+                String stuNumber = Integer.toString(jsonBooking.getInt("id"));
+                unspecifiedNumbers.add(stuNumber);
+            }
+        }
+        return unspecifiedNumbers;
+    }
+
+    public List<Student> getWaitingList(String eventKey) throws MalformedURLException, IOException {
+        List<Student> waitingList = new ArrayList<Student>();
+        Document doc = Jsoup.connect(WAITING_LIST_BASE + eventKey).timeout(0).get();
+        Elements linkElems = doc.select("#ctl00_ctl00_mainContent_mainContent_grid > tbody > tr > td:nth-child(2) > a");
+        for (Element link : linkElems) {
+            String url = link.attr("href");
+            int id = Integer.parseInt(url.split("id=")[1]);
+            Student waiting = new Student();
+            waiting.setId(id);
+            waitingList.add(waiting);
+        }
+        return waitingList;
+    }
+
+    public int getAttendeeCount(String eventKey) throws MalformedURLException, IOException {
+        int count = 0;
+        JSONObject bookingData = new JSONObject(HttpUtils.getDataFromURL(QUERY_URL + eventKey));
+        JSONArray jsonBookings = bookingData.getJSONArray("bookings");
+        for (int i=0; i < jsonBookings.length(); i++) {
+            JSONObject jsonBooking = jsonBookings.getJSONObject(i);
+            count = jsonBooking.getInt("status") == getATTENDED_STATUS() ? count + 1 : count;
+        }
+        return count;
+    }
+
+    public void markStatus(STATUS status, String studentKey, String eventKey) throws MalformedURLException, IOException {
+        List<String> key = Arrays.asList(studentKey);
+        markStatus(status, key, eventKey);
+    }
+
+    public void markStatus(STATUS status, List<String> studentKeys, String eventKey) throws MalformedURLException, IOException {
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/json;charset=" + this.getCharset());
+        String postData = "{\"eventID\":" + eventKey + "," +
+                          "\"ids\":" + studentKeys;
+        String url = "";
+        switch (status) {
+            case ATTENDED:
+                url = MARK_ATTENDED_URL;
+                break;
+            case ABSENT:
+                url = MARK_ABSENT_URL;
+                postData += ",\"notify\":false";
+                break;
+            default:
+                url = MARK_UNSPECIFIED_URL;
+                break;
+        }
+        postData += "}";
+        try {
+            HttpUtils.sendDataToURL(url, "POST", postData, this.getCharset(), requestHeaders);
+        }
+        catch (IOException ioe) {
+            if (ioe.getMessage().equals("Server returned HTTP response code: 400 for URL: " +
+                                        MARK_ATTENDED_URL)) {
+                throw new EarlyRegistrationException();
+            }
+        }
+    }
+
+    public void markAbsent(List<String> studentKeys, String eventKey, Boolean notify) throws MalformedURLException, IOException {
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/json;charset=" + this.getCharset());
+        String postData = "{\"eventID\":" + eventKey + "," +
+                          "\"ids\":" + studentKeys + "," +
+                          "\"notify\":" + notify + "}";
+        String url = MARK_ABSENT_URL;
+        HttpUtils.sendDataToURL(url, "POST", postData, this.getCharset(), requestHeaders);
+    }
+
+    public void markAllUnspecifiedAbsent(String eventKey, Boolean notify) throws MalformedURLException, IOException {
+        List<String> unspecifiedKeys = this.getUnspecified(eventKey);
+        if (!unspecifiedKeys.isEmpty())
+            this.markAbsent(unspecifiedKeys, eventKey, notify);
+    }
+
+    public void cancelBooking(String studentKey, String eventKey) throws MalformedURLException, IOException {
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/json;charset=" + getCharset());
+        String postData = "{\"eventID\":" + eventKey + "," +
+                           "\"ids\":[" + studentKey + "]," +
+                           "\"notify\":false}";
+        HttpUtils.sendDataToURL(CANCEL_URL, "POST", postData, getCharset(), requestHeaders);
+    }
+
+    public Booking bookStudent(String studentID, String eventKey) throws MalformedURLException, IOException {
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/json;charset=" + getCharset());
+        String putData = "{\"eventID\":" + eventKey + "," +
+                          "\"jobSeekerID\":" + studentID + "," +
+                          "\"notify\":false}";
+        String bookingDetails = HttpUtils.sendDataToURL(BOOKING_URL, "PUT", putData, getCharset(), requestHeaders);
+        JSONObject jsonBooking = (JSONObject) new JSONObject(bookingDetails).get("booking");
+        Booking booking = new Booking(jsonBooking.getString("externalId"));
+        booking.setFirstName(jsonBooking.getString("firstName"));
+        booking.setLastName(jsonBooking.getString("lastName"));
+        booking.setId(jsonBooking.getInt("jobSeekerId"));
+        booking.setBookingId(jsonBooking.getInt("id"));
+        booking.setStatus(jsonBooking.getInt("status"));
+        return booking;
+    }
+
+    public Student getStudent(String stuNumber) throws MalformedURLException, IOException {
+        String query = "?s=" + stuNumber +
+                       "&type=JobSeeker&maxResults=1&current=Current&active=true";
+        String stuData = HttpUtils.getDataFromURL(STUDENT_SEARCH_BASE + query);
+        JSONObject jsonStudent = null;
+        try {
+            jsonStudent = new JSONArray(stuData).getJSONObject(0);
+        } catch (org.json.JSONException je) {
+            throw new NoStudentFoundException(stuNumber);
+        }
+        Student student = new Student();
+        student.setStuNumber(stuNumber.toString());
+        student.setFirstName(jsonStudent.getString("FirstName"));
+        student.setLastName(jsonStudent.getString("LastName"));
+        student.setId(jsonStudent.getInt("Id"));
+        return student;
+    }
+
+    public List<Student> getStudents(String search) throws MalformedURLException, IOException {
+        List<Student> students = new ArrayList<Student>();
+        String query = "?s=" + search +
+                       "&maxResults=100&current=Current&active=true";
+        String stuData = HttpUtils.getDataFromURL(STUDENT_SEARCH_BASE + query);
+        JSONArray jsonStudents = new JSONArray(stuData);
+        for (int i=0; i < jsonStudents.length(); i++) {
+            JSONObject jsonStudent = jsonStudents.getJSONObject(i);
+            Student student = new Student();
+            student.setFirstName(jsonStudent.getString("FirstName"));
+            student.setLastName(jsonStudent.getString("LastName"));
+            student.setId(jsonStudent.getInt("Id"));
+            String stuNum = getEmptyStuNumString();
+            try {
+                stuNum = (String) jsonStudent.get("ExternalId");
+            } catch (java.lang.ClassCastException ex) {
+                System.err.println("Empty student number error. Student id: " + student.getId());
+            }
+            student.setStuNumber(stuNum);
+            students.add(student);
+        }
+        return students;
+    }
+
+    public List<Event> getEvents(String searchTerm) throws MalformedURLException, IOException {
+        List<Event> events = new ArrayList<Event>();
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
+        String response = HttpUtils.getDataFromURL(EVENT_API_URL + "?text=" + searchTerm, requestHeaders);
+        JSONArray jsonEvents = new JSONArray(response);
+        for (int i=0; i < jsonEvents.length(); i++) {
+            JSONObject jsonEvent = jsonEvents.getJSONObject(i);
+            String title = jsonEvent.getString("title");
+            String startDate = jsonEvent.getString("start");
+            String id = JSONObject.numberToString(jsonEvent.getInt("id"));
+            Event event = new Event(title, startDate, id);
+            event.setVenue(jsonEvent.getString("venue"));
+            events.add(event);
+        }
+        return events;
+    }
+
+    public Event getEvent(String eventKey) throws IOException {
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
+        String response = "";
+        Event event = new Event();
+        try {
+            response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
+            JSONObject jsonEvent = new JSONObject(response);
+            String title = jsonEvent.getString("title");
+            String startDate = jsonEvent.getString("start");
+            String venue = jsonEvent.getString("venue");
+            event = new Event(title, startDate, eventKey);
+            startDate = this.prepareActiveDateStr(startDate);
+            event.setStartDate(Utils.strToDate(startDate, ACTIVE_DATE_FORMAT));
+            event.setVenue(venue);
+        } catch (FileNotFoundException fnf) {
+            event = this.getInactiveEvent(eventKey);
+        }
+        event.setRegStart(Utils.subtractMins(event.getStartDate(), 60));
+        Document adminDoc = Jsoup.connect(getAdminEventURL(eventKey)).timeout(0).get();
+        Elements useBookingChecks = adminDoc.select("#ctl00_ctl00_mainContent_mainContent_form_ctl00_useBookingGroup_selected[checked]");
+        if (useBookingChecks.isEmpty()) {
+            event.setDropIn(true);
+            event.setBookingLimit(0);
+        }
+        else {
+            String limitText = "0";
+            Element limitElem = adminDoc.select("#ctl00_ctl00_mainContent_mainContent_form_ctl00_bookingLimit_ctl03").first();
+            limitText = limitElem.val();
+            int limit = 0;
+            if (limitText.equals("0")) {
+                event.setUnlimited(true);
+            }
+            else {
+                limit = Integer.parseInt(limitText);
+            }
+            event.setBookingLimit(limit);
+        }
+        event.setAttendeeCount(this.getAttendeeCount(eventKey));
+        return event;
+    }
+
+    public String getEventTitle(String eventKey) throws IOException {
+        Map<String,String> requestHeaders = new HashMap<String,String>();
+        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
+        String title = "";
+        try {
+            String response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
+            JSONObject jsonEvent = new JSONObject(response);
+            title = jsonEvent.getString("title");
+        } catch (FileNotFoundException fnf) {
+            title = this.getInactiveEvent(eventKey).getTitle();
+        }
+        return title;
+    }
+
+    private Event getInactiveEvent(String eventKey) throws IOException {
+        Document doc = Jsoup.connect(EVENT_URL_BASE + eventKey).get();
+        String title = doc.select("#ng-app > div.under-nav > div > h2").first().text();
+        String venue = doc.select("#ng-app > div.under-nav > div > p:nth-child(3) > em").first().text();
+        String startDate = doc.select("#ng-app > div.under-nav > div > p:nth-child(2) > em").first().text();
+        startDate = this.prepareInactiveDateStr(startDate);
+        Event event = new Event(title, startDate, eventKey);
+        event.setStartDate(Utils.strToDate(startDate, INACTIVE_DATE_FORMAT));
+        event.setVenue(venue);
+        return event;
+    }
+
+    public String getAdminEventURL(String eventKey) {
+        return EVENT_ADMIN_URL_BASE + eventKey;
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public String getEmptyStuNumString() {
+        return "empty";
+    }
+
+    public int getATTENDED_STATUS() {
+        return ATTENDED_STATUS;
+    }
+
+    public int getEVENT_FULL_STATUS() {
+        return EVENT_FULL_STATUS;
+    }
+
+    public boolean isValidStuNum(String stuNum) {
+        return stuNum.matches(STU_NUM_PATTERN);
+    }
+
+    public boolean isValidId(String id) {
+        return Utils.isNumeric(id);
+    }
+
+    private String prepareInactiveDateStr(String str) {
+        return str.replaceAll("\\sto.+$", "");
+    }
+
+    private String prepareActiveDateStr(String str) {
+        return str.replaceAll(":(\\d\\d)$", "$1");
+    }
+
+    private final String HOST;
+    private final String API_ID;
+    private final String SECRET;
+    private final String STU_NUM_PATTERN;
+
+    public final String ADMIN_URL;
+
+    public final String LOGIN_URL;
+    public final String QUERY_URL;
+    public final String BOOKING_URL;
+    public final String MARK_ATTENDED_URL;
+    public final String MARK_UNSPECIFIED_URL;
+    public final String MARK_ABSENT_URL;
+    public final String CANCEL_URL;
+    public final String WAITING_LIST_BASE;
+    public final String STUDENT_SEARCH_BASE;
+    public final String EVENT_SEARCH_URL;
+    public final String EVENT_API_URL;
+    public final String EVENT_ADMIN_URL_BASE;
+    public final String EVENT_URL_BASE;
+
+    private final int ATTENDED_STATUS = 1;
+    private final int UNSPECIFIED_STATUS = 0;
+    private final int EVENT_FULL_STATUS = -1;
+
+    private final String INACTIVE_DATE_FORMAT = "EEE d MMM yyyy, hh:mm a";
+    private final String ACTIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+
+    private final String charset = "UTF-8";
+    private final String auth_cookie_name = ".CHAUTH";
+    
+    private static BookingSystemAPI instance = null;
+
+}
