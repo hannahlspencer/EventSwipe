@@ -284,7 +284,6 @@ public class CareerHubAPI extends BookingSystemAPI {
     public List<Event> getEventsList() throws MalformedURLException, IOException {
         List<Event> events = new ArrayList<Event>();
         Map<String,String> requestHeaders = new HashMap<String,String>();
-        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
         requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integrations.Events"));
         String response = HttpUtils.getDataFromURL(EVENT_API_LIST_URL, requestHeaders);
         JSONArray jsonEvents = new JSONArray(response);
@@ -303,7 +302,6 @@ public class CareerHubAPI extends BookingSystemAPI {
     public List<Event> getEvents(String searchTerm) throws MalformedURLException, IOException {
         List<Event> events = new ArrayList<Event>();
         Map<String,String> requestHeaders = new HashMap<String,String>();
-        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
         requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
         String response = HttpUtils.getDataFromURL(EVENT_API_SEARCH_URL + "?text=" + searchTerm, requestHeaders);
         JSONArray jsonEvents = new JSONArray(response);
@@ -321,7 +319,6 @@ public class CareerHubAPI extends BookingSystemAPI {
 
     public Event getEvent(String eventKey) throws IOException {
         Map<String,String> requestHeaders = new HashMap<String,String>();
-        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
         requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integrations.Events"));
         String response = "";
         Event event = new Event();
@@ -353,17 +350,6 @@ public class CareerHubAPI extends BookingSystemAPI {
         JSONObject attendance = jsonEvent.getJSONObject("attendance");
         event.setAttendeeCount(attendance.getInt("attended"));
         return event;
-    }
-
-    public String getEventTitle(String eventKey) throws IOException {
-        Map<String,String> requestHeaders = new HashMap<String,String>();
-        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integration.Events"));
-        String title = "";
-        String response = HttpUtils.getDataFromURL(EVENT_API_URL + eventKey, requestHeaders);
-        JSONObject jsonEvent = new JSONObject(response);
-        title = jsonEvent.getString("name");
-        return title;
     }
 
     public String getAdminEventURL(String eventKey) {

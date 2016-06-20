@@ -219,56 +219,55 @@ public class EventSwipeData {
     }
 
     /**
-     *
-     * @return
+     * @return True/false depending on whether all attendance data has been saved.
      */
     public boolean getSavedFlag() {
         return savedFlag;
     }
 
     /**
+     * Sets the save flag according to whether all attendance data has been saved.
      *
-     * @param savedFlag
+     * @param savedFlag True/false depending on whether saved attendance is up to date
      */
     public void setSavedFlag(boolean savedFlag) {
         this.savedFlag = savedFlag;
     }
 
     /**
-     *
-     * @return
+     * @return True/false according to whether there is an authorised user logged into EventSwipe
      */
     public boolean isLoggedInFlag() {
         return loggedInFlag;
     }
 
     /**
+     * Sets the logged in flag according to whether there is an authorised user logged in.
      *
-     * @param success
+     * @param success True/false depending on the success of the login attempt
      */
     public void setLoggedInFlag(boolean success) {
         this.loggedInFlag = success;
     }
 
     /**
-     *
-     * @return
+     * @return The overall event title
      */
     public String getEventTitle() {
         return eventTitle;
     }
 
     /**
+     * Sets the overall event title.
      *
-     * @param eventTitle
+     * @param eventTitle The event title to set
      */
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
 
     /**
-     *
-     * @return
+     * @return The number of bookings for all event entry slots
      */
     public Integer getBookingCount() {
         int c = 0;
@@ -279,16 +278,14 @@ public class EventSwipeData {
     }
 
     /**
-     *
-     * @return
+     * @return The number of attendees for all event entry slots
      */
     public Integer getAttendeeCount() {
         return this.getAllRecordedList().size();
     }
 
     /**
-     *
-     * @return
+     * @return The number of saved attendees for all event entry slots
      */
     public Integer getSavedCount() {
         int c = 0;
@@ -299,8 +296,7 @@ public class EventSwipeData {
     }
 
     /**
-     *
-     * @return
+     * @return The number of unsaved attendees for all event entry slots
      */
     public Integer getUnsavedCount() {
         int c = 0;
@@ -311,8 +307,7 @@ public class EventSwipeData {
     }
 
     /**
-     *
-     * @return
+     * @return The number of people yet to attend all event entry slots
      */
     public Integer getNotAttendedCount() {
         int diff = this.getBookingCount() - this.getAttendeeCount();
@@ -320,8 +315,7 @@ public class EventSwipeData {
     }
 
     /**
-     *
-     * @return
+     * @return The number of free places in all event entry slots
      */
     public Integer getCurrentNumberOfPlaces() {
         int limit = 0;
@@ -335,16 +329,16 @@ public class EventSwipeData {
     }
 
     /**
-     *
-     * @return
+     * @return The current value of the counter in counter mode
      */
     public Integer getCount() {
         return count;
     }
 
     /**
+     * Increases the value of the counter by one and returns the current value in counter mode.
      *
-     * @return
+     * @return The current value of the counter after incrementation
      */
     public int incrementCount() {
         count++;
@@ -352,8 +346,9 @@ public class EventSwipeData {
     }
 
     /**
+     * Sets the value of the counter in counter mode.
      *
-     * @param c
+     * @param c The value to set the counter to
      */
     public void setCount(int c) {
         count = c;
