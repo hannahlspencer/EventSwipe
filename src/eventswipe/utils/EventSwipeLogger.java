@@ -10,7 +10,7 @@ import java.io.FileWriter;
 public class EventSwipeLogger {
     
    /**
-     * Singleton constructor for EventSwipeData
+     * Singleton constructor for EventSwipeLogger
     */
     public static EventSwipeLogger getInstance() {
         if (instance == null) {
