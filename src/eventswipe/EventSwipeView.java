@@ -373,6 +373,28 @@ public class EventSwipeView extends FrameView {
         countButton = new javax.swing.JButton();
         resetCounterButton = new javax.swing.JButton();
         onlineWaitingListButtonGroup = new javax.swing.ButtonGroup();
+        SettingsPanel = new javax.swing.JPanel();
+        doneSettingsButton = new javax.swing.JButton();
+        settingsBackButton = new javax.swing.JButton();
+        settingsPanelTitle = new javax.swing.JLabel();
+        hostLabel = new javax.swing.JLabel();
+        hostInput = new javax.swing.JTextField();
+        apiIdLabel = new javax.swing.JLabel();
+        apiIdInput = new javax.swing.JTextField();
+        apiSecretLabel = new javax.swing.JLabel();
+        apiSecretInput = new javax.swing.JTextField();
+        studentIdFormatPanel = new javax.swing.JPanel();
+        studentIdFormatTitle = new javax.swing.JLabel();
+        numbersRadio = new javax.swing.JRadioButton();
+        lettersRadio = new javax.swing.JRadioButton();
+        lettersNumbersRadio = new javax.swing.JRadioButton();
+        studentIdLengthSpinner = new javax.swing.JSpinner();
+        studentIdLengthLabel = new javax.swing.JLabel();
+        useCustomRegexCheck = new javax.swing.JCheckBox();
+        regexInput = new javax.swing.JTextField();
+        regexLabel = new javax.swing.JLabel();
+        fixedLengthCheck = new javax.swing.JCheckBox();
+        studentIdFormatTypeButtonGroup = new javax.swing.ButtonGroup();
 
         menuBar.setName("menuBar"); // NOI18N
 
@@ -2561,6 +2583,190 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
             .addContainerGap())
     );
 
+    SettingsPanel.setMinimumSize(new java.awt.Dimension(720, 350));
+    SettingsPanel.setName("SettingsPanel"); // NOI18N
+
+    doneSettingsButton.setText(resourceMap.getString("doneSettingsButton.text")); // NOI18N
+    doneSettingsButton.setName("doneSettingsButton"); // NOI18N
+
+    settingsBackButton.setText(resourceMap.getString("settingsBackButton.text")); // NOI18N
+    settingsBackButton.setName("settingsBackButton"); // NOI18N
+    settingsBackButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            settingsBackButtonActionPerformed(evt);
+        }
+    });
+
+    settingsPanelTitle.setFont(resourceMap.getFont("titleLabel.font")); // NOI18N
+    settingsPanelTitle.setText(resourceMap.getString("settingsPanelTitle.text")); // NOI18N
+    settingsPanelTitle.setName("settingsPanelTitle"); // NOI18N
+
+    hostLabel.setText(resourceMap.getString("hostLabel.text")); // NOI18N
+    hostLabel.setName("hostLabel"); // NOI18N
+
+    hostInput.setText(resourceMap.getString("hostInput.text")); // NOI18N
+    hostInput.setName("hostInput"); // NOI18N
+
+    apiIdLabel.setText(resourceMap.getString("apiIdLabel.text")); // NOI18N
+    apiIdLabel.setName("apiIdLabel"); // NOI18N
+
+    apiIdInput.setText(resourceMap.getString("apiIdInput.text")); // NOI18N
+    apiIdInput.setName("apiIdInput"); // NOI18N
+
+    apiSecretLabel.setText(resourceMap.getString("apiSecretLabel.text")); // NOI18N
+    apiSecretLabel.setName("apiSecretLabel"); // NOI18N
+
+    apiSecretInput.setText(resourceMap.getString("apiSecretInput.text")); // NOI18N
+    apiSecretInput.setName("apiSecretInput"); // NOI18N
+
+    studentIdFormatPanel.setName("studentIdFormatPanel"); // NOI18N
+
+    studentIdFormatTitle.setFont(resourceMap.getFont("")); // NOI18N
+    studentIdFormatTitle.setText(resourceMap.getString("studentIdFormatTitle.text")); // NOI18N
+    studentIdFormatTitle.setName("studentIdFormatTitle"); // NOI18N
+
+    studentIdFormatTypeButtonGroup.add(numbersRadio);
+    numbersRadio.setText(resourceMap.getString("numbersRadio.text")); // NOI18N
+    numbersRadio.setName("numbersRadio"); // NOI18N
+
+    studentIdFormatTypeButtonGroup.add(lettersRadio);
+    lettersRadio.setText(resourceMap.getString("lettersRadio.text")); // NOI18N
+    lettersRadio.setName("lettersRadio"); // NOI18N
+
+    studentIdFormatTypeButtonGroup.add(lettersNumbersRadio);
+    lettersNumbersRadio.setText(resourceMap.getString("lettersNumbersRadio.text")); // NOI18N
+    lettersNumbersRadio.setName("lettersNumbersRadio"); // NOI18N
+
+    studentIdLengthSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+    studentIdLengthSpinner.setEnabled(false);
+    studentIdLengthSpinner.setName("studentIdLengthSpinner"); // NOI18N
+
+    studentIdLengthLabel.setText(resourceMap.getString("studentIdLengthLabel.text")); // NOI18N
+    studentIdLengthLabel.setEnabled(false);
+    studentIdLengthLabel.setName("studentIdLengthLabel"); // NOI18N
+
+    useCustomRegexCheck.setText(resourceMap.getString("useCustomRegexCheck.text")); // NOI18N
+    useCustomRegexCheck.setName("useCustomRegexCheck"); // NOI18N
+
+    regexInput.setEditable(false);
+    regexInput.setText(resourceMap.getString("regexInput.text")); // NOI18N
+    regexInput.setName("regexInput"); // NOI18N
+
+    regexLabel.setText(resourceMap.getString("regexLabel.text")); // NOI18N
+    regexLabel.setName("regexLabel"); // NOI18N
+
+    fixedLengthCheck.setText(resourceMap.getString("fixedLengthCheck.text")); // NOI18N
+    fixedLengthCheck.setName("fixedLengthCheck"); // NOI18N
+
+    javax.swing.GroupLayout studentIdFormatPanelLayout = new javax.swing.GroupLayout(studentIdFormatPanel);
+    studentIdFormatPanel.setLayout(studentIdFormatPanelLayout);
+    studentIdFormatPanelLayout.setHorizontalGroup(
+        studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
+                    .addComponent(useCustomRegexCheck)
+                    .addContainerGap())
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentIdFormatPanelLayout.createSequentialGroup()
+                    .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentIdFormatPanelLayout.createSequentialGroup()
+                            .addComponent(regexLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(regexInput, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                        .addComponent(numbersRadio, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
+                            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lettersNumbersRadio)
+                                .addComponent(lettersRadio)
+                                .addComponent(studentIdFormatTitle))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(fixedLengthCheck)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentIdFormatPanelLayout.createSequentialGroup()
+                                    .addComponent(studentIdLengthLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(studentIdLengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGap(57, 57, 57))))
+    );
+    studentIdFormatPanelLayout.setVerticalGroup(
+        studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(studentIdFormatTitle)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(numbersRadio)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lettersRadio)
+                .addComponent(fixedLengthCheck))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lettersNumbersRadio)
+                .addComponent(studentIdLengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(studentIdLengthLabel))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(useCustomRegexCheck)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(regexInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(regexLabel))
+            .addContainerGap(13, Short.MAX_VALUE))
+    );
+
+    javax.swing.GroupLayout SettingsPanelLayout = new javax.swing.GroupLayout(SettingsPanel);
+    SettingsPanel.setLayout(SettingsPanelLayout);
+    SettingsPanelLayout.setHorizontalGroup(
+        SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(SettingsPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
+                    .addComponent(settingsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 478, Short.MAX_VALUE)
+                    .addComponent(doneSettingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(settingsPanelTitle)
+                .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SettingsPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(apiIdLabel)
+                            .addComponent(hostLabel)
+                            .addComponent(apiSecretLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(apiSecretInput)
+                            .addComponent(apiIdInput)
+                            .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addContainerGap())
+    );
+    SettingsPanelLayout.setVerticalGroup(
+        SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(settingsPanelTitle)
+            .addGap(26, 26, 26)
+            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hostLabel))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(apiIdLabel)
+                .addComponent(apiIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(apiSecretLabel)
+                .addComponent(apiSecretInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(doneSettingsButton)
+                .addComponent(settingsBackButton))
+            .addContainerGap())
+    );
+
     setComponent(preConfigPanel);
     setMenuBar(menuBar);
     addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -2860,6 +3066,10 @@ private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         this.switchToPanel(onlineConfigPanel);
     }
 }//GEN-LAST:event_logInButtonActionPerformed
+
+private void settingsBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBackButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_settingsBackButtonActionPerformed
     
 private boolean logIn(JTextField uField, JPasswordField pField) {
     String username = uField.getText();
@@ -3514,7 +3724,12 @@ private void checkConfiguration() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel SettingsPanel;
     private javax.swing.JLabel aboutEventLabel;
+    private javax.swing.JTextField apiIdInput;
+    private javax.swing.JLabel apiIdLabel;
+    private javax.swing.JTextField apiSecretInput;
+    private javax.swing.JLabel apiSecretLabel;
     private javax.swing.JLabel attendeeCountLabel1;
     private javax.swing.JLabel attendeeCountLabel2;
     private javax.swing.JButton backButton1;
@@ -3542,6 +3757,7 @@ private void checkConfiguration() {
     private javax.swing.JFormattedTextField counterTens;
     private javax.swing.JFormattedTextField counterThousands;
     private javax.swing.JFormattedTextField counterUnits;
+    private javax.swing.JButton doneSettingsButton;
     private javax.swing.JPanel entrySlot1Panel;
     private javax.swing.JPanel entrySlot2Panel;
     private javax.swing.JPanel entrySlot3Panel;
@@ -3596,6 +3812,7 @@ private void checkConfiguration() {
     private javax.swing.JButton finishCountingButton;
     private javax.swing.JPanel finishPanel;
     private javax.swing.JLabel finishPanelTitle;
+    private javax.swing.JCheckBox fixedLengthCheck;
     private javax.swing.JTextField generatedTitle1;
     private javax.swing.JTextField generatedTitle2;
     private javax.swing.JTextField generatedTitle3;
@@ -3607,10 +3824,14 @@ private void checkConfiguration() {
     private javax.swing.JLabel generatedTitleLabel4;
     private javax.swing.JLabel generatedTitleLabel5;
     private javax.swing.JLabel historyLabel;
+    private javax.swing.JTextField hostInput;
+    private javax.swing.JLabel hostLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JRadioButton lettersNumbersRadio;
+    private javax.swing.JRadioButton lettersRadio;
     private javax.swing.JButton loadEventButton1;
     private javax.swing.JButton loadEventButton2;
     private javax.swing.JButton loadEventButton3;
@@ -3630,6 +3851,7 @@ private void checkConfiguration() {
     private javax.swing.JRadioButton noLoadWaitingListRadioButton;
     private javax.swing.JRadioButton noWaitingListRadioButton;
     private javax.swing.JCheckBox notifyAbsentOption;
+    private javax.swing.JRadioButton numbersRadio;
     private javax.swing.JSeparator offlineCounterSeparator;
     private javax.swing.JPanel offlinePanel;
     private javax.swing.JButton okConfigButton;
@@ -3642,6 +3864,8 @@ private void checkConfiguration() {
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JPanel preConfigPanel;
     private javax.swing.JButton refreshAttendeesButton;
+    private javax.swing.JTextField regexInput;
+    private javax.swing.JLabel regexLabel;
     private javax.swing.ButtonGroup requireBookingButtonGroup;
     private javax.swing.JLabel requireBookingLabel;
     private javax.swing.JPanel requireBookingPanel;
@@ -3655,6 +3879,8 @@ private void checkConfiguration() {
     private javax.swing.JButton searchEventsButton5;
     private javax.swing.JFormattedTextField searchInput;
     private javax.swing.JLabel searchInputLabel;
+    private javax.swing.JButton settingsBackButton;
+    private javax.swing.JLabel settingsPanelTitle;
     private javax.swing.JPanel slot1DetailsPanel;
     private javax.swing.JLabel slot1Label;
     private javax.swing.JPanel slot2DetailsPanel;
@@ -3672,6 +3898,11 @@ private void checkConfiguration() {
     private javax.swing.JButton startOfflineButton;
     private javax.swing.JFormattedTextField statusDisplayTextField1;
     private javax.swing.JLabel statusLabel1;
+    private javax.swing.JPanel studentIdFormatPanel;
+    private javax.swing.JLabel studentIdFormatTitle;
+    private javax.swing.ButtonGroup studentIdFormatTypeButtonGroup;
+    private javax.swing.JLabel studentIdLengthLabel;
+    private javax.swing.JSpinner studentIdLengthSpinner;
     private javax.swing.JLabel thisMachineLabel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titleLoginPanel;
@@ -3679,6 +3910,7 @@ private void checkConfiguration() {
     private javax.swing.JMenuItem toggleMenuItem;
     private javax.swing.JFormattedTextField totalAttendeeCountDisplay;
     private javax.swing.JLabel totalLabel;
+    private javax.swing.JCheckBox useCustomRegexCheck;
     private javax.swing.JTextArea useOfflineDescription;
     private javax.swing.JTextArea useOfflineDescription1;
     private javax.swing.JLabel useOfflineLabel;
