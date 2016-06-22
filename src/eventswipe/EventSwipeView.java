@@ -41,6 +41,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -161,6 +162,12 @@ public class EventSwipeView extends FrameView {
         try {
             app.finish(false, false);
         } catch (Exception ex) {} //app can't throw excpetion with app.finish(false, false)
+        //TODO: alter finish() method so that false, false parameters don't throw an error
+    }
+
+    @Action
+    public void goToSettings() {
+        this.switchToPanel(settingsPanel);
     }
 
     @Action
@@ -189,6 +196,7 @@ public class EventSwipeView extends FrameView {
 
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        settingsMenuItem = new javax.swing.JMenuItem();
         toggleMenuItem = new javax.swing.JMenuItem();
         connectionMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -373,7 +381,7 @@ public class EventSwipeView extends FrameView {
         countButton = new javax.swing.JButton();
         resetCounterButton = new javax.swing.JButton();
         onlineWaitingListButtonGroup = new javax.swing.ButtonGroup();
-        SettingsPanel = new javax.swing.JPanel();
+        settingsPanel = new javax.swing.JPanel();
         doneSettingsButton = new javax.swing.JButton();
         settingsBackButton = new javax.swing.JButton();
         settingsPanelTitle = new javax.swing.JLabel();
@@ -402,6 +410,13 @@ public class EventSwipeView extends FrameView {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(eventswipe.EventSwipeApp.class).getContext().getActionMap(EventSwipeView.class, this);
+        settingsMenuItem.setAction(actionMap.get("goToSettings")); // NOI18N
+        settingsMenuItem.setIcon(resourceMap.getIcon("settingsMenuItem.icon")); // NOI18N
+        settingsMenuItem.setText(resourceMap.getString("settingsMenuItem.text")); // NOI18N
+        settingsMenuItem.setName("settingsMenuItem"); // NOI18N
+        fileMenu.add(settingsMenuItem);
+
         toggleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         toggleMenuItem.setText(resourceMap.getString("toggleMenuItem.text")); // NOI18N
         toggleMenuItem.setEnabled(false);
@@ -424,7 +439,6 @@ public class EventSwipeView extends FrameView {
         });
         fileMenu.add(connectionMenuItem);
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(eventswipe.EventSwipeApp.class).getContext().getActionMap(EventSwipeView.class, this);
         saveMenuItem.setAction(actionMap.get("saveAttendeesToFile")); // NOI18N
         saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
         saveMenuItem.setName("saveMenuItem"); // NOI18N
@@ -2583,8 +2597,8 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
             .addContainerGap())
     );
 
-    SettingsPanel.setMinimumSize(new java.awt.Dimension(720, 350));
-    SettingsPanel.setName("SettingsPanel"); // NOI18N
+    settingsPanel.setMinimumSize(new java.awt.Dimension(720, 350));
+    settingsPanel.setName("settingsPanel"); // NOI18N
 
     doneSettingsButton.setText(resourceMap.getString("doneSettingsButton.text")); // NOI18N
     doneSettingsButton.setName("doneSettingsButton"); // NOI18N
@@ -2628,18 +2642,38 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     studentIdFormatTypeButtonGroup.add(numbersRadio);
     numbersRadio.setText(resourceMap.getString("numbersRadio.text")); // NOI18N
     numbersRadio.setName("numbersRadio"); // NOI18N
+    numbersRadio.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            regexRadioActionPerformed(evt);
+        }
+    });
 
     studentIdFormatTypeButtonGroup.add(lettersRadio);
     lettersRadio.setText(resourceMap.getString("lettersRadio.text")); // NOI18N
     lettersRadio.setName("lettersRadio"); // NOI18N
+    lettersRadio.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            regexRadioActionPerformed(evt);
+        }
+    });
 
     studentIdFormatTypeButtonGroup.add(lettersNumbersRadio);
     lettersNumbersRadio.setText(resourceMap.getString("lettersNumbersRadio.text")); // NOI18N
     lettersNumbersRadio.setName("lettersNumbersRadio"); // NOI18N
+    lettersNumbersRadio.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            regexRadioActionPerformed(evt);
+        }
+    });
 
     studentIdLengthSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
     studentIdLengthSpinner.setEnabled(false);
     studentIdLengthSpinner.setName("studentIdLengthSpinner"); // NOI18N
+    studentIdLengthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            studentIdLengthSpinnerStateChanged(evt);
+        }
+    });
 
     studentIdLengthLabel.setText(resourceMap.getString("studentIdLengthLabel.text")); // NOI18N
     studentIdLengthLabel.setEnabled(false);
@@ -2647,6 +2681,11 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
 
     useCustomRegexCheck.setText(resourceMap.getString("useCustomRegexCheck.text")); // NOI18N
     useCustomRegexCheck.setName("useCustomRegexCheck"); // NOI18N
+    useCustomRegexCheck.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            useCustomRegexCheckActionPerformed(evt);
+        }
+    });
 
     regexInput.setEditable(false);
     regexInput.setText(resourceMap.getString("regexInput.text")); // NOI18N
@@ -2657,6 +2696,11 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
 
     fixedLengthCheck.setText(resourceMap.getString("fixedLengthCheck.text")); // NOI18N
     fixedLengthCheck.setName("fixedLengthCheck"); // NOI18N
+    fixedLengthCheck.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            fixedLengthCheckActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout studentIdFormatPanelLayout = new javax.swing.GroupLayout(studentIdFormatPanel);
     studentIdFormatPanel.setLayout(studentIdFormatPanelLayout);
@@ -2714,54 +2758,54 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
             .addContainerGap(13, Short.MAX_VALUE))
     );
 
-    javax.swing.GroupLayout SettingsPanelLayout = new javax.swing.GroupLayout(SettingsPanel);
-    SettingsPanel.setLayout(SettingsPanelLayout);
-    SettingsPanelLayout.setHorizontalGroup(
-        SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(SettingsPanelLayout.createSequentialGroup()
+    javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
+    settingsPanel.setLayout(settingsPanelLayout);
+    settingsPanelLayout.setHorizontalGroup(
+        settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(settingsPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
+            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
                     .addComponent(settingsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 478, Short.MAX_VALUE)
                     .addComponent(doneSettingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(settingsPanelTitle)
-                .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SettingsPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingsPanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(apiIdLabel)
                             .addComponent(hostLabel)
                             .addComponent(apiSecretLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(apiSecretInput)
                             .addComponent(apiIdInput)
                             .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))))
             .addContainerGap())
     );
-    SettingsPanelLayout.setVerticalGroup(
-        SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
+    settingsPanelLayout.setVerticalGroup(
+        settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addComponent(settingsPanelTitle)
             .addGap(26, 26, 26)
-            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(hostLabel))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(apiIdLabel)
                 .addComponent(apiIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(apiSecretLabel)
                 .addComponent(apiSecretInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(doneSettingsButton)
                 .addComponent(settingsBackButton))
             .addContainerGap())
@@ -3070,6 +3114,46 @@ private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 private void settingsBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBackButtonActionPerformed
     // TODO add your handling code here:
 }//GEN-LAST:event_settingsBackButtonActionPerformed
+
+private void fixedLengthCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedLengthCheckActionPerformed
+    boolean enabled = fixedLengthCheck.isSelected();
+    studentIdLengthLabel.setEnabled(enabled);
+    studentIdLengthSpinner.setEnabled(enabled);
+}//GEN-LAST:event_fixedLengthCheckActionPerformed
+
+private void useCustomRegexCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useCustomRegexCheckActionPerformed
+    boolean enabled = useCustomRegexCheck.isSelected();
+    regexInput.setEditable(enabled);
+    fixedLengthCheck.setEnabled(!enabled);
+    studentIdLengthLabel.setEnabled(!enabled);
+    studentIdLengthSpinner.setEnabled(!enabled);
+    numbersRadio.setEnabled(!enabled);
+    lettersRadio.setEnabled(!enabled);
+    lettersNumbersRadio.setEnabled(!enabled);
+}//GEN-LAST:event_useCustomRegexCheckActionPerformed
+
+private void regexRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regexRadioActionPerformed
+    String regex = "";
+    JRadioButton source = (JRadioButton) evt.getSource();
+    if (source.equals(numbersRadio)) {
+        regex = "\\d";
+    }
+    else if(source.equals(lettersRadio)) {
+        regex = "[A-Za-z]";
+    }
+    else {
+        regex = "[A-Za-z\\d]";
+    }
+    regexType = regex;
+    this.setRegexValue(regexType, regexQuantifier);
+}//GEN-LAST:event_regexRadioActionPerformed
+
+private void studentIdLengthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_studentIdLengthSpinnerStateChanged
+    Integer length = (Integer) studentIdLengthSpinner.getValue();
+    String regex = "{" + length + "}";
+    regexQuantifier = regex;
+    this.setRegexValue(regexType, regexQuantifier);
+}//GEN-LAST:event_studentIdLengthSpinnerStateChanged
     
 private boolean logIn(JTextField uField, JPasswordField pField) {
     String username = uField.getText();
@@ -3724,7 +3808,6 @@ private void checkConfiguration() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel SettingsPanel;
     private javax.swing.JLabel aboutEventLabel;
     private javax.swing.JTextField apiIdInput;
     private javax.swing.JLabel apiIdLabel;
@@ -3880,6 +3963,8 @@ private void checkConfiguration() {
     private javax.swing.JFormattedTextField searchInput;
     private javax.swing.JLabel searchInputLabel;
     private javax.swing.JButton settingsBackButton;
+    private javax.swing.JMenuItem settingsMenuItem;
+    private javax.swing.JPanel settingsPanel;
     private javax.swing.JLabel settingsPanelTitle;
     private javax.swing.JPanel slot1DetailsPanel;
     private javax.swing.JLabel slot1Label;
@@ -3940,6 +4025,13 @@ private void checkConfiguration() {
     private String offlineModeTooltipText;
     private Integer attendeesDisplay = 0;
 
+    private String regexType = ".";
+    private String regexQuantifier = "+";
+
+    private void setRegexValue(String type, String quantifier) {
+        regexInput.setText(type + quantifier);
+    }
+
     private void buildCounterMap() {
         countComponents.put(CountComponent.UNITS, counterUnits);
         countComponents.put(CountComponent.TENS, counterTens);
@@ -3986,7 +4078,7 @@ private void checkConfiguration() {
     }
 
     private void initSlotViews() {
-                JFormattedTextField[] fileInputs = {
+        JFormattedTextField[] fileInputs = {
             entrySlotBookingListFilePathInput1,
             entrySlotBookingListFilePathInput2,
             entrySlotBookingListFilePathInput3,
