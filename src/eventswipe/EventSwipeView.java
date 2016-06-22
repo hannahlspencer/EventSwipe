@@ -1,13 +1,8 @@
 package eventswipe;
 
-import eventswipe.exceptions.EventFullException;
-import eventswipe.exceptions.NoStudentFoundException;
-import eventswipe.exceptions.EarlyRegistrationException;
-import eventswipe.utils.TextCSVFilter;
-import eventswipe.utils.Utils;
-import eventswipe.models.Event;
-import eventswipe.models.Booking;
-import eventswipe.models.Student;
+import eventswipe.exceptions.*;
+import eventswipe.utils.*;
+import eventswipe.models.*;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -23,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -80,6 +76,8 @@ public class EventSwipeView extends FrameView {
         buildCounterMap();
         updateBookingPanel(true);
         updateOnlineBookingPanel(true);
+        panelStack = new Stack<JPanel>();
+        panelStack.push((JPanel) this.getComponent());
     }
 
     javax.swing.Action save = new AbstractAction() {
@@ -168,6 +166,15 @@ public class EventSwipeView extends FrameView {
     @Action
     public void goToSettings() {
         this.switchToPanel(settingsPanel);
+    }
+
+    @Action
+    public void goBack() {
+        JPanel panel = panelStack.pop();
+        JFrame mainFrame = app.getMainFrame();
+        mainFrame.setContentPane(panel);
+        panel.revalidate();
+        mainFrame.repaint();
     }
 
     @Action
@@ -912,13 +919,9 @@ public class EventSwipeView extends FrameView {
                 .addContainerGap())
         );
 
+        configBackButton.setAction(actionMap.get("goBack")); // NOI18N
         configBackButton.setText(resourceMap.getString("configBackButton.text")); // NOI18N
         configBackButton.setName("configBackButton"); // NOI18N
-        configBackButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                configBackButtonActionPerformed(evt);
-            }
-        });
 
         requireBookingPanel.setName("requireBookingPanel"); // NOI18N
 
@@ -1037,10 +1040,10 @@ public class EventSwipeView extends FrameView {
         configPanelLayout.setVerticalGroup(
             configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(configPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(115, Short.MAX_VALUE)
                 .addComponent(titleLabel)
                 .addGap(1, 1, 1)
-                .addComponent(eventTitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(eventTitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(requireBookingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1917,13 +1920,9 @@ public class EventSwipeView extends FrameView {
                 .addGap(20, 20, 20))
         );
 
+        onlineConfigBackButton.setAction(actionMap.get("goBack")); // NOI18N
         onlineConfigBackButton.setText(resourceMap.getString("onlineConfigBackButton.text")); // NOI18N
         onlineConfigBackButton.setName("onlineConfigBackButton"); // NOI18N
-        onlineConfigBackButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onlineConfigBackButtonActionPerformed(evt);
-            }
-        });
 
         aboutEventLabel.setFont(resourceMap.getFont("aboutEventLabel.font")); // NOI18N
         aboutEventLabel.setText(resourceMap.getString("aboutEventLabel.text")); // NOI18N
@@ -1967,7 +1966,7 @@ public class EventSwipeView extends FrameView {
                 .addGroup(onlineConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(okConfigButton1)
                     .addComponent(onlineConfigBackButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         mainOnlinePanel.setMinimumSize(new java.awt.Dimension(720, 350));
@@ -2000,15 +1999,11 @@ public class EventSwipeView extends FrameView {
         bookingStatusTextArea1.setRequestFocusEnabled(false);
         bookingStatusScrollPane1.setViewportView(bookingStatusTextArea1);
 
+        backButton1.setAction(actionMap.get("goBack")); // NOI18N
         backButton1.setText(resourceMap.getString("backButton1.text")); // NOI18N
         backButton1.setFocusable(false);
         backButton1.setName("backButton1"); // NOI18N
         backButton1.setRequestFocusEnabled(false);
-        backButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButton1ActionPerformed(evt);
-            }
-        });
 
         finishButton.setAction(actionMap.get("initialFinishAction")); // NOI18N
         finishButton.setText(resourceMap.getString("finishButton.text")); // NOI18N
@@ -2386,13 +2381,9 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     finishCloseButton.setText(resourceMap.getString("finishCloseButton.text")); // NOI18N
     finishCloseButton.setName("finishCloseButton"); // NOI18N
 
+    finishBackButton.setAction(actionMap.get("goBack")); // NOI18N
     finishBackButton.setText(resourceMap.getString("finishBackButton.text")); // NOI18N
     finishBackButton.setName("finishBackButton"); // NOI18N
-    finishBackButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            finishBackButtonActionPerformed(evt);
-        }
-    });
 
     finishPanelTitle.setFont(resourceMap.getFont("finishPanelTitle.font")); // NOI18N
     finishPanelTitle.setText(resourceMap.getString("finishPanelTitle.text")); // NOI18N
@@ -2459,13 +2450,9 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     finishCountingButton.setText(resourceMap.getString("finishCountingButton.text")); // NOI18N
     finishCountingButton.setName("finishCountingButton"); // NOI18N
 
+    counterBackButton.setAction(actionMap.get("goBack")); // NOI18N
     counterBackButton.setText(resourceMap.getString("counterBackButton.text")); // NOI18N
     counterBackButton.setName("counterBackButton"); // NOI18N
-    counterBackButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            counterBackButtonActionPerformed(evt);
-        }
-    });
 
     counterPanelTitle.setFont(resourceMap.getFont("counterPanelTitle.font")); // NOI18N
     counterPanelTitle.setText(resourceMap.getString("counterPanelTitle.text")); // NOI18N
@@ -2603,6 +2590,7 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     doneSettingsButton.setText(resourceMap.getString("doneSettingsButton.text")); // NOI18N
     doneSettingsButton.setName("doneSettingsButton"); // NOI18N
 
+    settingsBackButton.setAction(actionMap.get("goBack")); // NOI18N
     settingsBackButton.setText(resourceMap.getString("settingsBackButton.text")); // NOI18N
     settingsBackButton.setName("settingsBackButton"); // NOI18N
     settingsBackButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2717,21 +2705,21 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentIdFormatPanelLayout.createSequentialGroup()
                             .addComponent(regexLabel)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(regexInput, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                            .addComponent(regexInput, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
                         .addComponent(numbersRadio, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
                             .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lettersNumbersRadio)
                                 .addComponent(lettersRadio)
                                 .addComponent(studentIdFormatTitle))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                             .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(fixedLengthCheck)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentIdFormatPanelLayout.createSequentialGroup()
                                     .addComponent(studentIdLengthLabel)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(studentIdLengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGap(57, 57, 57))))
+                    .addContainerGap())))
     );
     studentIdFormatPanelLayout.setVerticalGroup(
         studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2938,21 +2926,6 @@ private void searchEventsButtonActionPerformed(java.awt.event.ActionEvent evt) {
     }
 }//GEN-LAST:event_searchEventsButtonActionPerformed
 
-private void onlineConfigBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlineConfigBackButtonActionPerformed
-    switchToPanel(preConfigPanel);
-}//GEN-LAST:event_onlineConfigBackButtonActionPerformed
-
-private void configBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configBackButtonActionPerformed
-    switchToPanel(preConfigPanel);
-}//GEN-LAST:event_configBackButtonActionPerformed
-
-private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
-    if (app.isOnlineMode())
-        switchToPanel(onlineConfigPanel);
-    else
-        switchToPanel(configPanel);
-}//GEN-LAST:event_backButton1ActionPerformed
-
 private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
     searchInput.setEnabled(false);
     String input = searchInput.getText();
@@ -3068,10 +3041,6 @@ private void markAbsentOptionActionPerformed(java.awt.event.ActionEvent evt) {//
     notifyAbsentOption.setEnabled(markAbsentOption.isSelected());
 }//GEN-LAST:event_markAbsentOptionActionPerformed
 
-private void finishBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishBackButtonActionPerformed
-    this.switchToPanel(mainOnlinePanel);
-}//GEN-LAST:event_finishBackButtonActionPerformed
-
 private void connectionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionMenuItemActionPerformed
     onlineModeToggle.doClick();
 }//GEN-LAST:event_connectionMenuItemActionPerformed
@@ -3090,10 +3059,6 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
 private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_formPropertyChange
     // TODO add your handling code here:
 }//GEN-LAST:event_formPropertyChange
-
-private void counterBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_counterBackButtonActionPerformed
-    this.switchToPanel(preConfigPanel);
-}//GEN-LAST:event_counterBackButtonActionPerformed
 
 private void startCounterModeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startCounterModeButtonActionPerformed
     this.switchToPanel(counterPanel);
@@ -3202,7 +3167,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
     return false;
 }
 
-private void checkConfiguration() {
+    private void checkConfiguration() {
         app.clearData();
         int slots = (Integer) entrySlotsSpinnerOffline.getValue();
         boolean booking = yesBookingRadioButton.isSelected();
@@ -3234,6 +3199,7 @@ private void checkConfiguration() {
             Event event = new Event();
             event.setSlot(1);
             event.setTitle(eventTitleInput.getText());
+            event.setBookingList(new ArrayList<Booking>());
             app.addEvent(event);
         }
 
@@ -3566,8 +3532,9 @@ private void checkConfiguration() {
 
     private void switchToPanel(JPanel panel) {
         JFrame mainFrame = app.getMainFrame();
+        panelStack.push((JPanel) mainFrame.getContentPane());
         mainFrame.setContentPane(panel);
-        if (panel == mainOnlinePanel) {
+        if (panel.equals(mainOnlinePanel)) {
             boolean online = app.isOnlineMode();
             boolean booking = app.getBookingFlag();
             searchInput.requestFocusInWindow();
@@ -4199,6 +4166,8 @@ private void checkConfiguration() {
 
     private EnumMap<CountComponent,JFormattedTextField> countComponents =
             new EnumMap(CountComponent.class);
+
+    private Stack<JPanel> panelStack;
 
     //End of manually declared variables
 
