@@ -1,22 +1,17 @@
 package eventswipe;
 
-import eventswipe.APIs.BookingSystemAPI;
+import eventswipe.APIs.*;
 import eventswipe.APIs.BookingSystemAPI.STATUS;
-import eventswipe.APIs.CareerHubAPI;
-import eventswipe.exceptions.EventFullException;
-import eventswipe.utils.Utils;
-import eventswipe.utils.EventSwipeLogger;
-import eventswipe.utils.HttpUtils;
-import eventswipe.models.Event;
-import eventswipe.models.Booking;
-import eventswipe.models.Student;
-import eventswipe.utils.Request;
-import eventswipe.utils.Response;
+import eventswipe.exceptions.*;
+import eventswipe.utils.*;
+import eventswipe.models.*;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,6 +20,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -43,48 +40,43 @@ public class EventSwipeApp extends SingleFrameApplication {
     /**
      * At startup create and show the main frame of the application.
      */
-    @Override public void startup() {
-        data = EventSwipeData.getInstance();
-        logger = EventSwipeLogger.getInstance();
-        try {
-            api = CareerHubAPI.getInstance();
-        } catch (IOException ex) {
-            Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
-            //TODO: handle error
-            System.exit(0);
-        }
-        executor = Executors.newFixedThreadPool(EventSwipeData.MAX_ENTRY_SLOTS);
-        HttpUtils.setCookiePolicy();
-        if (Utils.isInternetReachable()) {
-            data.setNetFlag(true);
+    @Override
+    public void startup() {
+        if (data.isPropertiesFlag()) {
+            try {
+                Properties p = getProperties(EventSwipeData.API_PROPERITES_PATH);
+                data.setDefaultUsername(p.getProperty(EventSwipeData.USERNAME_KEY, ""));
+                data.setDefaultPassword(p.getProperty(EventSwipeData.PASSWORD_KEY, "").toCharArray());
+                api.init();
+            } catch (IOException ex) {
+                data.setPropertiesFlag(false);
+                Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         show(new EventSwipeView(this));
     }
 
-    /**
-     * This method is to initialize the specified window by injecting resources.
-     * Windows shown in our application come fully initialized from the GUI
-     * builder, so this additional configuration is not needed.
-     */
     @Override
-    protected void configureWindow(java.awt.Window root) {
+    protected void configureWindow(final java.awt.Window root) {
         this.addExitListener(new org.jdesktop.application.Application.ExitListener() {
             public boolean canExit(EventObject arg0) {
                 return data.getSavedFlag();
             }
             public void willExit(EventObject arg0) {
-                System.exit(0);
+                root.dispose();
             }
         });
         root.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (e.getID() == WindowEvent.WINDOW_CLOSING && !data.getSavedFlag()) {
-                    int exit = JOptionPane.showConfirmDialog(EventSwipeApp.getApplication().getMainFrame(),
-                                                     "You have recorded unsaved records. " +
-                                                     "Are you sure you want to exit?",
-                                                     "Exit warning",
-                                                     JOptionPane.YES_NO_OPTION);
+                if (e.getID() == WindowEvent.WINDOW_CLOSING && !(data.getSavedFlag() ||
+                    e.getWindow().getClass().getCanonicalName().contains("AboutBox"))) {
+                    int exit = JOptionPane.showConfirmDialog(
+                         EventSwipeApp.getApplication().getMainFrame(),
+                         "You have recorded unsaved records. " +
+                         "Are you sure you want to exit?",
+                         "Exit warning",
+                         JOptionPane.YES_NO_OPTION);
                     if (exit == JOptionPane.YES_OPTION) {
                         data.setSavedFlag(true);
                     }
@@ -93,7 +85,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                     }
                 }
                 else {
-                    exit();
+                    e.getWindow().dispose();
                 }
             }           
         });
@@ -105,6 +97,62 @@ public class EventSwipeApp extends SingleFrameApplication {
      */
     public static EventSwipeApp getApplication() {
         return Application.getInstance(EventSwipeApp.class);
+    }
+
+    public EventSwipeApp() {
+        data = EventSwipeData.getInstance();
+        logger = EventSwipeLogger.getInstance();
+        api = CareerHubAPI.getInstance();
+        executor = Executors.newFixedThreadPool(EventSwipeData.MAX_ENTRY_SLOTS);
+        HttpUtils.setCookiePolicy();
+        data.setNetFlag(Utils.isInternetReachable());
+        data.setPropertiesFlag(propertiesSet());
+    }
+
+    /**
+     * Returns the Properties object for the specific booking system installation.
+     *
+     * @return  Booking system Properties object
+     * @throws  IOException
+     * @see     Properties
+     */
+    public Properties getProperties(String path) throws IOException {
+        Properties p = new Properties();
+        FileInputStream in = new FileInputStream(path);
+        p.load(in);
+        return p;
+    }
+
+    public void saveProperties(Map<String, String> props) throws NoPropertiesException {
+        Properties p = new Properties();
+        for (Map.Entry<String, String> prop : props.entrySet()) {
+            p.setProperty(prop.getKey(), prop.getValue());
+        }
+        data.setDefaultUsername(p.getProperty(EventSwipeData.USERNAME_KEY, ""));
+        data.setDefaultPassword(p.getProperty(EventSwipeData.PASSWORD_KEY, "").toCharArray());
+        File propFile = new File(EventSwipeData.API_PROPERITES_PATH);
+        if (propFile.exists()) {
+            propFile.delete();
+        }
+        try {
+            propFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(propFile);
+            p.store(out, "Booking system properties and customisation");
+            data.setPropertiesFlag(true);
+            api.init();
+        } catch (IOException ex) {
+            data.setPropertiesFlag(false);
+            Logger.getLogger(EventSwipeApp.class.getName())
+                .log(Level.SEVERE, "Error setting properties", ex);
+            throw new NoPropertiesException();
+        }
+    }
+
+    public void clearProperties() {
+        data.setDefaultUsername("");
+        data.setDefaultPassword(null);
+        saveProperties(EventSwipeData.DEFAULT_PROPS);
+        data.setPropertiesFlag(false);
     }
 
     public EventSwipeData getData() {
@@ -381,9 +429,17 @@ public class EventSwipeApp extends SingleFrameApplication {
         data.clearData();
     }
 
-    public boolean logIn(String username, char[] password) throws MalformedURLException, IOException {
-        boolean success = api.logIn(username, password);
-        Arrays.fill(password, '0');
+    public boolean logIn(String username, char[] password) 
+           throws MalformedURLException, IOException, NoPropertiesException {
+        boolean success = false;
+        if (data.isPropertiesFlag()) {
+            success = api.logIn(username, password);
+            Arrays.fill(password, '0');
+        }
+        else {
+            Arrays.fill(password, '0');
+            throw new NoPropertiesException();
+        }
         return success;
     }
 
@@ -616,6 +672,29 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
     }
 
+    private boolean propertiesSet() {
+        File props = new File(EventSwipeData.API_PROPERITES_PATH);
+        if (!props.exists() || props.isDirectory()) {
+            return false;
+        }
+        else {
+            Properties p = new Properties();
+            try {
+                FileInputStream in;
+                in = new FileInputStream(EventSwipeData.API_PROPERITES_PATH);
+                p.load(in);
+                if (p.getProperty(EventSwipeData.STATUS_KEY, "default").equals("default")) {
+                    return false;
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(EventSwipeApp.class.getName())
+                   .log(Level.SEVERE, "Error accessing properties file", ex);
+                return false;
+            }
+        }
+        return true;
+    }
+    
     private ExecutorService executor;
     private EventSwipeLogger logger;
     private EventSwipeData data;

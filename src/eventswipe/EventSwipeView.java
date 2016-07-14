@@ -17,12 +17,15 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -43,6 +46,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
+import javax.swing.UIManager;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 
@@ -51,8 +56,8 @@ import org.jdesktop.application.ResourceMap;
  */
 public class EventSwipeView extends FrameView {
 
-    public EventSwipeView(SingleFrameApplication app) {
-        super(app);
+    public EventSwipeView(SingleFrameApplication appl) {
+        super(appl);
         ResourceMap resourceMap = Application.getInstance(eventswipe.EventSwipeApp.class)
            .getContext().getResourceMap(EventSwipeView.class);
         titleInputDefault = resourceMap.getString("eventTitleInputDefault");
@@ -159,13 +164,109 @@ public class EventSwipeView extends FrameView {
         }
         try {
             app.finish(false, false);
-        } catch (Exception ex) {} //app can't throw excpetion with app.finish(false, false)
-        //TODO: alter finish() method so that false, false parameters don't throw an error
+        } catch (Exception ex) {
+            Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
+        }
     }
 
     @Action
     public void goToSettings() {
+        if (app.getData().isPropertiesFlag()) {
+            Map<String, String> p = app.getData().getCustomProperties();
+            hostInput.setText(p.get(EventSwipeData.HOST_KEY));
+            apiIdInput.setText(p.get(EventSwipeData.API_ID_KEY));
+            apiSecretInput.setText(p.get(EventSwipeData.API_SECRET_KEY));
+            regexInput.setText(p.get(EventSwipeData.STUDENT_ID_PATTERN_KEY));
+            defaultUsernameInput.setText(app.getData().getDefaultUsername());
+            defaultPasswordInput.setText(String.valueOf(app.getData().getDefaultPassword()));
+        }
         this.switchToPanel(settingsPanel);
+    }
+    
+    @Action
+    public void saveSettings() {
+        boolean complete = true;
+        JTextField[] required = {
+            hostInput, apiIdInput, apiSecretInput, regexInput
+        };
+        complete = markEmptyFields(required);
+        if (useDefaultLoginCheckbox.isSelected()) {
+            JTextField[] requiredLoginInfo = {
+                defaultUsernameInput, defaultPasswordInput
+            };
+            complete = markEmptyFields(requiredLoginInfo);
+        }
+        if (!complete) {
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+              "Fields in red are required.",
+              "Required fields missing",
+              JOptionPane.ERROR_MESSAGE);
+        }
+        String[] schemes = {"http", "https"};
+        UrlValidator validator = new UrlValidator(schemes);
+        String hostStr = hostInput.getText();
+        if (!validator.isValid(hostStr)) {
+            complete = false;
+            markErrorField(hostInput);
+            JOptionPane.showMessageDialog(app.getMainFrame(),
+              "Host is not a valid URL.",
+              "Invalid host",
+              JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            if (!hostStr.endsWith("/")) {
+                hostStr += "/";
+            }
+            markDefaultField(hostInput);
+        }
+        if (complete) {
+            Map<String,String> props = new HashMap<String,String>();
+            props.put(EventSwipeData.STATUS_KEY, "custom");
+            props.put(EventSwipeData.API_ID_KEY, apiIdInput.getText());
+            props.put(EventSwipeData.API_SECRET_KEY, apiSecretInput.getText());
+            props.put(EventSwipeData.HOST_KEY, hostStr);
+            props.put(EventSwipeData.STUDENT_ID_PATTERN_KEY, regexInput.getText());
+            props.put(EventSwipeData.USERNAME_KEY, defaultUsernameInput.getText());
+            props.put(EventSwipeData.PASSWORD_KEY, String.valueOf(defaultPasswordInput.getPassword()));
+            try {
+                app.saveProperties(props);
+            } catch (NoPropertiesException ex) {
+                //TODO: handle properly - instructions for manually editing file
+                this.showGenericErrorMessage();
+            } finally {
+                this.goBack();
+            }
+        }
+    }
+
+    @Action
+    public void resetSettings() {
+        apiIdInput.setText("");
+        apiSecretInput.setText("");
+        hostInput.setText("");
+        this.setRegexValue(defaultRegexType, defaultRegexQuantifier);
+        defaultUsernameInput.setText("");
+        defaultPasswordInput.setText("");
+        studentIdLengthSpinner.setValue(1);
+        if (useDefaultLoginCheckbox.isSelected()) {
+            useDefaultLoginCheckbox.doClick();
+        }
+        if (useCustomRegexCheckbox.isSelected()) {
+            useCustomRegexCheckbox.doClick();
+        }
+        if (fixedLengthCheckbox.isSelected()) {
+            fixedLengthCheckbox.doClick();
+        }
+        JTextField[] fields = {
+            hostInput, apiIdInput, apiSecretInput, regexInput,
+            defaultUsernameInput, defaultPasswordInput
+        };
+        for (int i = 0; i < fields.length; i++) {
+            this.markDefaultField(fields[i]);
+        }
+        app.clearProperties();
+        hostInput.requestFocusInWindow();
     }
 
     @Action
@@ -173,6 +274,10 @@ public class EventSwipeView extends FrameView {
         JPanel panel = panelStack.pop();
         JFrame mainFrame = app.getMainFrame();
         mainFrame.setContentPane(panel);
+        if (panel.equals(preConfigPanel)) {
+            usernameInput.setText(app.getData().getDefaultUsername());
+            passwordInput.setText(String.valueOf(app.getData().getDefaultPassword()));
+        }
         panel.revalidate();
         mainFrame.repaint();
     }
@@ -405,10 +510,16 @@ public class EventSwipeView extends FrameView {
         lettersNumbersRadio = new javax.swing.JRadioButton();
         studentIdLengthSpinner = new javax.swing.JSpinner();
         studentIdLengthLabel = new javax.swing.JLabel();
-        useCustomRegexCheck = new javax.swing.JCheckBox();
+        useCustomRegexCheckbox = new javax.swing.JCheckBox();
         regexInput = new javax.swing.JTextField();
         regexLabel = new javax.swing.JLabel();
-        fixedLengthCheck = new javax.swing.JCheckBox();
+        fixedLengthCheckbox = new javax.swing.JCheckBox();
+        defaultUsernameInput = new javax.swing.JTextField();
+        defaultUsernameLabel = new javax.swing.JLabel();
+        defaultPasswordLabel = new javax.swing.JLabel();
+        defaultPasswordInput = new javax.swing.JPasswordField();
+        useDefaultLoginCheckbox = new javax.swing.JCheckBox();
+        resetSettingsButton = new javax.swing.JButton();
         studentIdFormatTypeButtonGroup = new javax.swing.ButtonGroup();
 
         menuBar.setName("menuBar"); // NOI18N
@@ -1132,7 +1243,7 @@ public class EventSwipeView extends FrameView {
         usernameLabel.setFocusable(false);
         usernameLabel.setName("usernameLabel"); // NOI18N
 
-        usernameInput.setText(resourceMap.getString("usernameInput.text")); // NOI18N
+        usernameInput.setText(app.getData().getDefaultUsername());
         usernameInput.setName("usernameInput"); // NOI18N
         usernameInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1140,7 +1251,7 @@ public class EventSwipeView extends FrameView {
             }
         });
 
-        passwordInput.setText(resourceMap.getString("passwordInput.text")); // NOI18N
+        passwordInput.setText(String.valueOf(app.getData().getDefaultPassword()));
         passwordInput.setName("passwordInput"); // NOI18N
         passwordInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2587,17 +2698,13 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     settingsPanel.setMinimumSize(new java.awt.Dimension(720, 350));
     settingsPanel.setName("settingsPanel"); // NOI18N
 
+    doneSettingsButton.setAction(actionMap.get("saveSettings")); // NOI18N
     doneSettingsButton.setText(resourceMap.getString("doneSettingsButton.text")); // NOI18N
     doneSettingsButton.setName("doneSettingsButton"); // NOI18N
 
     settingsBackButton.setAction(actionMap.get("goBack")); // NOI18N
     settingsBackButton.setText(resourceMap.getString("settingsBackButton.text")); // NOI18N
     settingsBackButton.setName("settingsBackButton"); // NOI18N
-    settingsBackButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            settingsBackButtonActionPerformed(evt);
-        }
-    });
 
     settingsPanelTitle.setFont(resourceMap.getFont("titleLabel.font")); // NOI18N
     settingsPanelTitle.setText(resourceMap.getString("settingsPanelTitle.text")); // NOI18N
@@ -2608,12 +2715,14 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
 
     hostInput.setText(resourceMap.getString("hostInput.text")); // NOI18N
     hostInput.setName("hostInput"); // NOI18N
+    hostInput.setNextFocusableComponent(apiIdInput);
 
     apiIdLabel.setText(resourceMap.getString("apiIdLabel.text")); // NOI18N
     apiIdLabel.setName("apiIdLabel"); // NOI18N
 
     apiIdInput.setText(resourceMap.getString("apiIdInput.text")); // NOI18N
     apiIdInput.setName("apiIdInput"); // NOI18N
+    apiIdInput.setNextFocusableComponent(apiSecretInput);
 
     apiSecretLabel.setText(resourceMap.getString("apiSecretLabel.text")); // NOI18N
     apiSecretLabel.setName("apiSecretLabel"); // NOI18N
@@ -2639,6 +2748,7 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     studentIdFormatTypeButtonGroup.add(lettersRadio);
     lettersRadio.setText(resourceMap.getString("lettersRadio.text")); // NOI18N
     lettersRadio.setName("lettersRadio"); // NOI18N
+    lettersRadio.setNextFocusableComponent(lettersNumbersRadio);
     lettersRadio.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             regexRadioActionPerformed(evt);
@@ -2648,6 +2758,7 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     studentIdFormatTypeButtonGroup.add(lettersNumbersRadio);
     lettersNumbersRadio.setText(resourceMap.getString("lettersNumbersRadio.text")); // NOI18N
     lettersNumbersRadio.setName("lettersNumbersRadio"); // NOI18N
+    lettersNumbersRadio.setNextFocusableComponent(fixedLengthCheckbox);
     lettersNumbersRadio.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             regexRadioActionPerformed(evt);
@@ -2657,6 +2768,7 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     studentIdLengthSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
     studentIdLengthSpinner.setEnabled(false);
     studentIdLengthSpinner.setName("studentIdLengthSpinner"); // NOI18N
+    studentIdLengthSpinner.setNextFocusableComponent(useCustomRegexCheckbox);
     studentIdLengthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
         public void stateChanged(javax.swing.event.ChangeEvent evt) {
             studentIdLengthSpinnerStateChanged(evt);
@@ -2667,26 +2779,29 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     studentIdLengthLabel.setEnabled(false);
     studentIdLengthLabel.setName("studentIdLengthLabel"); // NOI18N
 
-    useCustomRegexCheck.setText(resourceMap.getString("useCustomRegexCheck.text")); // NOI18N
-    useCustomRegexCheck.setName("useCustomRegexCheck"); // NOI18N
-    useCustomRegexCheck.addActionListener(new java.awt.event.ActionListener() {
+    useCustomRegexCheckbox.setText(resourceMap.getString("useCustomRegexCheckbox.text")); // NOI18N
+    useCustomRegexCheckbox.setName("useCustomRegexCheckbox"); // NOI18N
+    useCustomRegexCheckbox.setNextFocusableComponent(regexInput);
+    useCustomRegexCheckbox.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            useCustomRegexCheckActionPerformed(evt);
+            useCustomRegexCheckboxActionPerformed(evt);
         }
     });
 
     regexInput.setEditable(false);
     regexInput.setText(resourceMap.getString("regexInput.text")); // NOI18N
     regexInput.setName("regexInput"); // NOI18N
+    regexInput.setNextFocusableComponent(useDefaultLoginCheckbox);
 
     regexLabel.setText(resourceMap.getString("regexLabel.text")); // NOI18N
     regexLabel.setName("regexLabel"); // NOI18N
 
-    fixedLengthCheck.setText(resourceMap.getString("fixedLengthCheck.text")); // NOI18N
-    fixedLengthCheck.setName("fixedLengthCheck"); // NOI18N
-    fixedLengthCheck.addActionListener(new java.awt.event.ActionListener() {
+    fixedLengthCheckbox.setText(resourceMap.getString("fixedLengthCheckbox.text")); // NOI18N
+    fixedLengthCheckbox.setName("fixedLengthCheckbox"); // NOI18N
+    fixedLengthCheckbox.setNextFocusableComponent(studentIdLengthSpinner);
+    fixedLengthCheckbox.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            fixedLengthCheckActionPerformed(evt);
+            fixedLengthCheckboxActionPerformed(evt);
         }
     });
 
@@ -2697,29 +2812,25 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
         .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(useCustomRegexCheckbox)
                 .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
-                    .addComponent(useCustomRegexCheck)
-                    .addContainerGap())
+                    .addComponent(regexLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(regexInput, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
+                .addComponent(numbersRadio)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentIdFormatPanelLayout.createSequentialGroup()
-                    .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentIdFormatPanelLayout.createSequentialGroup()
-                            .addComponent(regexLabel)
+                    .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lettersNumbersRadio)
+                        .addComponent(lettersRadio)
+                        .addComponent(studentIdFormatTitle))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                    .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(fixedLengthCheckbox)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentIdFormatPanelLayout.createSequentialGroup()
+                            .addComponent(studentIdLengthLabel)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(regexInput, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
-                        .addComponent(numbersRadio, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(studentIdFormatPanelLayout.createSequentialGroup()
-                            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lettersNumbersRadio)
-                                .addComponent(lettersRadio)
-                                .addComponent(studentIdFormatTitle))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                            .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(fixedLengthCheck)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentIdFormatPanelLayout.createSequentialGroup()
-                                    .addComponent(studentIdLengthLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(studentIdLengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addContainerGap())))
+                            .addComponent(studentIdLengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addContainerGap())
     );
     studentIdFormatPanelLayout.setVerticalGroup(
         studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2731,20 +2842,50 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(lettersRadio)
-                .addComponent(fixedLengthCheck))
+                .addComponent(fixedLengthCheckbox))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(lettersNumbersRadio)
                 .addComponent(studentIdLengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(studentIdLengthLabel))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(useCustomRegexCheck)
+            .addComponent(useCustomRegexCheckbox)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(studentIdFormatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(regexInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(regexLabel))
-            .addContainerGap(13, Short.MAX_VALUE))
+            .addContainerGap(12, Short.MAX_VALUE))
     );
+
+    defaultUsernameInput.setText(resourceMap.getString("defaultUsernameInput.text")); // NOI18N
+    defaultUsernameInput.setEnabled(false);
+    defaultUsernameInput.setName("defaultUsernameInput"); // NOI18N
+    defaultUsernameInput.setNextFocusableComponent(defaultPasswordInput);
+
+    defaultUsernameLabel.setText(resourceMap.getString("defaultUsernameLabel.text")); // NOI18N
+    defaultUsernameLabel.setEnabled(false);
+    defaultUsernameLabel.setName("defaultUsernameLabel"); // NOI18N
+
+    defaultPasswordLabel.setText(resourceMap.getString("defaultPasswordLabel.text")); // NOI18N
+    defaultPasswordLabel.setEnabled(false);
+    defaultPasswordLabel.setName("defaultPasswordLabel"); // NOI18N
+
+    defaultPasswordInput.setText(resourceMap.getString("defaultPasswordInput.text")); // NOI18N
+    defaultPasswordInput.setEnabled(false);
+    defaultPasswordInput.setName("defaultPasswordInput"); // NOI18N
+
+    useDefaultLoginCheckbox.setText(resourceMap.getString("useDefaultLoginCheckbox.text")); // NOI18N
+    useDefaultLoginCheckbox.setName("useDefaultLoginCheckbox"); // NOI18N
+    useDefaultLoginCheckbox.setNextFocusableComponent(defaultUsernameInput);
+    useDefaultLoginCheckbox.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            useDefaultLoginCheckboxActionPerformed(evt);
+        }
+    });
+
+    resetSettingsButton.setAction(actionMap.get("resetSettings")); // NOI18N
+    resetSettingsButton.setText(resourceMap.getString("resetSettingsButton.text")); // NOI18N
+    resetSettingsButton.setName("resetSettingsButton"); // NOI18N
 
     javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
     settingsPanel.setLayout(settingsPanelLayout);
@@ -2753,24 +2894,42 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
         .addGroup(settingsPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
-                    .addComponent(settingsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 478, Short.MAX_VALUE)
-                    .addComponent(doneSettingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(settingsPanelTitle)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingsPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(apiIdLabel)
-                            .addComponent(hostLabel)
-                            .addComponent(apiSecretLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(apiSecretInput)
-                            .addComponent(apiIdInput)
-                            .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(settingsBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingsPanelLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(apiIdLabel)
+                                    .addComponent(hostLabel)
+                                    .addComponent(apiSecretLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(apiSecretInput)
+                                    .addComponent(apiIdInput)
+                                    .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(settingsPanelLayout.createSequentialGroup()
+                            .addGap(23, 23, 23)
+                            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(settingsPanelLayout.createSequentialGroup()
+                                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(defaultUsernameLabel)
+                                        .addGroup(settingsPanelLayout.createSequentialGroup()
+                                            .addGap(1, 1, 1)
+                                            .addComponent(defaultPasswordLabel)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(defaultPasswordInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                                        .addComponent(defaultUsernameInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)))
+                                .addComponent(useDefaultLoginCheckbox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(resetSettingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(doneSettingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)))))
             .addContainerGap())
     );
     settingsPanelLayout.setVerticalGroup(
@@ -2781,17 +2940,24 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
             .addGap(26, 26, 26)
             .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(hostInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(hostLabel))
+                .addComponent(hostLabel)
+                .addComponent(useDefaultLoginCheckbox))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(apiIdLabel)
-                .addComponent(apiIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(apiIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(defaultUsernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(defaultUsernameLabel))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(apiSecretLabel)
-                .addComponent(apiSecretInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(apiSecretInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(defaultPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(defaultPasswordLabel))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(studentIdFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(resetSettingsButton))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(doneSettingsButton)
@@ -3072,53 +3238,57 @@ private void resetCounterButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInButtonActionPerformed
     if (this.logIn(usernameInput, passwordInput)) {
-        this.switchToPanel(onlineConfigPanel);
+       this.switchToPanel(onlineConfigPanel);
     }
 }//GEN-LAST:event_logInButtonActionPerformed
 
-private void settingsBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBackButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_settingsBackButtonActionPerformed
+private void useDefaultLoginCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useDefaultLoginCheckboxActionPerformed
+    boolean enabled = useDefaultLoginCheckbox.isSelected();
+    defaultUsernameInput.setEnabled(enabled);
+    defaultUsernameLabel.setEnabled(enabled);
+    defaultPasswordInput.setEnabled(enabled);
+    defaultPasswordLabel.setEnabled(enabled);
+    markDefaultField(defaultUsernameInput);
+    markDefaultField(defaultPasswordInput);
+}//GEN-LAST:event_useDefaultLoginCheckboxActionPerformed
 
-private void fixedLengthCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedLengthCheckActionPerformed
-    boolean enabled = fixedLengthCheck.isSelected();
+private void fixedLengthCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedLengthCheckboxActionPerformed
+    boolean enabled = fixedLengthCheckbox.isSelected();
     studentIdLengthLabel.setEnabled(enabled);
     studentIdLengthSpinner.setEnabled(enabled);
-}//GEN-LAST:event_fixedLengthCheckActionPerformed
+}//GEN-LAST:event_fixedLengthCheckboxActionPerformed
 
-private void useCustomRegexCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useCustomRegexCheckActionPerformed
-    boolean enabled = useCustomRegexCheck.isSelected();
+private void useCustomRegexCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useCustomRegexCheckboxActionPerformed
+    boolean enabled = useCustomRegexCheckbox.isSelected();
     regexInput.setEditable(enabled);
-    fixedLengthCheck.setEnabled(!enabled);
+    fixedLengthCheckbox.setEnabled(!enabled);
     studentIdLengthLabel.setEnabled(!enabled);
     studentIdLengthSpinner.setEnabled(!enabled);
     numbersRadio.setEnabled(!enabled);
     lettersRadio.setEnabled(!enabled);
     lettersNumbersRadio.setEnabled(!enabled);
-}//GEN-LAST:event_useCustomRegexCheckActionPerformed
+}//GEN-LAST:event_useCustomRegexCheckboxActionPerformed
+
+private void studentIdLengthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_studentIdLengthSpinnerStateChanged
+    Integer length = (Integer) studentIdLengthSpinner.getValue();
+    String regex = "{" + length + "}";
+    defaultRegexQuantifier = regex;
+    this.setRegexValue(defaultRegexType, defaultRegexQuantifier);
+}//GEN-LAST:event_studentIdLengthSpinnerStateChanged
 
 private void regexRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regexRadioActionPerformed
     String regex = "";
     JRadioButton source = (JRadioButton) evt.getSource();
     if (source.equals(numbersRadio)) {
         regex = "\\d";
-    }
-    else if(source.equals(lettersRadio)) {
+    } else if(source.equals(lettersRadio)) {
         regex = "[A-Za-z]";
-    }
-    else {
+    } else {
         regex = "[A-Za-z\\d]";
     }
-    regexType = regex;
-    this.setRegexValue(regexType, regexQuantifier);
+    defaultRegexType = regex;
+    this.setRegexValue(defaultRegexType, defaultRegexQuantifier);
 }//GEN-LAST:event_regexRadioActionPerformed
-
-private void studentIdLengthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_studentIdLengthSpinnerStateChanged
-    Integer length = (Integer) studentIdLengthSpinner.getValue();
-    String regex = "{" + length + "}";
-    regexQuantifier = regex;
-    this.setRegexValue(regexType, regexQuantifier);
-}//GEN-LAST:event_studentIdLengthSpinnerStateChanged
     
 private boolean logIn(JTextField uField, JPasswordField pField) {
     String username = uField.getText();
@@ -3153,13 +3323,31 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                   JOptionPane.ERROR_MESSAGE);
                 usernameInput.requestFocusInWindow();
             }
+        } catch (NoPropertiesException np) {
+            Object[] options = {"Go to settings", "Continue offline"};
+            int reply = JOptionPane.showOptionDialog(app.getMainFrame(),
+                  "You need to enter your booking system settings before using EventSwipe in online mode",
+                  "No booking system settings",
+                  JOptionPane.YES_NO_OPTION,
+                  JOptionPane.QUESTION_MESSAGE,
+                  null,
+                  options,
+                  options[0]);
+            if (reply == JOptionPane.YES_OPTION) {
+                goToSettings();
+            }
+            else if(reply == JOptionPane.NO_OPTION) {
+                switchToPanel(offlinePanel);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(app.getMainFrame(),
               "There was a problem logging in. " +
-              "Please try again",
+              "Please check your internet connection and booking system settings and try again",
               "Login error",
               JOptionPane.ERROR_MESSAGE);
             uField.requestFocusInWindow();
+            Logger.getLogger(EventSwipeApp.class.getName())
+                .log(Level.SEVERE, "Login error", e);
         } finally {
             Arrays.fill(password,'0');
         }
@@ -3807,6 +3995,10 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
     private javax.swing.JFormattedTextField counterTens;
     private javax.swing.JFormattedTextField counterThousands;
     private javax.swing.JFormattedTextField counterUnits;
+    private javax.swing.JPasswordField defaultPasswordInput;
+    private javax.swing.JLabel defaultPasswordLabel;
+    private javax.swing.JTextField defaultUsernameInput;
+    private javax.swing.JLabel defaultUsernameLabel;
     private javax.swing.JButton doneSettingsButton;
     private javax.swing.JPanel entrySlot1Panel;
     private javax.swing.JPanel entrySlot2Panel;
@@ -3862,7 +4054,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
     private javax.swing.JButton finishCountingButton;
     private javax.swing.JPanel finishPanel;
     private javax.swing.JLabel finishPanelTitle;
-    private javax.swing.JCheckBox fixedLengthCheck;
+    private javax.swing.JCheckBox fixedLengthCheckbox;
     private javax.swing.JTextField generatedTitle1;
     private javax.swing.JTextField generatedTitle2;
     private javax.swing.JTextField generatedTitle3;
@@ -3920,6 +4112,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
     private javax.swing.JLabel requireBookingLabel;
     private javax.swing.JPanel requireBookingPanel;
     private javax.swing.JButton resetCounterButton;
+    private javax.swing.JButton resetSettingsButton;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton searchButton;
     private javax.swing.JButton searchEventsButton1;
@@ -3962,7 +4155,8 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
     private javax.swing.JMenuItem toggleMenuItem;
     private javax.swing.JFormattedTextField totalAttendeeCountDisplay;
     private javax.swing.JLabel totalLabel;
-    private javax.swing.JCheckBox useCustomRegexCheck;
+    private javax.swing.JCheckBox useCustomRegexCheckbox;
+    private javax.swing.JCheckBox useDefaultLoginCheckbox;
     private javax.swing.JTextArea useOfflineDescription;
     private javax.swing.JTextArea useOfflineDescription1;
     private javax.swing.JLabel useOfflineLabel;
@@ -3992,11 +4186,34 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
     private String offlineModeTooltipText;
     private Integer attendeesDisplay = 0;
 
-    private String regexType = ".";
-    private String regexQuantifier = "+";
+    private String defaultRegexType = ".";
+    private String defaultRegexQuantifier = "+";
 
     private void setRegexValue(String type, String quantifier) {
-        regexInput.setText(type + quantifier);
+        regexInput.setText("^" + type + quantifier + "$");
+    }
+
+    private void markErrorField(JComponent field) {
+        field.setBorder(BorderFactory.createLineBorder(Color.red));
+    }
+
+    private void markDefaultField(JComponent field) {
+        field.setBorder(UIManager.getBorder("TextField.border"));
+    }
+
+    private boolean markEmptyFields(JTextField[] required) {
+        boolean complete = true;
+        for (int i = 0; i < required.length; i++) {
+            JTextField r = required[i];
+            if (r.getText().isEmpty() || r.getText().matches("^\\s+$")) {
+                markErrorField(r);
+                complete = false;
+            }
+            else {
+                markDefaultField(r);
+            }
+        }
+        return complete;
     }
 
     private void buildCounterMap() {

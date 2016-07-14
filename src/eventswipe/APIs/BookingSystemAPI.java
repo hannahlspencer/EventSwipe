@@ -3,6 +3,7 @@ package eventswipe.APIs;
 import eventswipe.models.Event;
 import eventswipe.models.Booking;
 import eventswipe.models.Student;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -246,18 +247,11 @@ public abstract class BookingSystemAPI {
      */
     public abstract boolean isValidStuNum(String stuNum);
 
-     /**
-     * Returns the Properties object for the specific booking system installation.
+   /**
      *
-     * @return  Booking system Properties object
-     * @throws  IOException
-     * @see    Properties
+     * Called when a valid properties file exists. Initialises all booking system variables from property values.
      */
-    public Properties getApiProperties() throws IOException {
-        Properties p = new Properties();
-        p.load(getClass().getResourceAsStream("BookingSystemAPI.properties"));
-        return p;
-    }
+    public abstract void init() throws IOException;
 
     /**
      * All possible booking statuses in the booking system.

@@ -2,7 +2,9 @@ package eventswipe;
 
 import eventswipe.models.Event;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Contains all the data for an attendance recording session.
@@ -15,6 +17,27 @@ public class EventSwipeData {
      * The maximum entry slots of a multi-slot event.
      */
     public static final int MAX_ENTRY_SLOTS = 5;
+
+    public static final String API_PROPERITES_PATH = "BookingSystem.properties";
+    public static final String HOST_KEY = "host";
+    public static final String API_ID_KEY = "id";
+    public static final String API_SECRET_KEY = "secret";
+    public static final String STUDENT_ID_PATTERN_KEY = "studentIdPattern";
+    public static final String USERNAME_KEY = "username";
+    public static final String PASSWORD_KEY = "password";
+    public static final String STATUS_KEY = "status";
+
+    public static final Map<String,String> DEFAULT_PROPS;
+    static {
+        DEFAULT_PROPS = new HashMap<String,String>();
+        DEFAULT_PROPS.put(STATUS_KEY, "default");
+        DEFAULT_PROPS.put(STUDENT_ID_PATTERN_KEY, "^.+$");
+        DEFAULT_PROPS.put(API_SECRET_KEY, "");
+        DEFAULT_PROPS.put(HOST_KEY, "");
+        DEFAULT_PROPS.put(API_ID_KEY, "");
+        DEFAULT_PROPS.put(USERNAME_KEY, "");
+        DEFAULT_PROPS.put(PASSWORD_KEY, "");
+    }
 
    /**
      * Singleton constructor for EventSwipeData
@@ -56,6 +79,55 @@ public class EventSwipeData {
      */
     public void addEvent(Event event) {
         events.add(event);
+    }
+
+    /**
+     * @return a Map<String, String> of the custom booking system properties
+     * @see Map
+     */
+    public Map<String, String> getCustomProperties() {
+        return customProperties;
+    }
+
+    /**
+     * Sets a Map of the custom booking system properties which the BookingSystemAPI uses
+     *
+     * @param customProperties a Map<String, String> the custom booking system properties to set
+     */
+    public void setCustomProperties(Map<String, String> customProperties) {
+        this.customProperties = customProperties;
+    }
+
+    /**
+     * @return the default username to use when logging in to the booking system
+     */
+    public String getDefaultUsername() {
+        return defaultUsername;
+    }
+
+    /**
+     * Set a default username to use when logging in to the booking system
+     *
+     * @param defaultUsername the default username to set
+     */
+    public void setDefaultUsername(String defaultUsername) {
+        this.defaultUsername = defaultUsername;
+    }
+
+    /**
+     * @return the default password to use when logging in to the booking system
+     */
+    public char[] getDefaultPassword() {
+        return defaultPassword;
+    }
+
+    /**
+     * Set a default password to use when logging in to the booking system
+     *
+     * @param defaultPassword the defaultPassword to set
+     */
+    public void setDefaultPassword(char[] defaultPassword) {
+        this.defaultPassword = defaultPassword;
     }
 
     /**
@@ -258,6 +330,20 @@ public class EventSwipeData {
     }
 
     /**
+     * @return True/false depending on whether the properties file exists
+     */
+    public boolean isPropertiesFlag() {
+        return propertiesFlag;
+    }
+
+    /**
+     * @param propertiesFlag True/false depending on whether the properties file exists
+     */
+    public void setPropertiesFlag(boolean propertiesFlag) {
+        this.propertiesFlag = propertiesFlag;
+    }
+
+    /**
      * @return The overall event title
      */
     public String getEventTitle() {
@@ -380,6 +466,11 @@ public class EventSwipeData {
     private boolean savedFlag = true;
     private boolean singleSlotFlag = false;
     private boolean loggedInFlag = false;
+    private boolean propertiesFlag = false;
+    private String defaultUsername = "";
+    private char[] defaultPassword = {};
+
+    private Map<String,String> customProperties = null;
     
     private int count = 0;
 

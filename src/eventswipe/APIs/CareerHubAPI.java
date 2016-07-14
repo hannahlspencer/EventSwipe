@@ -1,12 +1,9 @@
 package eventswipe.APIs;
 
-import eventswipe.exceptions.NoStudentFoundException;
-import eventswipe.exceptions.EarlyRegistrationException;
-import eventswipe.utils.Utils;
-import eventswipe.utils.HttpUtils;
-import eventswipe.models.Event;
-import eventswipe.models.Booking;
-import eventswipe.models.Student;
+import eventswipe.EventSwipeData;
+import eventswipe.exceptions.*;
+import eventswipe.utils.*;
+import eventswipe.models.*;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -21,7 +18,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -31,20 +27,22 @@ import org.jsoup.select.Elements;
 
 public class CareerHubAPI extends BookingSystemAPI {
 
-    public static BookingSystemAPI getInstance() throws IOException {
+    public static BookingSystemAPI getInstance() {
         if (instance == null) {
             instance = new CareerHubAPI();
         }
         return instance;
     }
     
-    protected CareerHubAPI() throws IOException {
-        Properties p = this.getApiProperties();
-        
-        HOST = p.getProperty("host");
-        API_ID = p.getProperty("id");
-        SECRET = p.getProperty("secret");
-        STU_NUM_PATTERN = p.getProperty("stuNumPattern");
+    protected CareerHubAPI() {}
+
+    public void init() {
+        Map<String, String> p = EventSwipeData.getInstance().getCustomProperties();
+
+        HOST = p.get(EventSwipeData.HOST_KEY);
+        API_ID = p.get(EventSwipeData.API_ID_KEY);
+        SECRET = p.get(EventSwipeData.API_SECRET_KEY);
+        STU_NUM_PATTERN = p.get(EventSwipeData.STUDENT_ID_PATTERN_KEY);
 
         ADMIN_URL = HOST + "admin/";
 
@@ -68,7 +66,7 @@ public class CareerHubAPI extends BookingSystemAPI {
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Content-Type", "application/x-www-form-urlencoded;charset=" + getCharset());
         requestHeaders.put("Cookie", "CareerHubCookieCheck=" + dateStr);
-        String loginData = "returnUrl=" +
+        String loginData = "__RequestVerificationToken=" + getVerificationToken() +
                           "&username=" + username +
                           "&password=" + String.valueOf(password) +
                           "&isPersistent=true";
@@ -77,7 +75,7 @@ public class CareerHubAPI extends BookingSystemAPI {
         CookieStore cookieJar =  manager.getCookieStore();
         List <HttpCookie> cookies = cookieJar.getCookies();
         for(HttpCookie cookie : cookies) {
-            if(cookie.getName().equals(auth_cookie_name)) {
+            if(cookie.getName().equals(AUTH_COOKIE_NAME)) {
                 return true;
             }
         }
@@ -352,6 +350,14 @@ public class CareerHubAPI extends BookingSystemAPI {
         return event;
     }
 
+    private String getVerificationToken() throws IOException {
+        String token = "";
+        Document doc = Jsoup.connect(LOGIN_URL).timeout(0).get();
+        Element tokenInput = doc.select("input[name=__RequestVerificationToken]").get(0);
+        token = tokenInput.val();
+        return token;
+    }
+
     public String getAdminEventURL(String eventKey) {
         return EVENT_ADMIN_URL_BASE + eventKey;
     }
@@ -384,26 +390,26 @@ public class CareerHubAPI extends BookingSystemAPI {
         return str.replaceAll(":(\\d\\d)$", "$1");
     }
 
-    private final String HOST;
-    private final String API_ID;
-    private final String SECRET;
-    private final String STU_NUM_PATTERN;
+    private String HOST;
+    private String API_ID;
+    private String SECRET;
+    private String STU_NUM_PATTERN;
 
-    public final String ADMIN_URL;
+    public String ADMIN_URL;
 
-    public final String LOGIN_URL;
-    public final String QUERY_URL;
-    public final String BOOKING_URL;
-    public final String MARK_ATTENDED_URL;
-    public final String MARK_UNSPECIFIED_URL;
-    public final String MARK_ABSENT_URL;
-    public final String CANCEL_URL;
-    public final String WAITING_LIST_BASE;
-    public final String STUDENT_SEARCH_BASE;
-    public final String EVENT_API_URL;
-    public final String EVENT_API_LIST_URL;
-    public final String EVENT_API_SEARCH_URL;
-    public final String EVENT_ADMIN_URL_BASE;
+    public String LOGIN_URL;
+    public String QUERY_URL;
+    public String BOOKING_URL;
+    public String MARK_ATTENDED_URL;
+    public String MARK_UNSPECIFIED_URL;
+    public String MARK_ABSENT_URL;
+    public String CANCEL_URL;
+    public String WAITING_LIST_BASE;
+    public String STUDENT_SEARCH_BASE;
+    public String EVENT_API_URL;
+    public String EVENT_API_LIST_URL;
+    public String EVENT_API_SEARCH_URL;
+    public String EVENT_ADMIN_URL_BASE;
 
     private final int ATTENDED_STATUS = 1;
     private final int UNSPECIFIED_STATUS = 0;
@@ -412,8 +418,8 @@ public class CareerHubAPI extends BookingSystemAPI {
     private final String ACTIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     private final String charset = "UTF-8";
-    private final String auth_cookie_name = ".CHAUTH";
-    
+    private final String AUTH_COOKIE_NAME = ".CHAUTH";
+
     private static BookingSystemAPI instance = null;
 
 }
