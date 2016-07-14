@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.EventObject;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -45,6 +46,11 @@ public class EventSwipeApp extends SingleFrameApplication {
         if (data.isPropertiesFlag()) {
             try {
                 Properties p = getProperties(EventSwipeData.API_PROPERITES_PATH);
+
+                @SuppressWarnings({"unchecked", "rawtypes"})
+                Map<String, String> pMap = new HashMap(p);
+                
+                data.setCustomProperties(pMap);
                 data.setDefaultUsername(p.getProperty(EventSwipeData.USERNAME_KEY, ""));
                 data.setDefaultPassword(p.getProperty(EventSwipeData.PASSWORD_KEY, "").toCharArray());
                 api.init();
@@ -138,6 +144,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             propFile.createNewFile();
             FileOutputStream out = new FileOutputStream(propFile);
             p.store(out, "Booking system properties and customisation");
+            data.setCustomProperties(props);
             data.setPropertiesFlag(true);
             api.init();
         } catch (IOException ex) {

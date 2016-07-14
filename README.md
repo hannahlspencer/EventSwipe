@@ -1,6 +1,6 @@
 # EventSwipe
 
-*Current version: Egret*
+*Current version: Falcon*
 
 EventSwipe is a Java application for recording attendance at events.
 
@@ -13,6 +13,13 @@ The ID can be entered from a keyboard or any other external input device, such a
 ---
 
 ##Updates
+
+###Falcon
+
+*Updated July 2016*
+
+* Custom settings screen for use with any installation of CareerHub
+* Improved performance through use of CareerHub Integrations API
 
 ###Egret
 
@@ -37,13 +44,13 @@ The ID can be entered from a keyboard or any other external input device, such a
 *Updated June 2014*
 
 * EventSwipe can now search and update the careers CRM system CareerHub remotely (with an internet connection). New functionality includes:
-    * Loading event details (title, start date/time, booking list and waiting list)
-    * Listing forthcoming events
-    * Checking the status of a booking
-    * Marking attendance in CareerHub directly
-    * Booking in non-booked students directly
-    * Searching for students by name
-    * Displaying attendance for the whole event, not just the attendance recorded by the machine running EventSwipe
+	* Loading event details (title, start date/time, booking list and waiting list)
+	* Listing forthcoming events
+	* Checking the status of a booking
+	* Marking attendance in CareerHub directly
+	* Booking in non-booked students directly
+	* Searching for students by name
+	* Displaying attendance for the whole event, not just the attendance recorded by the machine running EventSwipe
 * All the previous functionality of Buzzard remains in an 'offline mode'
 * EventSwipe will automatically switch to offline mode if there are any errors connecting to the internet or CareerHub
 
