@@ -1,13 +1,9 @@
 package eventswipe.APIs;
 
-import eventswipe.models.Event;
-import eventswipe.models.Booking;
-import eventswipe.models.Student;
-import java.io.FileInputStream;
+import eventswipe.models.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Abstract class containing the methods for interacting with an event booking system.

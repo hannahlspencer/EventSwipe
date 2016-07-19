@@ -83,23 +83,31 @@ public class CareerHubAPI extends BookingSystemAPI {
     }
 
     public String getAPIToken(String scope) throws MalformedURLException, IOException {
-        String token = "";
-        String apiURL = HOST + "oauth/token";
-        String postdata = "grant_type=client_credentials" +
-                          "&client_id=" + URLEncoder.encode(API_ID, charset) +
-                          "&client_secret=" + URLEncoder.encode(SECRET, charset) +
-                          "&scope=" + scope;
-        Map<String,String> requestHeaders = new HashMap<String,String>();
-        requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-        String response = HttpUtils.sendDataToURL(apiURL, "POST", postdata, charset, requestHeaders);
-        JSONObject apiData = new JSONObject(response);
-        token = apiData.getString("access_token");
-        return token;
+        AccessToken t = tokens.get(scope);
+        if (t == null || t.getExpiryDate().before(new Date())) {
+            t = new AccessToken();
+            String apiURL = HOST + "oauth/token";
+            String postdata = "grant_type=client_credentials" +
+                              "&client_id=" + URLEncoder.encode(API_ID, charset) +
+                              "&client_secret=" + URLEncoder.encode(SECRET, charset) +
+                              "&scope=" + scope;
+            Map<String,String> requestHeaders = new HashMap<String,String>();
+            requestHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+            String response = HttpUtils.sendDataToURL(apiURL, "POST", postdata, charset, requestHeaders);
+            JSONObject apiData = new JSONObject(response);
+            t.setScope(scope);
+            t.setToken(apiData.getString("access_token"));
+            t.setTokenType(apiData.getString("token_type"));
+            t.setExpiryDate(Utils.addMins(new Date(), apiData.getInt("expires_in")));
+            tokens.put(scope, t);
+        }
+        return t.getToken();
     }
 
     public List<Booking> getBookingList(String eventKey) throws MalformedURLException, IOException {
         List<Booking> bookings = new ArrayList<Booking>();
-        JSONObject bookingData = new JSONObject(HttpUtils.getDataFromURL(QUERY_URL + eventKey));
+        String response = HttpUtils.getDataFromURL(QUERY_URL + eventKey);
+        JSONObject bookingData = new JSONObject(response);
         JSONArray jsonBookings = bookingData.getJSONArray("bookings");
         for (int i=0; i < jsonBookings.length(); i++) {
             JSONObject jsonBooking = jsonBookings.getJSONObject(i);
@@ -420,6 +428,7 @@ public class CareerHubAPI extends BookingSystemAPI {
     private final String charset = "UTF-8";
     private final String AUTH_COOKIE_NAME = ".CHAUTH";
 
+    private Map<String,AccessToken> tokens = new HashMap<String,AccessToken>();
     private static BookingSystemAPI instance = null;
 
 }

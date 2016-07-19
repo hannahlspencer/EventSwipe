@@ -110,7 +110,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         logger = EventSwipeLogger.getInstance();
         api = CareerHubAPI.getInstance();
         executor = Executors.newFixedThreadPool(EventSwipeData.MAX_ENTRY_SLOTS);
-        HttpUtils.setCookiePolicy();
+        //HttpUtils.setCookiePolicy();
         data.setNetFlag(Utils.isInternetReachable());
         data.setPropertiesFlag(propertiesSet());
     }
