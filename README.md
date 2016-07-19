@@ -18,6 +18,7 @@ The ID can be entered from a keyboard or any other external input device, such a
 
 *Updated July 2016*
 
+* Entry slot time awareness (warnings for early/late attendees)
 * Custom settings screen for use with any installation of CareerHub
 * Improved performance through use of CareerHub Integrations API
 
@@ -66,8 +67,6 @@ The ID can be entered from a keyboard or any other external input device, such a
 * Keyboard shortcut (Ctrl+s) for saving
 * Exit confirmation dialogue if there are unsaved records
 
----
-
 ##Installation
 
 ###Requirements
@@ -75,7 +74,11 @@ The ID can be entered from a keyboard or any other external input device, such a
 * Any device capable of running a Java application.
 * A way of distinguishing event attendees with unique and easily accessible IDs. For example, student numbers which can be read from student cards via a magnetic strip or RFID chip.
 
----
+###Instructions
+
+* [Download EventSwipe.jar and lib.zip](https://bitbucket.org/mattwildman/eventswipe/downloads)
+* Extract the contents of lib.zip and save in the same folder as EventSwipe.jar
+* Open EventSwipe.jar and got to file > settings and enter your installation specific settings
 
 ##Usage
 
@@ -123,17 +126,14 @@ Hit 'Finish' and you'll be taken to the finish screen where you can choose wheth
 
 If something went wrong during your attendance recording or you let in early arrivals then EventSwipe might have saved some of the attendance records offline. In this case you will get a prompt when you try to close EventSwipe indicating that there are unsaved records. Follow the offline mode saving instructions in this scenario.
 
----
-
 ##Future features
 
-###Falcon
+###Gannet
 
-*Expected release: February 2016*
+*Expected release: September 2016*
 
 Features
 
-* Entry slot time awareness (warnings for early/late attendees)
 * Booking list auto-refreshing
 * Batch processing to make EventSwipe faster
 * Improved logging

@@ -354,7 +354,6 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         else {
             event.getUnsavedList().add(booking.getStuNumber());
-            data.getAllRecordedList().add(booking.getStuNumber());
             data.setSavedFlag(false);
         }
         data.getAllRecordedList().add(booking.getStuNumber());
@@ -500,6 +499,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             Event event = new Event();
             event.setBookingList(bookingList);
             event.setSlot(i+1);
+            event.setUnlimited(true);
             data.addEvent(event);
         }
     }

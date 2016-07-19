@@ -3515,7 +3515,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
         eventStatusNotAttendedNumber.setText(app.getData().getNotAttendedCount().toString());
 
         Integer places = app.getData().getCurrentNumberOfPlaces();
-        eventStatusPlacesNumber.setText(places == -1 ? "Unlimited" : places.toString());
+        eventStatusPlacesNumber.setText(places < 0 ? "Unlimited" : places.toString());
     }
 
     private void updateBookingStatus(Booking booking) {
