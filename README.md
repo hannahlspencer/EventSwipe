@@ -10,8 +10,6 @@ It works by reading some kind of ID string (a student number, for example), indi
 
 The ID can be entered from a keyboard or any other external input device, such as an RFID reader.
 
----
-
 ##Updates
 
 ###Falcon
@@ -21,8 +19,9 @@ The ID can be entered from a keyboard or any other external input device, such a
 * Entry slot time awareness (warnings for early/late attendees)
 * Custom settings screen for use with any installation of CareerHub
 * Improved performance through use of CareerHub Integrations API
+* Improved performance through better API token management
 
-###Egret
+###Eagle
 
 *Updated July 2015*
 
@@ -128,7 +127,7 @@ If something went wrong during your attendance recording or you let in early arr
 
 ##Future features
 
-###Gannet
+###Goshawk
 
 *Expected release: September 2016*
 
@@ -138,7 +137,7 @@ Features
 * Batch processing to make EventSwipe faster
 * Improved logging
 
-###Gannet
+###Hen Harrier
 
 *Expected release: June 2016*
 
