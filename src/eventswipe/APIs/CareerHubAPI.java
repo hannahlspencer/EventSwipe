@@ -69,7 +69,7 @@ public class CareerHubAPI extends BookingSystemAPI {
         String loginData = "__RequestVerificationToken=" + getVerificationToken() +
                           "&username=" + username +
                           "&password=" + String.valueOf(password) +
-                          "&isPersistent=true";
+                          "&isPersistent=true&isPersistent=false";
         HttpUtils.sendDataToURL(LOGIN_URL, "POST", loginData, getCharset(), requestHeaders);
         CookieManager manager = (CookieManager)CookieHandler.getDefault();
         CookieStore cookieJar =  manager.getCookieStore();
