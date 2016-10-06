@@ -1,5 +1,6 @@
 package eventswipe;
 
+import eventswipe.models.Booking;
 import eventswipe.models.Event;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,10 @@ public class EventSwipeData {
      * The maximum entry slots of a multi-slot event.
      */
     public static final int MAX_ENTRY_SLOTS = 5;
+
+    public final int ATTENDED_STATUS = 1;
+    public final int UNSPECIFIED_STATUS = 0;
+    public final int EVENT_FULL_STATUS = -1;
 
     public static final String API_PROPERITES_PATH = "BookingSystem.properties";
     public static final String HOST_KEY = "host";
@@ -78,6 +83,7 @@ public class EventSwipeData {
      * @see Event
      */
     public void addEvent(Event event) {
+        this.initialiseAttendees(event);
         events.add(event);
     }
 
@@ -447,11 +453,6 @@ public class EventSwipeData {
         count = c;
     }
 
-    private void clearList(List<String> list) {
-        if (!list.isEmpty())
-            list.clear();
-    }
-
     private List<Event> events = new ArrayList<Event>();
 
     private List<String> allFileBookedList;
@@ -475,5 +476,21 @@ public class EventSwipeData {
     private int count = 0;
 
     private static EventSwipeData instance = null;
+
+    private void initialiseAttendees(Event event) {
+        if (this.isOnlineMode() && !event.isDropIn() && event.getBookingList().size() > 0) {
+            for (Booking b : event.getBookingList()) {
+                if (b.getStatus() == ATTENDED_STATUS) {
+                    this.getAllRecordedList().add(b.getStuNumber());
+                }
+            }
+        }
+    }
+    
+    private void clearList(List<String> list) {
+        if (!list.isEmpty()) {
+            list.clear();
+        }
+    }
 
 }

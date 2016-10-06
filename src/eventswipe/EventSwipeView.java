@@ -1458,7 +1458,7 @@ public class EventSwipeView extends FrameView {
             preConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(preConfigPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(titleLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2501,7 +2501,6 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     finishPanelTitle.setName("finishPanelTitle"); // NOI18N
 
     markAbsentOption.setFont(resourceMap.getFont("markAbsentOption.font")); // NOI18N
-    markAbsentOption.setSelected(true);
     markAbsentOption.setText(resourceMap.getString("markAbsentOption.text")); // NOI18N
     markAbsentOption.setName("markAbsentOption"); // NOI18N
     markAbsentOption.addActionListener(new java.awt.event.ActionListener() {
@@ -2513,6 +2512,7 @@ searchInput.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,
     notifyAbsentOption.setFont(resourceMap.getFont("notifyAbsentOption.font")); // NOI18N
     notifyAbsentOption.setSelected(true);
     notifyAbsentOption.setText(resourceMap.getString("notifyAbsentOption.text")); // NOI18N
+    notifyAbsentOption.setEnabled(false);
     notifyAbsentOption.setName("notifyAbsentOption"); // NOI18N
 
     javax.swing.GroupLayout finishPanelLayout = new javax.swing.GroupLayout(finishPanel);
@@ -3381,7 +3381,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                 JFormattedTextField fileInput = (JFormattedTextField) slotViews[i].allComponents.get(Component.FILE);
                 filePaths[i] = fileInput.getText();
             }
-            app.setEvents(Arrays.asList(filePaths));
+            app.setEventsOffline(Arrays.asList(filePaths));
         }
         else {
             Event event = new Event();

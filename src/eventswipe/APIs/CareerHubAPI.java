@@ -305,24 +305,6 @@ public class CareerHubAPI extends BookingSystemAPI {
         return events;
     }
 
-    public List<Event> getEvents(String searchTerm) throws MalformedURLException, IOException {
-        List<Event> events = new ArrayList<Event>();
-        Map<String,String> requestHeaders = new HashMap<String,String>();
-        requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Public.Events"));
-        String response = HttpUtils.getDataFromURL(EVENT_API_SEARCH_URL + "?text=" + searchTerm, requestHeaders);
-        JSONArray jsonEvents = new JSONArray(response);
-        for (int i=0; i < jsonEvents.length(); i++) {
-            JSONObject jsonEvent = jsonEvents.getJSONObject(i);
-            String title = jsonEvent.getString("title");
-            String startDate = jsonEvent.getString("start");
-            String id = JSONObject.numberToString(jsonEvent.getInt("id"));
-            Event event = new Event(title, startDate, id);
-            event.setVenue(jsonEvent.getString("venue"));
-            events.add(event);
-        }
-        return events;
-    }
-
     public Event getEvent(String eventKey) throws IOException {
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integrations.Events"));
@@ -394,6 +376,10 @@ public class CareerHubAPI extends BookingSystemAPI {
         return Utils.isNumeric(id);
     }
 
+    public final int ATTENDED_STATUS = 1;
+    public final int UNSPECIFIED_STATUS = 0;
+    public final int EVENT_FULL_STATUS = -1;
+
     private String prepareActiveDateStr(String str) {
         return str.replaceAll(":(\\d\\d)$", "$1");
     }
@@ -418,10 +404,6 @@ public class CareerHubAPI extends BookingSystemAPI {
     public String EVENT_API_LIST_URL;
     public String EVENT_API_SEARCH_URL;
     public String EVENT_ADMIN_URL_BASE;
-
-    private final int ATTENDED_STATUS = 1;
-    private final int UNSPECIFIED_STATUS = 0;
-    private final int EVENT_FULL_STATUS = -1;
 
     private final String ACTIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 

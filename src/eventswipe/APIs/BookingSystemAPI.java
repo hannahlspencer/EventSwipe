@@ -172,17 +172,6 @@ public abstract class BookingSystemAPI {
     public abstract List<Student> getStudents(String search) throws MalformedURLException, IOException ;
 
     /**
-     * Returns a List of events matching a search term.
-     *
-     * @param searchTerm The term to search
-     * @return           A List of matching Event objects
-     * @throws MalformedURLException
-     * @throws IOException
-     * @see Event
-     */
-    public abstract List<Event> getEvents(String searchTerm) throws MalformedURLException, IOException;
-
-    /**
      * Returns a List of events taking place in the next day.
      *
      * @return           A List of Event objects

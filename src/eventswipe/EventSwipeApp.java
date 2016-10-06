@@ -487,7 +487,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         data.addEvent(event);
     }
 
-    public void setEvents(List<String> paths) {
+    public void setEventsOffline(List<String> paths) {
         for (int i = 0; i < paths.size(); i++) {
             File file = new File(paths.get(i));
             List<String> numberList = Utils.readAllLines(file, Utils.getEncoding(file));
@@ -505,10 +505,9 @@ public class EventSwipeApp extends SingleFrameApplication {
     }
 
     public Event loadEvent(String eventKey, int slot, Boolean useWaitingList) throws MalformedURLException, IOException {
-        Future<Response> response = executor.submit(new Request() {
-            //TODO: get event asyncly
-        });
-        
+//        Future<Response> response = executor.submit(new Request() {
+//            TODO: get event asyncly
+//        }); 
         Event event = api.getEvent(eventKey);
         event.setSlot(slot);
         event.setBookingList(api.getBookingList(eventKey));
