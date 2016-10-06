@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -319,7 +320,9 @@ public class CareerHubAPI extends BookingSystemAPI {
         startDate = this.prepareActiveDateStr(startDate);
         event.setStartDate(Utils.strToDate(startDate, ACTIVE_DATE_FORMAT));
         event.setVenue(venue);
-        event.setRegStart(Utils.subtractMins(event.getStartDate(), 60));
+        int regPeriod = Calendar.getInstance().getTimeZone().useDaylightTime() ?
+            120 : 60;
+        event.setRegStart(Utils.subtractMins(event.getStartDate(), regPeriod));
         event.setBookingLimit(0);
         Integer bookingType = jsonEvent.getInt("bookingType");
         if (bookingType == 1) { //CH booking

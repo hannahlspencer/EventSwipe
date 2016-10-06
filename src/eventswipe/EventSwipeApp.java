@@ -350,6 +350,8 @@ public class EventSwipeApp extends SingleFrameApplication {
                 }
             else {
                 booking.setStatus(Booking.EARLY_STATUS);
+                event.getUnsavedList().add(booking.getStuNumber());
+                data.setSavedFlag(false);
             }
         }
         else {
