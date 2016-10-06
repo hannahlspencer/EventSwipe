@@ -23,6 +23,9 @@ public class EventSwipeLogger {
 
     public void createLog(String title) {
         title = title.replaceAll("\\W", "");
+        if (title.length() > MAX_FILE_NAME) {
+            title = title.substring(0, MAX_FILE_NAME);
+        }
         sessionTitle = title + Utils.getDate("dd-MM-yyyy HHmmss");
         if(!logDir.exists()) {
             logDir.mkdirs();
@@ -54,6 +57,7 @@ public class EventSwipeLogger {
 
     private File logDir = new File(LOG_DIR);
     private File logFile;
+    private final int MAX_FILE_NAME = 100;
 
     private static EventSwipeLogger instance = null;
 
