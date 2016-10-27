@@ -3574,7 +3574,6 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     message += " has been recorded";
                 } catch (EventFullException ef) {
                     eventFullDisplay(ef.getStuNum());
-                    app.getLogger().logException(ef);
                     return;
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
@@ -3623,7 +3622,6 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     message += " could not be found in CareerHub";
                     bookingStatus = "Not booked";
                 } catch (EventFullException ef) {
-                    app.getLogger().logException(ef);
                     eventFullDisplay(ef.getStuNum());
                     return;
                 } catch (Exception ex) {
@@ -3879,7 +3877,6 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     success = true;
                 } catch (EventFullException ef) {
                     eventFullDisplay(ef.getStuNum());
-                    app.getLogger().logException(ef);
                 } catch (IOException ioe) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ioe);
                     app.getLogger().logException(ioe);

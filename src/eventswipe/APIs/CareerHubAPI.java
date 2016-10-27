@@ -199,7 +199,7 @@ public class CareerHubAPI extends BookingSystemAPI {
         catch (IOException ioe) {
             if (ioe.getMessage().equals("Server returned HTTP response code: 400 for URL: " +
                                         MARK_ATTENDED_URL)) {
-                throw new EarlyRegistrationException();
+                throw new EarlyRegistrationException("Too early to mark as attended");
             }
         }
     }
@@ -253,8 +253,11 @@ public class CareerHubAPI extends BookingSystemAPI {
         JSONObject jsonStudent = null;
         try {
             jsonStudent = new JSONArray(stuData).getJSONObject(0);
+            if (!jsonStudent.getString("ExternalId").equals(stuNumber)) {
+                throw new NoStudentFoundException("No users with student number " + stuNumber, stuNumber);
+            }
         } catch (org.json.JSONException je) {
-            throw new NoStudentFoundException(stuNumber);
+            throw new NoStudentFoundException("No users with student number " + stuNumber, stuNumber);
         }
         Student student = new Student();
         student.setStuNumber(stuNumber.toString());

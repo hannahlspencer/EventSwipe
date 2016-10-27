@@ -152,7 +152,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             data.setPropertiesFlag(false);
             Logger.getLogger(EventSwipeApp.class.getName())
                 .log(Level.SEVERE, "Error setting properties", ex);
-            throw new NoPropertiesException();
+            throw new NoPropertiesException("Error setting properties");
         }
     }
 
@@ -453,7 +453,7 @@ public class EventSwipeApp extends SingleFrameApplication {
         }
         else {
             Arrays.fill(password, '0');
-            throw new NoPropertiesException();
+            throw new NoPropertiesException("No properties file set");
         }
         return success;
     }

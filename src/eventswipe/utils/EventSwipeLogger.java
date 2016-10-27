@@ -51,19 +51,24 @@ public class EventSwipeLogger {
     }
 
     public <T extends Exception> void logException(T ex) {
-        String errorMsg = "EXCEPTION:" + ex.getMessage() + NL;
-        errorMsg += "STACK TRACE:" + NL;
-        errorMsg += ex.getStackTrace().toString() + NL;
+        String errorMsg = "***** ERROR: " + ex.getClass() + " *****" + NL;
+        errorMsg += "    " + "\"" + ex.getMessage() + "\"" + NL;
+        errorMsg += "    " + "STACK TRACE:" + NL;
+        for (StackTraceElement ste : ex.getStackTrace()) {
+           errorMsg += "        " + ste.toString() + NL;
+        }
+        errorMsg += "**********";
         this.log(errorMsg);
     }
 
-    private final String LOG_DIR = System.getenv("USERPROFILE")+ "\\My Documents\\EventSwipeLogs\\";
+    private final String LOG_DIR = System.getenv("USERPROFILE") + "\\My Documents\\EventSwipeLogs\\";
+    private final int MAX_FILE_NAME = 100;
+    private final String NL = System.getProperty("line.separator");
+
     private String sessionTitle = "";
 
     private File logDir = new File(LOG_DIR);
     private File logFile;
-    private final int MAX_FILE_NAME = 100;
-    private final String NL = System.getProperty("line.separator");
 
     private static EventSwipeLogger instance = null;
 
