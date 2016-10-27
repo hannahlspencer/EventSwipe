@@ -155,6 +155,7 @@ public class EventSwipeView extends FrameView {
             app.finish(markAbsentOption.isSelected(), notifyAbsentOption.isSelected());
         } catch (Exception ex) {
             Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            app.getLogger().logException(ex);
             JOptionPane.showMessageDialog(
                 app.getMainFrame(),
                 "Error marking absentees. You'll have to do this manually.",
@@ -166,6 +167,7 @@ public class EventSwipeView extends FrameView {
             app.finish(false, false);
         } catch (Exception ex) {
             Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+            app.getLogger().logException(ex);
             System.exit(0);
         }
     }
@@ -3052,12 +3054,14 @@ private void loadEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
             titleInput.setText(event.getTitle());
         } catch (org.jsoup.HttpStatusException ex) {
             Logger.getLogger(EventSwipeView.class.getName()).log(Level.WARNING, null, ex);
+            app.getLogger().logException(ex);
             JOptionPane.showMessageDialog(app.getMainFrame(),
                                           "No event with this ID was found!",
                                           "Event ID error",
                                           JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
             Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+            app.getLogger().logException(ex);
             showGenericErrorMessage();
         }
     }
@@ -3069,6 +3073,7 @@ private void searchEventsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         events = app.getEvents("");
     } catch (Exception ex) {
         Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+        app.getLogger().logException(ex);
         showGenericErrorMessage();
     }
     List<String> eventTitles = new ArrayList<String>();
@@ -3102,11 +3107,14 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     booking = app.processSearchInput(input);
                     updateBookingStatus(booking);
                 } catch (EventFullException ef) {
+                    app.getLogger().logException(ef);
                     eventFullDisplay(ef.getStuNum());
                 } catch (EarlyRegistrationException er) {
+                    app.getLogger().logException(er);
                     earlyRegistrationDisplay(input);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                     showGenericErrorMessage();
                 }
                 finally {
@@ -3124,6 +3132,7 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     students = app.getStudents(input);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                     searchInput.setEnabled(true);
                     showGenericErrorMessage();
                 }
@@ -3136,7 +3145,8 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 else {
                     List<String> studentNames = new ArrayList<String>();
                     for (Student student : students){
-                        studentNames.add(student.getFirstName()+" "+student.getLastName());
+                        studentNames.add(student.getFirstName() + " " +
+                                         student.getLastName());
                     }
                     JList studentList = new JList(studentNames.toArray());
                     studentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -3144,7 +3154,8 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     studentList.setVisibleRowCount(-1);
                     JScrollPane studentListScroller = new JScrollPane(studentList);
                     studentListScroller.setPreferredSize(new Dimension(500, 80));
-                    JOptionPane.showMessageDialog(null, studentListScroller, "Select student",
+                    JOptionPane.showMessageDialog(null, studentListScroller,
+                                                  "Select student",
                                                   JOptionPane.PLAIN_MESSAGE);
                     int i = studentList.getSelectedIndex();
                     if (i != -1) {
@@ -3218,6 +3229,7 @@ private void refreshAttendeesButtonActionPerformed(java.awt.event.ActionEvent ev
         updateEventStatus();
     } catch (Exception ex) {
         Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+        app.getLogger().logException(ex);
         totalAttendeeCountDisplay.setText(currentCount);
     }
 }//GEN-LAST:event_refreshAttendeesButtonActionPerformed
@@ -3472,6 +3484,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                 } catch (Exception ex) {
                     configOK = false;
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                 }
             }
             else {
@@ -3489,6 +3502,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                 totalAttendees = app.getAttendeeCount();
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                app.getLogger().logException(ex);
             }
             totalAttendeeCountDisplay.setText(totalAttendees);
             switchToPanel(mainOnlinePanel);
@@ -3560,9 +3574,11 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     message += " has been recorded";
                 } catch (EventFullException ef) {
                     eventFullDisplay(ef.getStuNum());
+                    app.getLogger().logException(ef);
                     return;
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                     showGenericErrorMessage();
                 }
             }
@@ -3607,10 +3623,12 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     message += " could not be found in CareerHub";
                     bookingStatus = "Not booked";
                 } catch (EventFullException ef) {
+                    app.getLogger().logException(ef);
                     eventFullDisplay(ef.getStuNum());
                     return;
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                     showGenericErrorMessage();
                 }
             }
@@ -3670,6 +3688,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                 totalAttendeeCountDisplay.setText(app.getAttendeeCount());
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                app.getLogger().logException(ex);
                 totalAttendeeCountDisplay.setText(app.getLocalAttendeeCount());
                 //showGenericErrorMessage();
             }
@@ -3699,6 +3718,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                 browseToUrl(app.getAdminEventURL(app.getEvent(0).getId()));
             } catch (IOException ex) {
                 Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                app.getLogger().logException(ex);
                 showGenericErrorMessage();
             }
         }
@@ -3859,14 +3879,17 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     success = true;
                 } catch (EventFullException ef) {
                     eventFullDisplay(ef.getStuNum());
+                    app.getLogger().logException(ef);
                 } catch (IOException ioe) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ioe);
+                    app.getLogger().logException(ioe);
                     JOptionPane.showMessageDialog(app.getMainFrame(),
                       "Can't connect to the internet.",
                       "Connection error",
                       JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                     JOptionPane.showMessageDialog(app.getMainFrame(),
                       "Something went wrong. Please use EventSwipe in offline mode.",
                       "Connection error",
@@ -3919,6 +3942,7 @@ private boolean logIn(JTextField uField, JPasswordField pField) {
                     desktop.browse(uri);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeView.class.getName()).log(Level.SEVERE, null, ex);
+                    app.getLogger().logException(ex);
                     showBrowserError();
                 }
             }

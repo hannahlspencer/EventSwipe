@@ -360,7 +360,7 @@ public class CareerHubAPI extends BookingSystemAPI {
     }
 
     public String getEmptyStuNumString() {
-        return "empty";
+        return "";
     }
 
     public int getATTENDED_STATUS() {

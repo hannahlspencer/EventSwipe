@@ -57,6 +57,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             } catch (IOException ex) {
                 data.setPropertiesFlag(false);
                 Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+                logger.logException(ex);
             }
         }
         show(new EventSwipeView(this));
@@ -164,6 +165,10 @@ public class EventSwipeApp extends SingleFrameApplication {
 
     public EventSwipeData getData() {
         return data;
+    }
+
+    public EventSwipeLogger getLogger() {
+        return logger;
     }
 
     public void setBookingFlag(boolean selected) {
@@ -316,6 +321,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                     } catch (Exception ex) {
                         Logger.getLogger(EventSwipeApp.class.getName())
                               .log(Level.SEVERE, "Student not booked", ex);
+                        logger.logException(ex);
                         freeEvent.getUnsavedList().add(stuNumberFin);
                         data.setSavedFlag(false);
                     }
@@ -342,6 +348,7 @@ public class EventSwipeApp extends SingleFrameApplication {
                             api.markStatus(STATUS.ATTENDED, bookingId, event.getId());
                         } catch (Exception ex) {
                             Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+                            logger.logException(ex);
                             event.getUnsavedList().add(bookingFin.getStuNumber());
                             data.setSavedFlag(false);
                         }
@@ -531,6 +538,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             try {
                 bookUnsavedRecords();
             } catch (EventFullException ef) {
+                logger.logException(ef);
                 throw ef;
             }
         }
@@ -661,12 +669,14 @@ public class EventSwipeApp extends SingleFrameApplication {
                         saveErrors.add(stuNum);
                     }
                 } catch (EventFullException ef) {
+                    logger.logException(ef);
                     for (int j = i; j < event.getUnsavedList().size(); j++) {
                         saveErrors.add(event.getUnsavedList().get(j));
                     }
                     event.setUnsavedList(saveErrors);
                 } catch (Exception ex) {
                     Logger.getLogger(EventSwipeApp.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.logException(ex);
                     saveErrors.add(stuNum);
                 } 
             }
@@ -697,6 +707,7 @@ public class EventSwipeApp extends SingleFrameApplication {
             } catch (Exception ex) {
                 Logger.getLogger(EventSwipeApp.class.getName())
                    .log(Level.SEVERE, "Error accessing properties file", ex);
+                logger.logException(ex);
                 return false;
             }
         }

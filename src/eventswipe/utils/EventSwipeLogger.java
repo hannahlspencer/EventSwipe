@@ -33,7 +33,7 @@ public class EventSwipeLogger {
         try {
             logFile = new File(LOG_DIR, sessionTitle);
             FileWriter fw = new FileWriter(logFile.getAbsoluteFile(), true);
-            fw.write(sessionTitle + System.getProperty("line.separator"));
+            fw.write(sessionTitle + NL);
             fw.close();
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -43,13 +43,18 @@ public class EventSwipeLogger {
     public void log(String message) {
         try {
             FileWriter fw = new FileWriter(logFile.getAbsoluteFile(), true);
-            fw.write(message + " @ " + 
-                     Utils.getDate("dd/MM/yyyy HH:mm:ss") +
-                     System.getProperty("line.separator"));
+            fw.write(Utils.getDate("HH:mm:ss dd/MM/yyyy ") + message + NL);
             fw.close();
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
+    }
+
+    public <T extends Exception> void logException(T ex) {
+        String errorMsg = "EXCEPTION:" + ex.getMessage() + NL;
+        errorMsg += "STACK TRACE:" + NL;
+        errorMsg += ex.getStackTrace().toString() + NL;
+        this.log(errorMsg);
     }
 
     private final String LOG_DIR = System.getenv("USERPROFILE")+ "\\My Documents\\EventSwipeLogs\\";
@@ -58,6 +63,7 @@ public class EventSwipeLogger {
     private File logDir = new File(LOG_DIR);
     private File logFile;
     private final int MAX_FILE_NAME = 100;
+    private final String NL = System.getProperty("line.separator");
 
     private static EventSwipeLogger instance = null;
 
