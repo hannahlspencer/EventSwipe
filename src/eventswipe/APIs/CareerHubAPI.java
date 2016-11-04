@@ -99,7 +99,8 @@ public class CareerHubAPI extends BookingSystemAPI {
             t.setScope(scope);
             t.setToken(apiData.getString("access_token"));
             t.setTokenType(apiData.getString("token_type"));
-            t.setExpiryDate(Utils.addMins(new Date(), apiData.getInt("expires_in")));
+            int expiresInMins = apiData.getInt("expires_in")/60 - 1;
+            t.setExpiryDate(Utils.addMins(new Date(), expiresInMins));
             tokens.put(scope, t);
         }
         return t.getToken();
