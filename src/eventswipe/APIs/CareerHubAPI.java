@@ -11,12 +11,12 @@ import java.net.CookieStore;
 import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +40,15 @@ public class CareerHubAPI extends BookingSystemAPI {
 
     public void init() {
         Map<String, String> p = EventSwipeData.getInstance().getCustomProperties();
+       
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        Date todayDate = calendar.getTime();
+        String today = dateFormat.format(todayDate);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date tomorrowDate = calendar.getTime();
+        String tomorrow = dateFormat.format(tomorrowDate);
+    
         HOST = p.get(EventSwipeData.HOST_KEY);
         API_ID = p.get(EventSwipeData.API_ID_KEY);
         SECRET = p.get(EventSwipeData.API_SECRET_KEY);
@@ -58,7 +67,7 @@ public class CareerHubAPI extends BookingSystemAPI {
         EVENT_ADMIN_URL_BASE = ADMIN_URL + "event.aspx?id=";
         EVENT_API_SEARCH_URL = HOST + "api/public/v1/events/";
         EVENT_API_URL =        HOST + "api/integrations/v1/events/";
-        EVENT_API_LIST_URL =   EVENT_API_URL + "?dateOptions.From=2017-09-19&dateOptions.To=2017-09-26&dateOptions.Date=Start&sortOptions.Order=Start&sortOptions.Descending=true&take=20";
+        EVENT_API_LIST_URL =   EVENT_API_URL + "?dateOptions.From=" + today + "&dateOptions.To=" + tomorrow + "&dateOptions.Date=Start&sortOptions.Order=Start&sortOptions.Descending=true&take=20";
     }
 
   
