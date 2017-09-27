@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,10 @@ public class CareerHubAPI extends BookingSystemAPI {
 
     public void init() {
         Map<String, String> p = EventSwipeData.getInstance().getCustomProperties();
-
         HOST = p.get(EventSwipeData.HOST_KEY);
         API_ID = p.get(EventSwipeData.API_ID_KEY);
         SECRET = p.get(EventSwipeData.API_SECRET_KEY);
         STU_NUM_PATTERN = p.get(EventSwipeData.STUDENT_ID_PATTERN_KEY);
-
         ADMIN_URL = HOST + "admin/";
 
         LOGIN_URL =            ADMIN_URL + "login/";
@@ -59,8 +58,10 @@ public class CareerHubAPI extends BookingSystemAPI {
         EVENT_ADMIN_URL_BASE = ADMIN_URL + "event.aspx?id=";
         EVENT_API_SEARCH_URL = HOST + "api/public/v1/events/";
         EVENT_API_URL =        HOST + "api/integrations/v1/events/";
-        EVENT_API_LIST_URL =   EVENT_API_URL + "?filterIds=82&filterIds=83";
+        EVENT_API_LIST_URL =   EVENT_API_URL + "?dateOptions.From=2017-09-19&dateOptions.To=2017-09-26&dateOptions.Date=Start&sortOptions.Order=Start&sortOptions.Descending=true&take=20";
     }
+
+  
 
     public boolean logIn(String username, char[] password) throws MalformedURLException, IOException {
         String dateStr = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date());
@@ -109,6 +110,7 @@ public class CareerHubAPI extends BookingSystemAPI {
     public List<Booking> getBookingList(String eventKey) throws MalformedURLException, IOException {
         List<Booking> bookings = new ArrayList<Booking>();
         String response = HttpUtils.getDataFromURL(QUERY_URL + eventKey);
+
         JSONObject bookingData = new JSONObject(response);
         JSONArray jsonBookings = bookingData.getJSONArray("bookings");
         for (int i=0; i < jsonBookings.length(); i++) {
@@ -194,6 +196,7 @@ public class CareerHubAPI extends BookingSystemAPI {
                 break;
         }
         postData += "}";
+        url += eventKey;
         try {
             HttpUtils.sendDataToURL(url, "POST", postData, this.getCharset(), requestHeaders);
         }
@@ -207,11 +210,12 @@ public class CareerHubAPI extends BookingSystemAPI {
 
     public void markAbsent(List<String> studentKeys, String eventKey, Boolean notify) throws MalformedURLException, IOException {
         Map<String,String> requestHeaders = new HashMap<String,String>();
+
         requestHeaders.put("Content-Type", "application/json;charset=" + this.getCharset());
         String postData = "{\"eventID\":" + eventKey + "," +
                           "\"ids\":" + studentKeys + "," +
                           "\"notify\":" + notify + "}";
-        String url = MARK_ABSENT_URL;
+        String url = MARK_ABSENT_URL + eventKey;
         HttpUtils.sendDataToURL(url, "POST", postData, this.getCharset(), requestHeaders);
     }
 
@@ -227,16 +231,18 @@ public class CareerHubAPI extends BookingSystemAPI {
         String postData = "{\"eventID\":" + eventKey + "," +
                            "\"ids\":[" + studentKey + "]," +
                            "\"notify\":false}";
-        HttpUtils.sendDataToURL(CANCEL_URL, "POST", postData, getCharset(), requestHeaders);
+        String requestUrl = CANCEL_URL + eventKey;
+        HttpUtils.sendDataToURL(requestUrl, "POST", postData, getCharset(), requestHeaders);
     }
 
     public Booking bookStudent(String studentID, String eventKey) throws MalformedURLException, IOException {
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Content-Type", "application/json;charset=" + getCharset());
-        String putData = "{\"eventID\":" + eventKey + "," +
+        String postData = "{\"eventID\":" + eventKey + "," +
                           "\"jobSeekerID\":" + studentID + "," +
                           "\"notify\":false}";
-        String bookingDetails = HttpUtils.sendDataToURL(BOOKING_URL, "PUT", putData, getCharset(), requestHeaders);
+        String requestUrl = BOOKING_URL + eventKey;
+        String bookingDetails = HttpUtils.sendDataToURL(requestUrl, "POST", postData, getCharset(), requestHeaders);
         JSONObject jsonBooking = (JSONObject) new JSONObject(bookingDetails).get("booking");
         Booking booking = new Booking(jsonBooking.getString("externalId"));
         booking.setFirstName(jsonBooking.getString("firstName"));
@@ -294,6 +300,7 @@ public class CareerHubAPI extends BookingSystemAPI {
 
     public List<Event> getEventsList() throws MalformedURLException, IOException {
         List<Event> events = new ArrayList<Event>();
+        String venue = "";
         Map<String,String> requestHeaders = new HashMap<String,String>();
         requestHeaders.put("Authorization", "Bearer " + this.getAPIToken("Integrations.Events"));
         String response = HttpUtils.getDataFromURL(EVENT_API_LIST_URL, requestHeaders);
@@ -304,7 +311,13 @@ public class CareerHubAPI extends BookingSystemAPI {
             String startDate = jsonEvent.getString("start");
             String id = JSONObject.numberToString(jsonEvent.getInt("entityId"));
             Event event = new Event(title, startDate, id);
-            event.setVenue(jsonEvent.getString("venue"));
+            //venue has been replaced with building/location
+            //event.setVenue(jsonEvent.getString("venue"));
+            if (!(jsonEvent.isNull("building") && jsonEvent.isNull("location"))) {
+                String building = jsonEvent.getString("building");
+                String location = jsonEvent.getString("location");
+                venue = (location + ", " + building);
+            }
             events.add(event);
         }
         return events;
@@ -319,7 +332,14 @@ public class CareerHubAPI extends BookingSystemAPI {
         JSONObject jsonEvent = new JSONObject(response);
         String title = jsonEvent.getString("name");
         String startDate = jsonEvent.getString("start");
-        String venue = jsonEvent.getString("venue");
+        String venue = "";
+        
+        if (!(jsonEvent.isNull("building") && jsonEvent.isNull("location"))) {
+          String building = jsonEvent.getString("building");
+          String location = jsonEvent.getString("location");
+          venue = (location + ", " + building);
+        }
+        
         event = new Event(title, startDate, eventKey);
         startDate = this.prepareActiveDateStr(startDate);
         event.setStartDate(Utils.strToDate(startDate, ACTIVE_DATE_FORMAT));
