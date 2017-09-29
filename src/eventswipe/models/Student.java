@@ -76,12 +76,12 @@ public class Student {
      * @param lastName The last name
      */
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+          this.lastName = lastName;
     }
 
     private String stuNumber;
     private Integer id;
     private String firstName;
-    private String lastName;
+    private String lastName = "";
 
 }

@@ -185,7 +185,7 @@ public class Booking {
     private Integer bookingId = 0;
     private Integer id;
     private String firstName;
-    private String lastName;
+    private String lastName = "";
     private Integer status;
     
     private Integer entrySlot;

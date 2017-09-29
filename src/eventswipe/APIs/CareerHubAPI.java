@@ -127,15 +127,27 @@ public class CareerHubAPI extends BookingSystemAPI {
             Booking booking = null;
             try {
                 booking = new Booking(jsonBooking.getString("externalId"));
-                booking.setFirstName(jsonBooking.getString("firstName"));
-                booking.setLastName(jsonBooking.getString("lastName"));
+
+                if (!jsonBooking.isNull("firstName")) {
+                    booking.setFirstName(jsonBooking.getString("firstName"));
+                } else {
+                    booking.setFirstName("");
+                }
+
+               if (!jsonBooking.isNull("lastName")) {
+                    booking.setLastName(jsonBooking.getString("lastName"));
+                 } else {
+                    booking.setLastName("");
+                }
                 booking.setId(jsonBooking.getInt("jobSeekerId"));
+
                 booking.setBookingId(jsonBooking.getInt("id"));
                 booking.setStatus(jsonBooking.getInt("status"));
                 bookings.add(booking);
             } catch (org.json.JSONException je) {
                 System.err.println("Empty student number error. Id: " +
                                    jsonBooking.getInt("jobSeekerId"));
+  
             }
         }
         return bookings;
@@ -254,8 +266,19 @@ public class CareerHubAPI extends BookingSystemAPI {
         String bookingDetails = HttpUtils.sendDataToURL(requestUrl, "POST", postData, getCharset(), requestHeaders);
         JSONObject jsonBooking = (JSONObject) new JSONObject(bookingDetails).get("booking");
         Booking booking = new Booking(jsonBooking.getString("externalId"));
-        booking.setFirstName(jsonBooking.getString("firstName"));
-        booking.setLastName(jsonBooking.getString("lastName"));
+
+        if (!jsonBooking.isNull("firstName")) {
+                    booking.setFirstName(jsonBooking.getString("firstName"));
+                } else {
+                    booking.setFirstName("");
+                }
+
+               if (!jsonBooking.isNull("lastName")) {
+                    booking.setLastName(jsonBooking.getString("lastName"));
+                 } else {
+                    booking.setLastName("");
+                }
+
         booking.setId(jsonBooking.getInt("jobSeekerId"));
         booking.setBookingId(jsonBooking.getInt("id"));
         booking.setStatus(jsonBooking.getInt("status"));
@@ -277,8 +300,18 @@ public class CareerHubAPI extends BookingSystemAPI {
         }
         Student student = new Student();
         student.setStuNumber(stuNumber.toString());
-        student.setFirstName(jsonStudent.getString("FirstName"));
-        student.setLastName(jsonStudent.getString("LastName"));
+        if (!jsonStudent.isNull("FirstName")) {
+            student.setFirstName(jsonStudent.getString("FirstName"));
+        } else {
+            student.setFirstName("");
+        }
+      
+        if (!jsonStudent.isNull("LastName")) {
+            student.setLastName(jsonStudent.getString("LastName"));
+        } else {
+            student.setLastName("");
+        }
+        
         student.setId(jsonStudent.getInt("Id"));
         return student;
     }
@@ -292,8 +325,18 @@ public class CareerHubAPI extends BookingSystemAPI {
         for (int i=0; i < jsonStudents.length(); i++) {
             JSONObject jsonStudent = jsonStudents.getJSONObject(i);
             Student student = new Student();
-            student.setFirstName(jsonStudent.getString("FirstName"));
+        if (!jsonStudent.isNull("FirstName")) {
+          student.setFirstName(jsonStudent.getString("FirstName"));
+        } else {
+          student.setFirstName("");
+        }
+
+        if (!jsonStudent.isNull("LastName")) {
             student.setLastName(jsonStudent.getString("LastName"));
+        } else {
+            student.setLastName("");
+        }
+
             student.setId(jsonStudent.getInt("Id"));
             String stuNum = getEmptyStuNumString();
             try {
